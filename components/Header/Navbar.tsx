@@ -42,7 +42,7 @@ function Navbar(props: any) {
     const dispatch = useDispatch();
     const router = useRouter()
     useEffect(() => {
-        const thm = localStorage.getItem('theme') as 'light' | 'dark';
+        const thm = localStorage.getItem('theme') as 'light' | 'dark' || 'light';
         if (thm) {
             dispatch(themeSlice.actions.setTheme(thm));
             setThemeInLocalStorage(thm)
