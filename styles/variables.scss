@@ -1,0 +1,225 @@
+//colors
+$navbar-height: 64px;
+
+.light {
+    --background-color: whitesmoke;
+    background: var(--background-color);
+
+    --primary-color: rgb(110, 97, 231);
+    --accent-color: #b7ff80;
+    --light-color: #f3f4ff;
+    --content-color: #4c4848;
+
+    --yellow-secondary-color: rgb(172, 112, 0);
+
+    --dark-color: #181933;
+    --dark-color-light: #3c3e69;
+    --gray-color: #ebebeb;
+    --gray-color2: #f6efff;
+    --gray-color3: #858597;
+    --text-color: rgb(66, 66, 66);
+    --red-color: rgb(255, 35, 35);
+    --primary-gradient: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(197, 166, 238));
+
+    --secondary-gradient: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(245, 195, 102));
+    --transparent-white-gradient: linear-gradient(90deg, rgba(61, 83, 85, 0) 5%, rgba(255, 255, 255, 0.2), rgba(29, 29, 29, 0) 95%);
+    --dark-primary-gradient: linear-gradient(160deg, rgb(173, 189, 190), rgb(207, 188, 188), rgb(160, 134, 194));
+    --button-gradient: linear-gradient(160deg, rgb(157, 147, 250), rgb(110, 97, 231));
+    --button-gradient2: linear-gradient(160deg, rgb(250, 197, 147), rgb(231, 97, 213));
+    --button-gradient3: linear-gradient(160deg, rgb(147, 200, 250), rgb(231, 97, 213));
+    --button-gradient4: linear-gradient(160deg, rgb(147, 217, 250), rgb(177, 97, 231));
+
+    --button-gradient-next: linear-gradient(220deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(197, 166, 238));
+    --button-gradient-prev: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(197, 166, 238));
+
+    //shadows
+
+    --d3-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1);
+    --d3-shadow2: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1), 0 0 20px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+.dark {
+    --background-color: #221f31;
+    background: var(--background-color);
+    --primary-color: rgb(164, 154, 255);
+    --accent-color: #b7ff80;
+    --light-color: #f3f4ff;
+    --content-color: #f3f4ff;
+
+    --yellow-secondary-color: rgb(131, 96, 31);
+
+    --dark-color: #181933;
+    --dark-color-light: #3c3e69;
+    --gray-color: #ebebeb;
+    --gray-color2: #f6efff;
+    --gray-color3: #858597;
+    --text-color: #7a86a1;
+
+    --red-color: rgb(255, 83, 83);
+    --primary-gradient: linear-gradient(160deg, rgb(76, 54, 104), rgb(48, 28, 75), rgb(96, 78, 119));
+
+    --secondary-gradient: linear-gradient(160deg, rgb(221, 205, 117), rgb(255, 223, 81), rgb(245, 195, 102));
+    --transparent-white-gradient: linear-gradient(90deg, rgba(61, 83, 85, 0) 5%, rgba(0, 0, 0, 0.2), rgba(29, 29, 29, 0) 95%);
+    --dark-primary-gradient: linear-gradient(160deg, rgb(173, 189, 190), rgb(207, 188, 188), rgb(160, 134, 194));
+    --button-gradient: linear-gradient(160deg, rgb(88, 83, 141), rgb(71, 63, 141));
+    --button-gradient2: linear-gradient(160deg, rgb(114, 78, 245), rgb(92, 15, 82));
+    --button-gradient3: linear-gradient(160deg, rgb(83, 173, 214), rgb(92, 15, 82));
+    --button-gradient4: linear-gradient(160deg, rgb(147, 217, 250), rgb(177, 97, 231));
+    --button-gradient-next: linear-gradient(220deg, rgb(5, 22, 24), rgb(24, 20, 20), rgb(37, 12, 71));
+    --button-gradient-prev: linear-gradient(160deg, rgb(5, 22, 24), rgb(24, 20, 20), rgb(37, 12, 71));
+
+    //shadows
+
+    --d3-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1);
+    --d3-shadow2: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1), 0 0 20px 4px rgba(0, 0, 0, 0.2);
+}
+
+.main-layout {
+    min-height: calc(100vh - $navbar-height);
+}
+
+$background-color: var(--background-color);
+$primary-color: var(--primary-color);
+$yellow-secondary-color: var(--yellow-secondary-color);
+$accent-color: var(--accent-color);
+$light-color: var(--light-color);
+$content-color: var(--content-color);
+
+$dark-color: var(--dark-color);
+$dark-color-light: var(--dark-color-light);
+$gray-color: var(--gray-color);
+$gray-color2: var(--gray-color2);
+$gray-color3: var(--gray-color3);
+$text-color: var(--text-color);
+$red-color: var(--red-color);
+
+$primary-gradient: var(--primary-gradient);
+$secondary-gradient: var(--secondary-gradient);
+$transparent-white-gradient: var(--transparent-white-gradient);
+$dark-primary-gradient: var(--dark-primary-gradient);
+$button-gradient: var(--button-gradient);
+$button-gradient2: var(--button-gradient2);
+$button-gradient3: var(--button-gradient3);
+$button-gradient4: var(--button-gradient4);
+
+$button-gradient-next: var(--button-gradient-next);
+$button-gradient-prev: var(--button-gradient-prev);
+
+//shadows
+$d3-shadow: var(--d3-shadow);
+$d3-shadow2: var(--d3-shadow2);
+
+
+
+
+$card-radius: 18px;
+
+
+
+//background color class for each of these variables on up
+.bg-background-color {
+    background-color: $background-color;
+}
+
+.bg-primary-color {
+    background-color: $primary-color;
+}
+
+.bg-yellow-secondary-color {
+    background-color: $yellow-secondary-color;
+}
+
+.bg-accent-color {
+    background-color: $accent-color;
+}
+
+.bg-light-color {
+    background-color: $light-color;
+}
+
+.bg-content-color {
+    background-color: $content-color;
+}
+
+.bg-dark-color {
+    background-color: $dark-color;
+}
+
+.bg-dark-color-light {
+    background-color: $dark-color-light;
+}
+
+.bg-gray-color {
+    background-color: $gray-color;
+}
+
+.bg-gray-color2 {
+    background-color: $gray-color2;
+}
+
+.bg-gray-color3 {
+    background-color: $gray-color3;
+}
+
+
+.bg-text-color {
+    background-color: $text-color;
+}
+
+.bg-red-color {
+    background-color: $red-color;
+}
+
+//gradient color class for each of these variables on up
+
+.bg-primary-gradient {
+    background-image: $primary-gradient;
+}
+
+.bg-secondary-gradient {
+    background-image: $secondary-gradient;
+}
+
+.bg-transparent-white-gradient {
+    background-image: $transparent-white-gradient;
+}
+
+.bg-dark-primary-gradient {
+    background-image: $dark-primary-gradient;
+}
+
+.bg-button-gradient {
+    background-image: $button-gradient;
+}
+
+.bg-button-gradient2 {
+    background-image: $button-gradient2;
+}
+
+.bg-button-gradient3 {
+    background-image: $button-gradient3;
+}
+
+.bg-button-gradient4 {
+    background-image: $button-gradient4;
+}
+
+.bg-button-gradient-next {
+    background-image: $button-gradient-next;
+}
+
+.bg-button-gradient-prev {
+    background-image: $button-gradient-prev;
+}
+
+//shadow class for each of these variables on up
+
+.d3-shadow {
+    box-shadow: $d3-shadow;
+}
+
+.d3-shadow2 {
+    box-shadow: $d3-shadow2;
+}
+
