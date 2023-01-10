@@ -12,20 +12,18 @@ export default async function handler(
   try {
 
     let result = null
-    const params = { q: 'new york', locale: 'en_US', langid: '1033', siteid: '300000001' }
-
-    const url = 'https://hotels4.p.rapidapi.com/locations/v3/search' + '?' + new URLSearchParams(params)
-
+    //@ts-ignore
+    const query = new URLSearchParams(req.query).toString()
+    if (!process.env.NEXT_PUBLIC_API_URL) return
+    const url = process.env.NEXT_PUBLIC_API_URL + `auth/login`
+    console.log(url,query)
     const options = {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': '05e3326a6emsh95bf3a06e3df5cdp16038ajsnb7284cc07e39',
-        'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
-      },
+      method: 'POST',
+
     };
     const response = await fetch(url, options)
     result = await response.json()
-    res.status(200).json( result )
+    res.status(200).json(result)
 
   } catch (err) {
     console.log(err);

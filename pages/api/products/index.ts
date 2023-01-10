@@ -12,26 +12,25 @@ export default async function handler(
   try {
 
     let result = null
-    const params = { q: 'new york', locale: 'en_US', langid: '1033', siteid: '300000001' }
+    //@ts-ignore
 
-    const url = 'https://hotels4.p.rapidapi.com/locations/v3/search' + '?' + new URLSearchParams(params)
-
+    const query = new URLSearchParams(req.query).toString()
+    if (!process.env.NEXT_PUBLIC_API_URL) return
+    const url = process.env.NEXT_PUBLIC_API_URL + `api/products${query ? '?' + query : ''}`
+    console.log(url,query)
     const options = {
       method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': '05e3326a6emsh95bf3a06e3df5cdp16038ajsnb7284cc07e39',
-        'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
-      },
+
     };
     const response = await fetch(url, options)
     result = await response.json()
-    res.status(200).json( result )
+    res.status(200).json(result)
 
   } catch (err) {
     console.log(err);
     //@ts-ignore
 
-    res.status(200).send('error')
+    res.status(200).send({message:"Couldn't get products...", code: 500})
 
   }
 }

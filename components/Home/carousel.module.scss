@@ -1,0 +1,197 @@
+.swiperContainer {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    height: 50vh;
+    max-height: 460px;
+    border-radius: 90px 90px 18px 18px;
+    cursor: pointer;
+    position: relative;
+    background-color: $content-color;
+    background: $primary-gradient;
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+    }
+}
+
+.swiperWrapper {}
+
+.swiperSlideWrapper {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+}
+
+.carouselImage {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    background-position: center center;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+
+.swiperThumbWrapper {
+    position: absolute;
+    height: 90%;
+    z-index: 5;
+    left: 50px;
+    top: 50%;
+    bottom: 10px;
+    transform: translateY(-50%);
+
+    @media (max-width: 768px) {
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 90%;
+        height: 50px;
+
+    }
+
+    :global(.swiper-slide) {
+        display: flex;
+        overflow: hidden;
+
+        .swiperThumb {
+            display: flex;
+            width: 120px;
+            max-width: 100%;
+            height: 100%;
+            border-radius: 12px !important;
+            padding: 6px;
+            box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1);
+            background-color: $content-color;
+            background: $primary-gradient;
+            transition: 0.5s ease all;
+
+            @media (max-width: 768px) {
+                padding: 3px;
+            }
+            text-align: center;
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        
+
+        .swiperThumbTitle {
+            transition: 0.5s ease all;
+            font-size: 14px;
+            font-weight: 600;
+            color: $light-color;
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: center;
+            display: flex;
+            margin-left: 10px;
+            line-height: 14px;
+            background: $dark-primary-gradient;
+            border-radius: 24px;
+            height: fit-content;
+            padding: 8px 12px;
+            max-width: 160px;
+            text-align: center;
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+
+        img {
+            border-radius: 12px;
+                user-drag: none;
+                -webkit-user-drag: none;
+                user-select: none;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+        }
+    }
+
+    :global(.swiper-slide-thumb-active) {
+        .swiperThumb {
+            box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1);
+            background: $secondary-gradient;
+        }
+
+        .swiperThumbTitle {
+            box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1);
+            background: $secondary-gradient;
+            color: $yellow-secondary-color;
+        }
+
+
+    }
+}
+
+
+.swiperDescription {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    z-index: 5;
+    font-size: 1.3rem;
+    line-height: 1.9rem;
+    letter-spacing: 0.9px;
+    font-weight: 700;
+    color: $light-color;
+    max-width: 450px;
+    padding: 12px 24px;
+    background: $transparent-white-gradient;
+    text-shadow: 1px 1px 6px black;
+    border-radius: 12px;
+    text-align: center;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    @media (max-width: 1024px) {
+        padding: 6px 12px;
+        font-size: 1rem;
+
+        max-width: 350px;
+
+    }
+
+    @media (max-width: 768px) {
+        left: 50%;
+        bottom: 100px;
+        transform: translateX(-50%);
+        top: auto;
+        right: auto;
+        max-width: 240px;
+        font-size: 1rem;
+        max-width: 80%;
+        width: 80%;
+        line-height: 1.2rem;
+        padding: 6px 12px;
+
+    }
+
+
+
+    span {
+        @include ellipsisLine(2);
+       
+    }
+}
