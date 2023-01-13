@@ -91,7 +91,6 @@ function Carousel(props: object) {
                                 <GImage
                                     src={x.url}
                                     alt={x.title}
-                                    //@ts-ignore
                                     sizes="(max-width: 768px) 120px, (max-width: 1200px) 120px, (max-width: 1480px) 120px, 96px"
                                     width={108}
                                     height={84}

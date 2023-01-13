@@ -9,7 +9,11 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'height': 'height'
+      }
+    },
     screens: {
       'xs': '432px',
       'sm': '640px',

@@ -1,11 +1,9 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Card, CardsWrapper } from '../components/Cards/card'
 import { Carousel } from '../components/Home/carousel'
 
 import styles from '../styles/Home.module.scss'
 
-import { useEffect, useRef, useState } from 'react';
 
 
 

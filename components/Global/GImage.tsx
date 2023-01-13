@@ -7,10 +7,15 @@ import { faLinkSlash } from '@fortawesome/free-solid-svg-icons'
 
 interface ImageFallbackProps {
     src: string;
-    fallbackSrc: string;
-    rest: any;
+    fallbackSrc?: string;
     alt: string;
-    className: string;
+    className?: string;
+    width: number;
+    height: number;
+    quality?: number;
+    priority?: boolean;
+    rest?: any;
+    sizes?: string;
 }
 
 const ImageFallback: NextPage<ImageFallbackProps> = ({ src, fallbackSrc, ...rest }) => {
@@ -26,7 +31,7 @@ const ImageFallback: NextPage<ImageFallbackProps> = ({ src, fallbackSrc, ...rest
         <>
             {!isError ? <Image
                 {...rest}
-                alt={rest.alt|| ""}
+                alt={rest.alt || ""}
                 src={imgSrc}
                 draggable={false}
                 className={rest.className + ` ${isLoading ? 'shiny-element' : ' unselectable'}`}
@@ -60,8 +65,8 @@ const ImageFallback: NextPage<ImageFallbackProps> = ({ src, fallbackSrc, ...rest
                 }}
             /> : <div className={rest.className + ' md:!rounded-md bg-gray-900 flex justify-center items-center text-center text-sky-200 overflow-hidden'} >
                 {/* @ts-ignore */}
-                <FontAwesomeIcon style={{width:"30px", height:"30px", marginRight:"10px"}} icon={faLinkSlash}></FontAwesomeIcon>
-                 😔</div>}
+                <FontAwesomeIcon style={{ width: "30px", height: "30px", marginRight: "10px" }} icon={faLinkSlash}></FontAwesomeIcon>
+                😔</div>}
         </>
     );
 }

@@ -2,11 +2,12 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 
 import themeSlice from './themeSlice';
-
+import userSlice from './userSlice'
 
 
 export interface RootState {
   theme: typeof themeSlice.reducer;
+  user: typeof userSlice.reducer;
   // other slices
 }
 
@@ -15,6 +16,8 @@ export interface RootState {
 
 const reducer = combineReducers({
   theme: themeSlice.reducer,
+  user: userSlice.reducer,
+
   // other slices
 });
 
