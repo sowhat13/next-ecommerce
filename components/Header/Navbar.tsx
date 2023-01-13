@@ -2,11 +2,14 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon, MagnifyingGlassIcon, UserIcon } from '@heroicons/react/24/outline'
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store';
+import { UserIcon as UserIconSolid } from '@heroicons/react/24/solid'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import themeSlice from '../../store/themeSlice';
 import { useRouter } from 'next/router'
-import { SignIn, SignUp } from './Sign'
+import Link from 'next/link'
+import { Sign } from './Sign'
+import GImage from '../Global/GImage'
+
 const navigations = [
     { name: 'Dashboard', href: '/', current: false },
     { name: 'About', href: '/about', current: false },
@@ -14,7 +17,6 @@ const navigations = [
     { name: 'Calendar', href: '#', current: false },
 ]
 
-const isLoggedIn = false;
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -34,19 +36,32 @@ const setThemeInLocalStorage = (theme: string) => {
 };
 
 function Navbar(props: any) {
-    let [isOpenSignIn, setIsOpenSignIn] = useState(false)
-
+    let [signModal, setSignModal] = useState('')
+    const [user, setUser] = useState({} as any);
     const [navigation, setNavigation] = useState(navigations);
+
     //@ts-ignore
-    const theme = useSelector((state: RootState) => state.theme.theme);
+    const theme = useSelector((state) => state.theme.theme);
+    //@ts-ignore
+    const selectUser = useSelector((state) => state.user.user)
     const dispatch = useDispatch();
     const router = useRouter()
+    const signOut = () => {
+        props.signOut()
+    }
+
+
+    useEffect(() => {
+        setUser(selectUser)
+    }, [selectUser])
+
     useEffect(() => {
         const thm = localStorage.getItem('theme') as 'light' | 'dark' || 'light';
         if (thm) {
             dispatch(themeSlice.actions.setTheme(thm));
             setThemeInLocalStorage(thm)
         }
+
     }, []);
 
     useEffect(() => {
@@ -59,25 +74,18 @@ function Navbar(props: any) {
         setNavigation(currentNav)
     }, [router.asPath])
 
+
     const handleToggle = () => {
-        console.log('handşeToggle', themeSlice)
         setThemeInLocalStorage(theme === 'light' ? 'dark' : 'light')
 
         dispatch(themeSlice.actions.setTheme(theme === 'light' ? 'dark' : 'light'));
 
     };
 
-    const openSignIn = () => {
-        setIsOpenSignIn(true)
-    };
-
-    const setOpenSignIn = (val: any) => {
-        setIsOpenSignIn(val)
-    };
 
     return (
         <div className='flex w-full'>
-            <SignIn isOpenSignIn={isOpenSignIn} setIsOpenSignIn={setOpenSignIn}></SignIn>
+            {signModal && <Sign signModal={signModal} closeSign={(val: any) => { setSignModal(val) }}></Sign>}
 
             <Disclosure as="nav" className="bg-gray-100 bg-opacity-5 flex w-full">
                 {({ open }) => (
@@ -97,15 +105,15 @@ function Navbar(props: any) {
                                 </div>
                                 <div className="flex flex-1 min-w-fit items-center justify-center sm:items-stretch sm:justify-start">
                                     <button onClick={() => { router.push('/') }} className="flex flex-shrink-0 items-center cursor-pointer">
-                                        <img
-                                            className="block h-16 w-auto lg:hidden"
+
+                                        <GImage
                                             src="http://app.sunvalley.vip/img/moen-n-logo-w.be05be5f.png"
                                             alt="Your Company"
-                                        />
-                                        <img
-                                            className="hidden h-16 w-auto lg:block"
-                                            src="http://app.sunvalley.vip/img/moen-n-logo-w.be05be5f.png"
-                                            alt="Your Company"
+                                            width={60}
+                                            height={60}
+                                            quality={100}
+                                            priority={true}
+                                            className=" h-16 w-auto block"
                                         />
                                     </button>
 
@@ -113,16 +121,13 @@ function Navbar(props: any) {
                                 <SearchBar></SearchBar>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex w-full ml-auto space-x-4">
-                                        <SignUp></SignUp>
+                                        {/* <SignUp></SignUp> */}
 
                                         {navigation.map((item) => (
-                                            <a
+                                            <Link
                                                 key={item.name}
                                                 href={item.href}
-                                                onClick={(e) => {
-                                                    e.preventDefault()
-                                                    router.push(item.href)
-                                                }}
+
                                                 className={classNames(
                                                     item.current ? 'bg-button-gradient2 shadow-sms text-white ' : 'text-primary-400 hover:bg-primary-400 hover:text-white',
                                                     'px-3 py-2 rounded-full text-sm font-medium transition dark:text-gray-200'
@@ -130,14 +135,14 @@ function Navbar(props: any) {
                                                 aria-current={item.current ? 'page' : undefined}
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
                                 <div className=" inset-y-0 right-0 flex items-center pr-2  sm:inset-auto sm:ml-6 sm:pr-0">
                                     <button
                                         type="button" onClick={handleToggle}
-                                        className="rounded-full  bg-primary-50 p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
+                                        className="rounded-full  bg-primary-50 p-1 dark:bg-opacity-10 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
                                     >
                                         <span className="sr-only">Dark or light theme button</span>
                                         {theme == 'light' ? <SunIcon className="h-6 w-6" aria-hidden="true" /> : <MoonIcon className="h-6 w-6" aria-hidden="true" />}
@@ -145,7 +150,7 @@ function Navbar(props: any) {
 
                                     <button
                                         type="button"
-                                        className="rounded-full bg-primary-50 ml-3  p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
+                                        className="rounded-full bg-primary-50 dark:bg-opacity-10 ml-3  p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
                                     >
                                         <span className="sr-only">View notifications</span>
                                         <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -154,14 +159,19 @@ function Navbar(props: any) {
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
-                                            {isLoggedIn ? (
+                                            {user && Object.keys(user).length > 0 ? (
                                                 <Menu.Button className="flex rounded-full h-10 w-10  text-sm focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400">
                                                     <span className="sr-only">Open user menu</span>
-                                                    <img
-                                                        className="h-10 w-10 rounded-full"
-                                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                        alt=""
-                                                    />
+                                                    {user.avatar && user.avatar.url ? (
+                                                        <img
+                                                            className="h-10 w-10 rounded-full"
+                                                            src={user.avatar.url}
+                                                            alt=""
+                                                        />
+                                                    ) : <div className="h-10 w-10 rounded-full flex items-center justify-center bg-button-gradient3 text-green-200 d3-shadow3">
+                                                        <UserIconSolid className="h-6 w-6" aria-hidden="true" />
+                                                    </div>}
+
                                                 </Menu.Button>) : (
                                                 <Menu.Button className="flex rounded-full h-10 w-10  text-sm focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400">
                                                     <span className="sr-only">Open login menu</span>
@@ -181,9 +191,9 @@ function Navbar(props: any) {
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            {isLoggedIn ? (
+                                            {user && Object.keys(user).length > 0 ? (
 
-                                                <Menu.Items className="absolute cursor-pointer right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <Menu.Items className="absolute cursor-pointer right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <a
@@ -206,30 +216,32 @@ function Navbar(props: any) {
                                                     </Menu.Item>
                                                     <Menu.Item>
                                                         {({ active }) => (
-                                                            <a
-                                                                href="#"
-                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                            <button
+                                                                onClick={() => {
+                                                                    signOut()
+                                                                }
+                                                                }
+                                                                className={classNames(active ? 'bg-gray-100' : '', 'flex w-full px-4 py-2 text-sm text-gray-700')}
                                                             >
                                                                 Sign out
-                                                            </a>
+                                                            </button>
                                                         )}
                                                     </Menu.Item>
                                                 </Menu.Items>
                                             ) : (
-                                                <Menu.Items className="absolute  cursor-pointer right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <Menu.Items className="absolute  cursor-pointer right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <Menu.Item>
                                                         <span
                                                             className={'block px-4 py-2 text-sm text-gray-700'}
-                                                            onClick={() => openSignIn()}
+                                                            onClick={() => setSignModal('signIn')}
                                                         >
                                                             Sign In
                                                         </span>
                                                     </Menu.Item>
                                                     <Menu.Item>
                                                         {({ active }) => (
-                                                            <span
-                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                            >
+                                                            <span onClick={() => setSignModal('signUp')}
+                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                                                                 Sign Up
                                                             </span>
                                                         )}
@@ -283,6 +295,5 @@ function SearchBar(props: any) {
 }
 
 
-export {
-    Navbar
-}
+
+export default Navbar

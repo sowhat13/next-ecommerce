@@ -6,6 +6,8 @@ $navbar-height: 64px;
     background: var(--background-color);
 
     --primary-color: rgb(110, 97, 231);
+    --secondary-color: rgb(245, 195, 102);
+
     --accent-color: #b7ff80;
     --light-color: #f3f4ff;
     --content-color: #4c4848;
@@ -18,8 +20,10 @@ $navbar-height: 64px;
     --gray-color2: #f6efff;
     --gray-color3: #858597;
     --text-color: rgb(66, 66, 66);
+    color: var(--text-color);
     --red-color: rgb(255, 35, 35);
     --primary-gradient: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(197, 166, 238));
+    --primary-gradient-light: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 242, 242), rgb(225, 203, 255));
 
     --secondary-gradient: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(245, 195, 102));
     --transparent-white-gradient: linear-gradient(90deg, rgba(61, 83, 85, 0) 5%, rgba(255, 255, 255, 0.2), rgba(29, 29, 29, 0) 95%);
@@ -36,13 +40,18 @@ $navbar-height: 64px;
 
     --d3-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1);
     --d3-shadow2: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1), 0 0 20px 4px rgba(0, 0, 0, 0.2);
-
+    --d3-shadow3: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.06), 1px 1px 0 1px rgba(179, 195, 248, 0.5), 3px 3px 5px 4px rgba(179, 195, 248, 0.5);
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: var(--text-color);
+        opacity: 0.7; /* Firefox */
+      }
 }
 
 .dark {
     --background-color: #221f31;
     background: var(--background-color);
     --primary-color: rgb(164, 154, 255);
+    --secondary-color: rgb(245, 195, 102);
     --accent-color: #b7ff80;
     --light-color: #f3f4ff;
     --content-color: #f3f4ff;
@@ -54,10 +63,12 @@ $navbar-height: 64px;
     --gray-color: #ebebeb;
     --gray-color2: #f6efff;
     --gray-color3: #858597;
-    --text-color: #7a86a1;
+    --text-color: #a4aec7;
+    color: var(--text-color);
 
     --red-color: rgb(255, 83, 83);
     --primary-gradient: linear-gradient(160deg, rgb(76, 54, 104), rgb(48, 28, 75), rgb(96, 78, 119));
+    --primary-gradient-light: linear-gradient(160deg, rgb(132, 100, 173), rgb(114, 81, 160), rgb(75, 57, 100));
 
     --secondary-gradient: linear-gradient(160deg, rgb(221, 205, 117), rgb(255, 223, 81), rgb(245, 195, 102));
     --transparent-white-gradient: linear-gradient(90deg, rgba(61, 83, 85, 0) 5%, rgba(0, 0, 0, 0.2), rgba(29, 29, 29, 0) 95%);
@@ -73,14 +84,23 @@ $navbar-height: 64px;
 
     --d3-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1);
     --d3-shadow2: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1), 0 0 20px 4px rgba(0, 0, 0, 0.2);
+    --d3-shadow3: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.06), 1px 1px 0 1px rgba(63, 32, 83, 0.5), 3px 3px 5px 4px rgba(66, 39, 110, 0.5);
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: var(--text-color);
+        opacity: 0.7; /* Firefox */
+      }
 }
+
 
 .main-layout {
     min-height: calc(100vh - $navbar-height);
 }
 
+
 $background-color: var(--background-color);
 $primary-color: var(--primary-color);
+$secondary-color: var(--secondary-color);
 $yellow-secondary-color: var(--yellow-secondary-color);
 $accent-color: var(--accent-color);
 $light-color: var(--light-color);
@@ -95,6 +115,7 @@ $text-color: var(--text-color);
 $red-color: var(--red-color);
 
 $primary-gradient: var(--primary-gradient);
+$primary-gradient-light: var(--primary-gradient-light);
 $secondary-gradient: var(--secondary-gradient);
 $transparent-white-gradient: var(--transparent-white-gradient);
 $dark-primary-gradient: var(--dark-primary-gradient);
@@ -109,13 +130,68 @@ $button-gradient-prev: var(--button-gradient-prev);
 //shadows
 $d3-shadow: var(--d3-shadow);
 $d3-shadow2: var(--d3-shadow2);
-
+$d3-shadow3: var(--d3-shadow3);
 
 
 
 $card-radius: 18px;
 
+//color class for each of these variables on up
+.color-background-color {
+    color: $background-color;
+}
 
+.color-primary-color {
+    color: $primary-color;
+}
+
+.color-secondary-color{
+    color: $secondary-color;
+}
+
+.color-yellow-secondary-color {
+    color: $yellow-secondary-color;
+}
+
+.color-accent-color {
+    color: $accent-color;
+}
+
+.color-light-color {
+    color: $light-color;
+}
+
+.color-content-color {
+    color: $content-color;
+}
+
+.color-dark-color {
+    color: $dark-color;
+}
+
+.color-dark-color-light {
+    color: $dark-color-light;
+}
+
+.color-gray-color {
+    color: $gray-color;
+}
+
+.color-gray-color2 {
+    color: $gray-color2;
+}
+
+.color-gray-color3 {
+    color: $gray-color3;
+}
+
+.color-text-color {
+    color: $text-color;
+}
+
+.color-red-color {
+    color: $red-color;
+}
 
 //background color class for each of these variables on up
 .bg-background-color {
@@ -124,6 +200,10 @@ $card-radius: 18px;
 
 .bg-primary-color {
     background-color: $primary-color;
+}
+
+.bg-secondary-color{
+    background-color: $secondary-color;
 }
 
 .bg-yellow-secondary-color {
@@ -174,14 +254,23 @@ $card-radius: 18px;
 //gradient color class for each of these variables on up
 
 .bg-primary-gradient {
+    background: $primary-color;
     background-image: $primary-gradient;
 }
 
+.bg-primary-gradient-light {
+    background: $primary-color;
+
+    background-image: $primary-gradient-light;
+}
+
 .bg-secondary-gradient {
+    background:$secondary-color;
     background-image: $secondary-gradient;
 }
 
 .bg-transparent-white-gradient {
+    
     background-image: $transparent-white-gradient;
 }
 
@@ -223,3 +312,6 @@ $card-radius: 18px;
     box-shadow: $d3-shadow2;
 }
 
+.d3-shadow3 {
+    box-shadow: $d3-shadow3;
+}

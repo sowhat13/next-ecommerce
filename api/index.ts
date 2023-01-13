@@ -1,3 +1,5 @@
+import deepMerge from '../utils/deepMerge'
+
 const defaultHeaders = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -14,24 +16,18 @@ const defaultOptions = {
 const defaultTimeout = 15000; // 10 seconds
 
 const api = {
-    async request(url:string, query: any, options: any = {}, timeout: number = defaultTimeout) {
-        options = { ...defaultOptions, ...options };
-
-        // Set authorization header if token is provided
-        // const token = localStorage.getItem('token');
-        // if (token) {
-        //     options.headers.Authorization = `Bearer ${token}`;
-        // }
-
+    async request(url: string, query?: any, options: any = {}, timeout: number = defaultTimeout) {
+        options = deepMerge(defaultOptions, options)
+        
         // Set timeout if provided
         if (timeout) {
             options.timeout = timeout;
         }
 
-        if(query && typeof query === 'object'){
+        if (query && typeof query === 'object') {
             query = new URLSearchParams(query).toString()
-        }else if(query && typeof query === 'string'){
-            query = query.replace('?','')
+        } else if (query && typeof query === 'string') {
+            query = query.replace('?', '')
         }
 
 

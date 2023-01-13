@@ -1,9 +1,12 @@
-import { Navbar } from './Navbar'
+import Navbar from './Navbar'
 
 function Header(props: any) {
+    const signOut = () => {
+        props.signOut();
+    }
     return (
         <>
-            <Navbar />
+            <Navbar signOut={signOut} />
         </>
     )
 }

@@ -10,6 +10,10 @@ const nextConfig = {
         hostname: 'i.seadn.io',
    
       },
+      {
+        protocol: 'http',
+        hostname: 'app.sunvalley.vip'
+      }
     ],
   },
 
