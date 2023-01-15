@@ -1,0 +1,38 @@
+{
+  "signIn": {
+    "title": "Giriş Yap",
+    "email": "E-posta",
+    "email-placeholder": "Lütfen E-posta adresinizi girin",
+    "password": "Şifre",
+    "password-placeholder": "Lütfen şifrenizi girin",
+    "submit": "Giriş Yap",
+    "forgot": "Şifremi unuttum?",
+    "sign-up": "Kayıt ol",
+    "error-email-password": "E-posta veya şifre yanlış",
+    "error-email-not-exists": "E-posta kayıtlı değil",
+    "error-email-missing": "E-posta gerekli",
+    "error-password-missing": "Şifre gerekli",
+    "dont-have-account": "Hesabınız yok mu?",
+    "sign-in-success": "Giriş başarılı"
+},
+  "signUp": {
+    "title": "Kayıt ol",
+    "email": "E-posta",
+    "email-placeholder": "Lütfen E-posta adresinizi girin",
+    "password": "Şifre",
+    "password-placeholder": "Lütfen şifrenizi girin",
+    "password-confirmation": "Şifre Tekrar",
+    "password-confirmation-placeholder": "Şifrenizi tekrar girin",
+    "submit": "Kayıt ol",
+    "sign-in": "Giriş yap",
+    "error-email-password": "E-posta veya şifre yanlış",
+    "error-email-not-exists": "E-posta kayıtlı değil",
+    "error-email-missing": "E-posta gerekli",
+    "error-password-missing": "Şifre gerekli",
+    "error-password-confirmation-missing": "Şifre tekrarı gerekli",
+    "error-password-confirmation-not-match": "Şifreler uyuşmuyor",
+    "already-have-account": "Hesabınız var mı?",
+    "sign-up-success": "Kayıt başarılı"
+}
+
+}

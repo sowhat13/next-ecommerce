@@ -1,0 +1,15 @@
+{
+  "signIn": {
+    "title": "Giriş Yap",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Giriş Yap",
+    "forgot": "Şifremi unuttum?",
+    "register": "Kayıt ol",
+    "error-email-password": "E-posta veya şifre yanlış",
+    "error-email-not-exists": "E-posta kayıtlı değil",
+    "error-email-missing": "E-posta gerekli",
+    "error-password-missing": "Şifre gerekli",
+    "already-account": "Zaten bir hesabınız var mı?"
+  }
+}

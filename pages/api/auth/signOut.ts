@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { deleteCookie } from "cookies-next";
-
+import { useContext } from 'react';
 
 type Data = {
     name: string
@@ -17,7 +17,7 @@ export default async function handler(
         return
     }
     try {
-  
+
         let result = null
         //@ts-ignore
         if (!process.env.NEXT_PUBLIC_API_URL) return

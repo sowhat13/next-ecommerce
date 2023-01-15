@@ -116,10 +116,10 @@ function AlertItem(props: any) {
                 {props.alert && props.alert.text && isAlert && (
 
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
+                        initial={{ opacity: 0, x: -300 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -300 }}
+                        transition={{ duration: 0.4 }}
 
                         className={" px-4 pr-9 py-4 flex rounded-lg relative border "
                             + (props.alert.type == 'error' ? sts.error : props.alert.type == 'warning' ?

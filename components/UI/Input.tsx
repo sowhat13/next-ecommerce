@@ -7,26 +7,23 @@ import { motion, AnimatePresence } from 'framer-motion'
 function Input(props: any) {
 
     const [propType, setPropType] = useState(props.inputType || 'text');
-    const [errorText, setErrorText] = useState(props.errorText || '');
+    const errorText = props.errorText;
     const [isFocused, setIsFocused] = useState(props.isFocused || false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event?.target.value ? event.target.value : '';
-        props.handleChange({ value });
-        setErrorText('')
+        props.handleChange({ value, error: '' });
 
 
     };
     const handleChangeSet = (value: string) => {
         props.handleChange({ value: value });
-        setErrorText('')
 
 
     };
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             props.onEnter(event)
-            setErrorText('errorText')
         }
     };
     return (

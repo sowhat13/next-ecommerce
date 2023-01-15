@@ -1,4 +1,5 @@
 import Navbar from './Navbar'
+import Notification from './Notification';
 
 function Header(props: any) {
     const signOut = () => {
@@ -6,6 +7,7 @@ function Header(props: any) {
     }
     return (
         <>
+            <Notification />
             <Navbar signOut={signOut} />
         </>
     )
