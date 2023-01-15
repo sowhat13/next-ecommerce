@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import userSlice from '../../store/userSlice';
 import { useContext } from 'react'
 import { ContextWrapper } from '../../context'
+import { useTranslation } from 'next-i18next'
 
 
 function Sign(props: any) {
@@ -111,17 +112,17 @@ function Sign(props: any) {
 
 function SignIn(props: any) {
 
+    const { t } = useTranslation('sign')
     const { addAlert } = useContext(ContextWrapper) as any;
-
-    const [email, set_email] = useState({ value: '', error: false });
-    const [password, set_password] = useState({ value: '', error: false });;
+    const [email, set_email] = useState({ value: '', error: '' });
+    const [password, set_password] = useState({ value: '', error: '' });;
     const dispatch = useDispatch();
     async function handleSignIn() {
         if (email.value === '') {
-            set_email({ ...email, error: true })
+            set_email({ ...email, error: t('signIn.error-email-missing')  })
         }
         if (password.value === '') {
-            set_password({ ...password, error: true })
+            set_password({ ...password, error: t('signIn.error-password-missing') })
         }
         if (email.value !== '' && password.value !== '') {
             const res = await api.request('/auth/signIn', undefined, {
@@ -131,8 +132,11 @@ function SignIn(props: any) {
 
             if (res.code === 200) {
                 dispatch(userSlice.actions.setUser(res.user));
-                addAlert('Signed in successfully')
+                addAlert(t('signIn.sign-in-success'), 'success');
                 props.setIsOpenSignIn('');
+            } else {
+                set_password({ ...password, error: t('signIn.error-email-password') })
+
             }
         }
     }
@@ -148,18 +152,16 @@ function SignIn(props: any) {
                         as="h3"
                         className="text-2xl font-medium  text-primary-500 dark:text-primary-300"
                     >
-                        Sign In
+                        {t('signIn.title')}
                     </Dialog.Title>
                     <form className="mt-2">
-                        <Input value={email.value} label="Email"
-                            handleChange={(value: any) => { set_email({ ...email, ...value }) }} className="mt-5" error type={'withShadow'} errorText={email.error} onEnter={() => { console.log('enter') }} clearable left={<UserIcon />} placeholder='Enter your email...' />
-                        <Input value={password.value} label="Password"
-                            handleChange={(value: any) => { set_password({ ...password, ...value }) }} inputType="password" className="mb-1 " error errorText={password.error} type={'withShadow'} onEnter={() => { console.log('enter') }} clearable left={<LockClosedIcon />} placeholder='Enter your password...' />
-
-                        <p className="text-sm text-gray-500">
-                            Your payment has been successfully submitted. We’ve sent
-                            you an email with all of the details of your order.
-                        </p>
+                        <Input value={email.value} label={t('signIn.email')}
+                            handleChange={(value: any) => { set_email({ ...email, ...value }) }} className="mt-5" error type={'withShadow'}
+                            errorText={email.error} onEnter={() => { console.log('enter') }} clearable left={<UserIcon />} placeholder={t('signIn.email-placeholder')} />
+                        <Input value={password.value} label={t('signIn.password')}
+                            handleChange={(value: any) => { set_password({ ...password, ...value }) }} inputType="password" className="mb-1 "
+                            error errorText={password.error} type={'withShadow'} onEnter={() => { handleSignIn() }} clearable left={<LockClosedIcon />}
+                            placeholder={t('signIn.password-placeholder')} />
                     </form>
                     <div className="mt-2">
                         <span
@@ -167,16 +169,18 @@ function SignIn(props: any) {
                              py-2 text-sm font-medium text-primary-900 dark:text-primary-200 dark:hover:text-primary-300 hover:text-primary-700 cursor-pointer"
                             onClick={() => { props.setIsOpenSignIn('signUp') }}
                         >
-                            Don&apos;t have an account? &nbsp; <strong>Sign Up</strong>
+                            {t('signIn.dont-have-account')} &nbsp; <strong>{t('signIn.sign-up')}</strong>
                         </span>
                     </div>
                     <div className="mt-4">
                         <button
                             type="button"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            className="flex w-full justify-center mx-auto max-w-[300px] rounded-md border-4 border-transparent d3-shadow3 
+                            border-primary-400 bg-gradient-to-r from-primary-400 via-primary-300 to-primary-400 px-4 py-2 text-sm font-medium text-primary-50 hover:opacity-75
+                             transition hover:text-white active:scale-95"
                             onClick={() => { handleSignIn() }}
                         >
-                            Sign In
+                            {t('signIn.submit')}
                         </button>
                     </div>
                 </motion.div>
@@ -194,6 +198,7 @@ function SignUp(props: any) {
     const [password, set_password] = useState({ value: '', error: false });
     const [password2, set_password2] = useState({ value: '', error: false });
 
+    const { t } = useTranslation('sign')
 
     return (
         <>
@@ -206,15 +211,18 @@ function SignUp(props: any) {
                         as="h3"
                         className="text-2xl font-medium  text-primary-500 dark:text-primary-300"
                     >
-                        Sign Up
+                        {t('signUp.title')}
                     </Dialog.Title>
                     <form className="mt-2">
-                        <Input value={email.value} label="Email"
-                            handleChange={(value: any) => { set_email({ ...email, ...value }) }} className="mt-5" error type={'withShadow'} errorText={email.error} onEnter={() => { console.log('enter') }} clearable left={<UserIcon />} placeholder='Enter your email...' />
-                        <Input value={password.value} label="Password"
-                            handleChange={(value: any) => { set_password({ ...password, ...value }) }} inputType="password" error errorText={password.error} type={'withShadow'} onEnter={() => { console.log('enter') }} clearable left={<LockClosedIcon />} placeholder='Enter your password...' />
-                        <Input value={password2.value} label="Password Again"
-                            handleChange={(value: any) => { set_password2({ ...password2, ...value }) }} inputType="password" className="mb-1 " error errorText={password2.error} type={'withShadow'} onEnter={() => { console.log('enter') }} clearable left={<LockClosedIcon />} placeholder='Enter your password again...' />
+                        <Input value={email.value} label={t('signUp.email')}
+                            handleChange={(value: any) => { set_email({ ...email, ...value }) }} className="mt-5" error
+                            type={'withShadow'} errorText={email.error} onEnter={() => { console.log('enter') }} clearable left={<UserIcon />} placeholder={t('signUp.email-placeholder')} />
+                        <Input value={password.value} label={t('signUp.password')}
+                            handleChange={(value: any) => { set_password({ ...password, ...value }) }} inputType="password" error errorText={password.error}
+                            type={'withShadow'} onEnter={() => { console.log('enter') }} clearable left={<LockClosedIcon />} placeholder={t('signUp.password-placeholder')} />
+                        <Input value={password2.value} label={t('signUp.password-confirmation')}
+                            handleChange={(value: any) => { set_password2({ ...password2, ...value }) }} inputType="password" className="mb-1 " error errorText={password2.error}
+                            type={'withShadow'} onEnter={() => { console.log('enter') }} clearable left={<LockClosedIcon />} placeholder={t('signUp.password-confirmation-placeholder')} />
 
                         <p className="text-sm text-gray-500">
                             Your payment has been successfully submitted. We’ve sent
@@ -227,7 +235,7 @@ function SignUp(props: any) {
                              py-2 text-sm font-medium text-primary-900 dark:text-primary-200 dark:hover:text-primary-300 hover:text-primary-700 cursor-pointer"
                             onClick={() => { props.setIsOpenSignIn('signIn') }}
                         >
-                            Already have an account? &nbsp; <strong>Sign In</strong>
+                            {t('signUp.already-have-account')} &nbsp; <strong>{t('signUp.sign-in')}</strong>
                         </span>
                     </div>
                     <div className="mt-4">
@@ -236,7 +244,7 @@ function SignUp(props: any) {
                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             onClick={() => { return }}
                         >
-                            Sign In
+                            {t('signUp.submit')}
                         </button>
                     </div>
                 </motion.div>

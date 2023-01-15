@@ -91,9 +91,9 @@ function Carousel(props: object) {
                                 <GImage
                                     src={x.url}
                                     alt={x.title}
-                                    sizes="(max-width: 768px) 120px, (max-width: 1200px) 120px, (max-width: 1480px) 120px, 96px"
-                                    width={108}
-                                    height={84}
+                                    sizes="(max-width: 768px) 240px, (max-width: 1200px) 240px, (max-width: 1480px) 240px, 192px"
+                                    width={216}
+                                    height={168}
                                     quality={100}
                                     className={styles.carouselImage}
                                 />

@@ -1,0 +1,37 @@
+{
+  "signIn": {
+    "title": "Sign In",
+    "email": "Email",
+    "email-placeholder": "Please enter your email address",
+    "password": "Password",
+    "password-placeholder": "Please enter your password",
+    "submit": "Sign In",
+    "forgot": "Forgot password?",
+    "sign-up": "Sign up",
+    "error-email-password": "Email or password is incorrect",
+    "error-email-not-exists": "Email does not exist",
+    "error-email-missing": "Email is required",
+    "error-password-missing": "Password is required",
+    "dont-have-account": "Don't have an account?",
+    "sign-in-success": "Signed in successfully"
+},
+
+  "signUp": {
+    "title": "Sign Up",
+    "email": "Email",
+    "email-placeholder": "Please enter your email address",
+    "password": "Password",
+    "password-placeholder": "Please enter your password",
+    "password-confirmation": "Password Confirmation",
+    "password-confirmation-placeholder": "Please enter your password confirmation",
+    "submit": "Sign Up",
+    "sign-in": "Sign in",
+    "error-email-password": "Email or password is incorrect",
+    "error-email-not-exists": "Email does not exist",
+    "error-email-missing": "Email is required",
+    "error-password-missing": "Password is required",
+    "error-password-confirmation-missing": "Password confirmation is required",
+    "error-password-confirmation-not-match": "Passwords do not match",
+    "already-have-account": "Already have an account?"
+  }
+}

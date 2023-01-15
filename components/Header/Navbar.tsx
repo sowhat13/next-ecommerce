@@ -1,6 +1,6 @@
 
 import { Fragment, useEffect, useState } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Disclosure, Menu, Transition, Popover } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon, MagnifyingGlassIcon, UserIcon } from '@heroicons/react/24/outline'
 import { UserIcon as UserIconSolid } from '@heroicons/react/24/solid'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
@@ -9,13 +9,9 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Sign } from './Sign'
 import GImage from '../Global/GImage'
+import { useTranslation } from 'next-i18next'
 
-const navigations = [
-    { name: 'Dashboard', href: '/', current: false },
-    { name: 'About', href: '/about', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-]
+
 
 
 function classNames(...classes: any) {
@@ -36,20 +32,35 @@ const setThemeInLocalStorage = (theme: string) => {
 };
 
 function Navbar(props: any) {
+
+    const { t, i18n } = useTranslation(['sign', 'common'])
+    const dispatch = useDispatch();
+    const router = useRouter()
+    const navigations = [
+        { name: 'sign:signIn:title', href: '/', current: false },
+        { name: 'About', href: '/about', current: false },
+        { name: 'Projects', href: '#', current: false },
+        { name: 'Calendar', href: '#', current: false },
+    ]
+
     let [signModal, setSignModal] = useState('')
     const [user, setUser] = useState({} as any);
     const [navigation, setNavigation] = useState(navigations);
-
     //@ts-ignore
     const theme = useSelector((state) => state.theme.theme);
     //@ts-ignore
     const selectUser = useSelector((state) => state.user.user)
-    const dispatch = useDispatch();
-    const router = useRouter()
+
     const signOut = () => {
         props.signOut()
     }
+    const { locale, pathname, asPath, query } = router
 
+    const handleLanguageChange = (lang: string) => {
+        document.cookie = `NEXT_LOCALE=${lang}`
+        setNavigation(navigations)
+        router.push({ pathname, query }, asPath, { locale: lang })
+    }
 
     useEffect(() => {
         setUser(selectUser)
@@ -72,7 +83,7 @@ function Navbar(props: any) {
             }
         })
         setNavigation(currentNav)
-    }, [router.asPath])
+    }, [router.asPath, router.locale])
 
 
     const handleToggle = () => {
@@ -116,7 +127,6 @@ function Navbar(props: any) {
                                             className=" h-16 w-auto block"
                                         />
                                     </button>
-
                                 </div>
                                 <SearchBar></SearchBar>
                                 <div className="hidden sm:ml-6 sm:block">
@@ -130,23 +140,17 @@ function Navbar(props: any) {
 
                                                 className={classNames(
                                                     item.current ? 'bg-button-gradient2 shadow-sms text-white ' : 'text-primary-400 hover:bg-primary-400 hover:text-white',
-                                                    'px-3 py-2 rounded-full text-sm font-medium transition dark:text-gray-200'
+                                                    'px-3 py-2 rounded-full text-sm font-medium transition dark:text-gray-200 whitespace-nowrap'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
                                             >
-                                                {item.name}
+                                                {t(`${item.name}`)}
                                             </Link>
                                         ))}
                                     </div>
                                 </div>
                                 <div className=" inset-y-0 right-0 flex items-center pr-2  sm:inset-auto sm:ml-6 sm:pr-0">
-                                    <button
-                                        type="button" onClick={handleToggle}
-                                        className="rounded-full  bg-primary-50 p-1 dark:bg-opacity-10 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
-                                    >
-                                        <span className="sr-only">Dark or light theme button</span>
-                                        {theme == 'light' ? <SunIcon className="h-6 w-6" aria-hidden="true" /> : <MoonIcon className="h-6 w-6" aria-hidden="true" />}
-                                    </button>
+
 
                                     <button
                                         type="button"
@@ -214,6 +218,24 @@ function Navbar(props: any) {
                                                             </a>
                                                         )}
                                                     </Menu.Item>
+                                                    <Menu.Item >
+                                                        {({ active }) => (
+
+                                                            <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
+                                                                <SetLanguage title={t('Language')} active={locale} handleLanguageChange={handleLanguageChange} />
+                                                            </span>
+                                                        )}
+
+                                                    </Menu.Item>
+                                                    <Menu.Item >
+                                                        {({ active }) => (
+
+                                                            <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
+                                                                <SetTheme title={t('Theme')} active={theme} handleToggle={handleToggle} />
+                                                            </span>
+                                                        )}
+
+                                                    </Menu.Item>
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <button
@@ -235,18 +257,36 @@ function Navbar(props: any) {
                                                             className={'block px-4 py-2 text-sm text-gray-700'}
                                                             onClick={() => setSignModal('signIn')}
                                                         >
-                                                            Sign In
+                                                            {t('sign:signIn.title')}
                                                         </span>
                                                     </Menu.Item>
+
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <span onClick={() => setSignModal('signUp')}
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
-                                                                Sign Up
+                                                                {t('sign:signUp.title')}
                                                             </span>
                                                         )}
                                                     </Menu.Item>
+                                                    <Menu.Item >
+                                                        {({ active }) => (
 
+                                                            <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
+                                                                <SetLanguage title={t('Language')} active={locale} handleLanguageChange={handleLanguageChange} />
+                                                            </span>
+                                                        )}
+
+                                                    </Menu.Item>
+                                                    <Menu.Item >
+                                                        {({ active }) => (
+
+                                                            <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
+                                                                <SetTheme title={t('Theme')} active={theme} handleToggle={handleToggle} />
+                                                            </span>
+                                                        )}
+
+                                                    </Menu.Item>
                                                 </Menu.Items>)
                                             }
                                         </Transition>
@@ -295,5 +335,35 @@ function SearchBar(props: any) {
 }
 
 
+function SetLanguage(props: any) {
+    const changeLanguage = (lng: string) => {
+        props.handleLanguageChange(lng)
+    }
+    return (
+        <Popover className="relative">
+            <Popover.Button className={'flex w-full h-full px-4 py-2 '}>{props.title}</Popover.Button>
+
+            <Popover.Panel as="div" className="absolute z-20 top-4 flex flex-col w-full right-24 rounded-md bg-white py-2 text-sm text-gray-700 shadow-lg">
+                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
+                    + (props.active === 'en' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { changeLanguage('en') }}>English</button>
+                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
+                    + (props.active === 'tr' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { changeLanguage('tr') }}>Turkish</button>
+
+            </Popover.Panel>
+        </Popover>
+    )
+}
+
+function SetTheme(props: any) {
+    return (
+        <button
+            type="button" onClick={props.handleToggle}
+            className="rounded-full  bg-primary-50 p-1 dark:bg-opacity-10 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
+        >
+            <span className="sr-only">Dark or light theme button</span>
+            {props.theme == 'light' ? <SunIcon className="h-6 w-6" aria-hidden="true" /> : <MoonIcon className="h-6 w-6" aria-hidden="true" />}
+        </button>
+    )
+}
 
 export default Navbar

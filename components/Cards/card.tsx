@@ -17,7 +17,7 @@ function Card(props: object) {
             </div>
 
             <div className={styles.cardImageWrapper} >
-                <motion.div style={{display:'flex', width:'100%', height:'100%'}} whileHover={{ scale: 1.2 }} transition={{duration:0.5}} >
+                <motion.div style={{ display: 'flex', width: '100%', height: '100%' }} whileHover={{ scale: 1.2 }} transition={{ duration: 0.5 }} >
                     <GImage
                         src="https://i.seadn.io/gae/mFj06UpEc5YfzmF0anF5nEBZH8c0Vp4PfhMbG-AdWrMcLONBrGsaROxeI2hZ__WL03SO4Nu5q80dA5FA6gl-Q-EudHxiCf5kLPnJAA?auto=format&w=1000"
                         alt="Picture of the author"
@@ -36,22 +36,28 @@ function Card(props: object) {
                         {(() => {
                             if (true) {
                                 return (<span className={styles.cardPriceButtonDiscountText}>
-                                    <FontAwesomeIcon icon={faAngleDown} /> 2500.92 USDT
+                                    <FontAwesomeIcon icon={faAngleDown} />
+                                    <span className='sr-only'>Old Price: </span>
+
+                                    2500.92 USDT
                                 </span>)
                             }
                         })()}
                         <span className={styles.cardPriceButtonText}>
+                            <span className='sr-only'>Price: </span>
+
                             1500.92 USDT
                         </span>
                     </button>
                 </div>
 
-                    <motion.button className={styles.cardBuyButton}
-                        onMouseEnter={() => setisButtonHover(true)}
-                        onMouseLeave={() => setisButtonHover(false)}
-                        whileHover={{ scale: 1.05 }}
-                    >
-                <AnimatePresence>
+                <motion.button role="button" type="button" className={styles.cardBuyButton + ' active:ring-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-100 focus:ring-offset-2 focus:ring-offset-gray-200'}
+                    onMouseEnter={() => setisButtonHover(true)}
+                    onMouseLeave={() => setisButtonHover(false)}
+                    whileHover={{ scale: 1.05 }}
+                >
+                    <span className='sr-only'>Add to cart</span>
+                    <AnimatePresence>
 
                         {isButtonHover && (
                             <>
@@ -86,10 +92,10 @@ function Card(props: object) {
                                 </motion.div>
                             </>
                         )}
-                </AnimatePresence>
+                    </AnimatePresence>
 
-                        <FontAwesomeIcon icon={faCartShopping} />
-                    </motion.button>
+                    <FontAwesomeIcon icon={faCartShopping} />
+                </motion.button>
 
             </div>
         </div>

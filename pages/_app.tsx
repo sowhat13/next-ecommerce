@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from '../store'
 import { ContextWrapper } from '../context';
 import { useCallback, useState } from 'react'
-
+import { appWithTranslation } from 'next-i18next'
 function App({ Component, pageProps }: AppProps) {
   const [alerts, setAlerts] = useState([]);
 
@@ -33,4 +33,4 @@ function App({ Component, pageProps }: AppProps) {
 
 
 
-export default App
+export default appWithTranslation(App)
