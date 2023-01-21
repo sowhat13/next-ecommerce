@@ -4,22 +4,26 @@ import { faAngleDown, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import GImage from '../Global/GImage'
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, Fragment } from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 
-function Card(props: object) {
+function Card(props: any) {
     const [isButtonHover, setisButtonHover] = useState(false)
+    const router = useRouter()
+
     return (
-        <div className={styles.cardWrapper}>
+        <Link href={`/products/${props.item.slug}`} className={styles.cardWrapper}>
             <div className={styles.cardHeader}>
-                <div className={styles.cardTitle}> <strong>Copierbond</strong> A4 80gr Fotokopi Kağıdı 5x500=2500 Adet (1 Koli) 0016</div>
-                <div className={styles.cardCategory}>Vip Collection</div>
+                <div className={styles.cardTitle}> <strong>{props.item.title.split(' ')[0]}</strong> {props.item.title.replace(/^(\S+)/, "")}</div>
+                <div className={styles.cardCategory}>{props.item.collectionName?.name}</div>
 
             </div>
 
             <div className={styles.cardImageWrapper} >
                 <motion.div style={{ display: 'flex', width: '100%', height: '100%' }} whileHover={{ scale: 1.2 }} transition={{ duration: 0.5 }} >
                     <GImage
-                        src="https://i.seadn.io/gae/mFj06UpEc5YfzmF0anF5nEBZH8c0Vp4PfhMbG-AdWrMcLONBrGsaROxeI2hZ__WL03SO4Nu5q80dA5FA6gl-Q-EudHxiCf5kLPnJAA?auto=format&w=1000"
+                        src={props.item.cover?.url}
                         alt="Picture of the author"
                         //@ts-ignore
                         sizes="(max-width: 768px) 100vw,
@@ -34,19 +38,18 @@ function Card(props: object) {
                     <button className={styles.cardPriceButton}>
 
                         {(() => {
-                            if (true) {
+                            if (props.item.price?.isDiscount) {
                                 return (<span className={styles.cardPriceButtonDiscountText}>
                                     <FontAwesomeIcon icon={faAngleDown} />
                                     <span className='sr-only'>Old Price: </span>
-
-                                    2500.92 USDT
+                                    {props.item.price?.oldPrice?.toFixed(2)} $
                                 </span>)
                             }
                         })()}
                         <span className={styles.cardPriceButtonText}>
                             <span className='sr-only'>Price: </span>
 
-                            1500.92 USDT
+                            {props.item.price?.price?.toFixed(2)} $
                         </span>
                     </button>
                 </div>
@@ -55,6 +58,9 @@ function Card(props: object) {
                     onMouseEnter={() => setisButtonHover(true)}
                     onMouseLeave={() => setisButtonHover(false)}
                     whileHover={{ scale: 1.05 }}
+                    onClick={(e) => {
+                        e.preventDefault()
+                    }}
                 >
                     <span className='sr-only'>Add to cart</span>
                     <AnimatePresence>
@@ -98,7 +104,7 @@ function Card(props: object) {
                 </motion.button>
 
             </div>
-        </div>
+        </Link>
     )
 }
 
@@ -106,11 +112,19 @@ function CardsWrapper(props: any) {
 
 
     return (
-        <div>
-            <div className='flex w-full px-6 mt-8 h-20 '>
-                <h1 className='font-semibold gradient-text bg-button-gradient2  text-center text-3xl sm:text-5xl md:text-6xl flex items-center'>{props.title}</h1>
-                <button className='ml-auto text-center flex items-center text-base px-4 py-1 bg-button-gradient3 transition hover:opacity-80 text-white font-medium h-fit my-auto rounded-full'>Show All</button>
-            </div>
+        <div className='flex flex-col w-full'>
+            {(props.title || props.titleLink) &&
+                <div className='flex w-full px-6 mt-8 h-20 '>
+                    {props.title &&
+                        <h1 className='font-semibold gradient-text bg-button-gradient2  text-center text-3xl sm:text-4xl md:text-5xl flex items-center'>{props.title}</h1>
+                    }
+                    {props.titleLink &&
+                        <Link href={props.titleLink} className='ml-auto text-center flex items-center justify-center text-base px-4 py-1 bg-button-gradient3 transition hover:opacity-80 text-white font-medium h-fit my-auto rounded-full'>Show All</Link>
+                    }
+
+                </div>
+            }
+
             <div className={styles.cardsWrapper} style={{ minWidth: `${33}% !important` }} >
                 {props.cards}
             </div>

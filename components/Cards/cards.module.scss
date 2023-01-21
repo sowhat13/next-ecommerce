@@ -36,19 +36,19 @@
 
     // Extra large screen sizes
     @media (min-width: 1024px) and (max-width: 1279.98px) {
-        grid-template-columns: auto auto auto auto;
+        grid-template-columns: 25% 25% 25% 25%;
 
     }
 
     // Extra extra large screen sizes
     @media (min-width: 1280px) and (max-width: 1535.98px) {
-        grid-template-columns: auto auto auto auto;
+        grid-template-columns: 25% 25% 25% 25%;
 
     }
 
     // Extra extra extra large screen sizes
     @media (min-width: 1536px) {
-        grid-template-columns: auto auto auto auto auto;
+        grid-template-columns: 20% 20% 20% 20% 20%;
 
     }
 }
@@ -65,6 +65,8 @@
     flex-direction: column;
     max-width: calc(100% - 20px);
     max-height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
     margin: auto;
     padding: 10px;
     cursor: pointer;
@@ -87,17 +89,19 @@
     height: 3.3rem;
     padding: 4px 6px;
     justify-content: space-between;
-    align-items: center;
     gap: 8px;
 
     .cardTitle {
         font-size: 0.9rem;
         line-height: 1.2rem;
+        height: 2.5rem;
         font-weight: 600;
         color: $content-color;
+        text-align: left;
         text-shadow: (0 1px 1px rgba(0, 0, 0, 0.3));
         @include ellipsisLine(2);
         width: 70%;
+        text-transform: capitalize;
 
         @media (max-width: 640px) {
             font-size: 12px !important;
@@ -114,10 +118,12 @@
         width: 30%;
         text-align: center;
         display: flex !important;
-        align-items: center;
         justify-content: center;
         height: 100%;
         transition: 0.3s ease all;
+        overflow: hidden;
+        word-break: break-word;
+        text-transform: capitalize;
 
         @media (max-width: 640px) {
             font-size: 12px !important;
@@ -126,7 +132,6 @@
 
         &:hover {
             transform: translateX(5px);
-            text-shadow: 1px 1px 1px rgb(236, 175, 255);
 
         }
     }
@@ -207,12 +212,13 @@
     box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), -1px 1px 0 2px rgba(0, 0, 0, 0.1);
     font-size: 14px;
     white-space: nowrap;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: $card-radius;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-width: 90px;
 }
 
 .cardPriceButtonText {

@@ -17,40 +17,20 @@ export const config = {
 
   ],
 }
-
+const PUBLIC_FILE = /\.(.*)$/
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
-  // const token = req?.cookies?.get('token')?.value
-  // const reqHeaders = Object.fromEntries(req.headers);
-  // if(token){
-  //   const options: any = {};
-  //   if (req && req.headers) options.headers = reqHeaders
-  //   // const userRes = await api.request('/user/profile', undefined, options);
-  //   // const user = userRes;
-  //   // console.log(user)
-  // }
+  if (
+    req.nextUrl.pathname.startsWith('/_next') ||
+    req.nextUrl.pathname.includes('/api/') ||
+    PUBLIC_FILE.test(req.nextUrl.pathname)
+  ) {
+    return
+  }
   console.log('middlewareeeeeeeee')
   console.log(pathname)
 
-  // const locale = req.cookies.get('locale')?.value
 
-  // if (!locale) {
-  //   const response = NextResponse.redirect(req.url)
-  //   response.cookies.set('locale', 'en')
-  //   req.cookies.set('locale', 'en')
-  //   console.log('no locale')
-    
-  //   return response
-  // } else {
-  //   const response = NextResponse.next()
-  //   req.cookies.set('locale', locale)
-  //   // res.next().cookie("locale", locale);
-  //   req.cookies.set('NEXT_LOCALE', locale)
-
-  //   console.log(locale, 'locale')
-
-  //   return response
-  // }
 
 
 }

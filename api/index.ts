@@ -18,7 +18,7 @@ const defaultTimeout = 15000; // 10 seconds
 const api = {
     async request(url: string, query?: any, options: any = {}, timeout: number = defaultTimeout) {
         options = deepMerge(defaultOptions, options)
-        
+
         // Set timeout if provided
         if (timeout) {
             options.timeout = timeout;
@@ -30,9 +30,11 @@ const api = {
             query = query.replace('?', '')
         }
 
-
+        console.log(query)
+        console.log(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`)
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? '?' + query : ''}`, options);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''
+                }`, options);
             const data = await response.json();
             return data;
         } catch (error) {

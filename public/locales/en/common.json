@@ -1,5 +1,10 @@
 {
-  "navbar":{
-    
-  }
+  "navbar": {
+    "dashboard": "Dashboard",
+    "products": "Products"
+  },
+  "language": "Language",
+  "theme": "Theme",
+  "dark": "Dark",
+  "light": "Light"
 }

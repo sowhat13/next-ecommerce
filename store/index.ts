@@ -22,7 +22,8 @@ const reducer = combineReducers({
 });
 
 const store = configureStore({
-  reducer
+  reducer,
+  devTools: process.env.NODE_ENV === 'development',
 });
 
 
