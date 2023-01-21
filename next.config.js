@@ -15,6 +15,14 @@ const nextConfig = {
         protocol: "http",
         hostname: "app.sunvalley.vip",
       },
+      {
+        protocol: "https",
+        hostname: "i.insider.com"
+      },
+      {
+        protocol: "https",
+        hostname: "i.dummyjson.com"
+      }
     ],
   },
 

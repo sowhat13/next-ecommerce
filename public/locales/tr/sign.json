@@ -14,7 +14,8 @@
     "error-password-missing": "Şifre gerekli",
     "dont-have-account": "Hesabınız yok mu?",
     "sign-in-success": "Giriş başarılı"
-},
+  },
+
   "signUp": {
     "title": "Kayıt ol",
     "email": "E-posta",
@@ -26,13 +27,15 @@
     "submit": "Kayıt ol",
     "sign-in": "Giriş yap",
     "error-email-password": "E-posta veya şifre yanlış",
-    "error-email-not-exists": "E-posta kayıtlı değil",
     "error-email-missing": "E-posta gerekli",
+    "error-email-already-exists": "E-posta zaten kayıtlı",
     "error-password-missing": "Şifre gerekli",
     "error-password-confirmation-missing": "Şifre tekrarı gerekli",
     "error-password-confirmation-not-match": "Şifreler uyuşmuyor",
     "already-have-account": "Hesabınız var mı?",
     "sign-up-success": "Kayıt başarılı"
-}
+  },
 
+  "something-wrong": "Bir şeyler yanlış gitti, lütfen biraz sonra tekrar deneyin",
+  "sign-out": "Çıkış Yap"
 }

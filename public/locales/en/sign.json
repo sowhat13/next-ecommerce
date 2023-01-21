@@ -14,7 +14,7 @@
     "error-password-missing": "Password is required",
     "dont-have-account": "Don't have an account?",
     "sign-in-success": "Signed in successfully"
-},
+  },
 
   "signUp": {
     "title": "Sign Up",
@@ -27,11 +27,15 @@
     "submit": "Sign Up",
     "sign-in": "Sign in",
     "error-email-password": "Email or password is incorrect",
-    "error-email-not-exists": "Email does not exist",
     "error-email-missing": "Email is required",
+    "error-email-already-exists": "Email already exists",
     "error-password-missing": "Password is required",
     "error-password-confirmation-missing": "Password confirmation is required",
     "error-password-confirmation-not-match": "Passwords do not match",
-    "already-have-account": "Already have an account?"
-  }
+    "already-have-account": "Already have an account?",
+    "sign-up-success": "Signed up successfully"
+  },
+
+  "something-wrong": "Something went wrong, please try again later",
+  "sign-out": "Sign Out"
 }

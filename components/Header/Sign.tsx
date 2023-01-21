@@ -111,7 +111,6 @@ function Sign(props: any) {
 }
 
 function SignIn(props: any) {
-
     const { t } = useTranslation('sign')
     const { addAlert } = useContext(ContextWrapper) as any;
     const [email, set_email] = useState({ value: '', error: '' });
@@ -119,7 +118,8 @@ function SignIn(props: any) {
     const dispatch = useDispatch();
     async function handleSignIn() {
         if (email.value === '') {
-            set_email({ ...email, error: t('signIn.error-email-missing')  })
+            set_email({ ...email, error: t('signIn.error-email-missing') })
+            
         }
         if (password.value === '') {
             set_password({ ...password, error: t('signIn.error-password-missing') })
@@ -192,13 +192,52 @@ function SignIn(props: any) {
 }
 
 function SignUp(props: any) {
-
-
-    const [email, set_email] = useState({ value: '', error: false });
-    const [password, set_password] = useState({ value: '', error: false });
-    const [password2, set_password2] = useState({ value: '', error: false });
+    const { addAlert } = useContext(ContextWrapper) as any;
+    const [email, set_email] = useState({ value: '', error: '' });
+    const [password, set_password] = useState({ value: '', error: '' });
+    const [password2, set_password2] = useState({ value: '', error: '' });
 
     const { t } = useTranslation('sign')
+
+    const dispatch = useDispatch();
+    async function handleSignUp() {
+        if (email.value === '') {
+            set_email({ ...email, error: t('signUp.error-email-missing') })
+            return
+
+        }
+        if (password.value === '') {
+            set_password({ ...password, error: t('signUp.error-password-missing') })
+            return
+
+        }
+        if (password2.value === '') {
+            set_password2({ ...password2, error: t('signUp.error-password-confirmation-missing') })
+            return
+
+        }
+        if (password.value !== password2.value) {
+            set_password2({ ...password2, error: t('signUp.error-password-confirmation-not-match') })
+            return
+        }
+
+        if (email.value !== '' && password.value !== '') {
+            const res = await api.request('/auth/signUp', undefined, {
+                method: 'POST',
+                body: JSON.stringify({ email: email.value, password: password.value })
+            });
+            if (res.code === 200) {
+                dispatch(userSlice.actions.setUser(res.user));
+                addAlert(t('signUp.sign-up-success'), 'success');
+                props.setIsOpenSignIn('');
+            }else if(res.code === 409){
+                set_email({ ...email, error: t('signUp.error-email-already-exists') })
+            } else {
+                set_password2({ ...password, error: t('signUp.something-wrong') })
+
+            }
+        }
+    }
 
     return (
         <>
@@ -242,7 +281,7 @@ function SignUp(props: any) {
                         <button
                             type="button"
                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                            onClick={() => { return }}
+                            onClick={() => { handleSignUp() }}
                         >
                             {t('signUp.submit')}
                         </button>

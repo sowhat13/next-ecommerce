@@ -1,7 +1,7 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition, Popover } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon, MagnifyingGlassIcon, UserIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon,  UserIcon } from '@heroicons/react/24/outline'
 import { UserIcon as UserIconSolid } from '@heroicons/react/24/solid'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import themeSlice from '../../store/themeSlice';
@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { Sign } from './Sign'
 import GImage from '../Global/GImage'
 import { useTranslation } from 'next-i18next'
-
+import Searchbar from './Searchbar'
 
 
 
@@ -33,14 +33,12 @@ const setThemeInLocalStorage = (theme: string) => {
 
 function Navbar(props: any) {
 
-    const { t, i18n } = useTranslation(['sign', 'common'])
+    const { t } = useTranslation(['sign', 'common'])
     const dispatch = useDispatch();
     const router = useRouter()
     const navigations = [
-        { name: 'sign:signIn:title', href: '/', current: false },
-        { name: 'About', href: '/about', current: false },
-        { name: 'Projects', href: '#', current: false },
-        { name: 'Calendar', href: '#', current: false },
+        { name: 'common:navbar:dashboard', href: '/', current: false },
+        { name: 'common:navbar:products', href: '/products', current: false },
     ]
 
     let [signModal, setSignModal] = useState('')
@@ -128,7 +126,7 @@ function Navbar(props: any) {
                                         />
                                     </button>
                                 </div>
-                                <SearchBar></SearchBar>
+                                <Searchbar></Searchbar>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex w-full ml-auto space-x-4">
                                         {/* <SignUp></SignUp> */}
@@ -164,14 +162,19 @@ function Navbar(props: any) {
                                     <Menu as="div" className="relative ml-3">
                                         <div>
                                             {user && Object.keys(user).length > 0 ? (
-                                                <Menu.Button className="flex rounded-full h-10 w-10  text-sm focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400">
+                                                <Menu.Button className="flex rounded-full h-10 w-10  text-sm outline-none ring-1 ring-primary-300 ring-offset-2 ring-offset-primary-400 ">
                                                     <span className="sr-only">Open user menu</span>
                                                     {user.avatar && user.avatar.url ? (
-                                                        <img
-                                                            className="h-10 w-10 rounded-full"
-                                                            src={user.avatar.url}
-                                                            alt=""
-                                                        />
+                                                        <div className='h-10 w-10 rounded-full flex items-center justify-center bg-button-gradient3 text-green-200 d3-shadow3 overflow-hidden'>
+                                                            <GImage
+                                                                className="h-10 w-10 rounded-full object-cover"
+                                                                src={user.avatar.url}
+                                                                alt=""
+                                                                width={40}
+                                                                height={40}
+
+                                                            />
+                                                        </div>
                                                     ) : <div className="h-10 w-10 rounded-full flex items-center justify-center bg-button-gradient3 text-green-200 d3-shadow3">
                                                         <UserIconSolid className="h-6 w-6" aria-hidden="true" />
                                                     </div>}
@@ -222,7 +225,7 @@ function Navbar(props: any) {
                                                         {({ active }) => (
 
                                                             <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
-                                                                <SetLanguage title={t('Language')} active={locale} handleLanguageChange={handleLanguageChange} />
+                                                                <SetLanguage title={t('common:language')} active={locale} handleLanguageChange={handleLanguageChange} />
                                                             </span>
                                                         )}
 
@@ -231,7 +234,7 @@ function Navbar(props: any) {
                                                         {({ active }) => (
 
                                                             <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
-                                                                <SetTheme title={t('Theme')} active={theme} handleToggle={handleToggle} />
+                                                                <SetTheme title={t('common:theme')} dark={t('common:dark')} light={t('common:light')} theme={theme} handleToggle={handleToggle} />
                                                             </span>
                                                         )}
 
@@ -245,7 +248,7 @@ function Navbar(props: any) {
                                                                 }
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'flex w-full px-4 py-2 text-sm text-gray-700')}
                                                             >
-                                                                Sign out
+                                                                {t('sign:sign-out')}
                                                             </button>
                                                         )}
                                                     </Menu.Item>
@@ -273,7 +276,7 @@ function Navbar(props: any) {
                                                         {({ active }) => (
 
                                                             <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
-                                                                <SetLanguage title={t('Language')} active={locale} handleLanguageChange={handleLanguageChange} />
+                                                                <SetLanguage title={t('common:language')} active={locale} handleLanguageChange={handleLanguageChange} />
                                                             </span>
                                                         )}
 
@@ -282,7 +285,7 @@ function Navbar(props: any) {
                                                         {({ active }) => (
 
                                                             <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
-                                                                <SetTheme title={t('Theme')} active={theme} handleToggle={handleToggle} />
+                                                                <SetTheme title={t('common:theme')} dark={t('common:dark')} light={t('common:light')} theme={theme} handleToggle={handleToggle} />
                                                             </span>
                                                         )}
 
@@ -323,16 +326,6 @@ function Navbar(props: any) {
 }
 
 
-function SearchBar(props: any) {
-    return (
-        <div className='flex w-full justify-center items-center '>
-            <div className="flex w-fit max-w-[500px]  lg:w-full h-9 rounded-2xl px-4  items-center bg-primary-100">
-                <input className='bg-transparent outline-none hidden md:flex flex-auto' placeholder='Search...' />
-                <MagnifyingGlassIcon className='h-8 rounded-full w-8 cursor-pointer text-primary-600 hover:bg-primary-200 p-1'></MagnifyingGlassIcon>
-            </div>
-        </div>
-    )
-}
 
 
 function SetLanguage(props: any) {
@@ -356,13 +349,21 @@ function SetLanguage(props: any) {
 
 function SetTheme(props: any) {
     return (
-        <button
-            type="button" onClick={props.handleToggle}
-            className="rounded-full  bg-primary-50 p-1 dark:bg-opacity-10 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
-        >
-            <span className="sr-only">Dark or light theme button</span>
-            {props.theme == 'light' ? <SunIcon className="h-6 w-6" aria-hidden="true" /> : <MoonIcon className="h-6 w-6" aria-hidden="true" />}
-        </button>
+        <div className={'flex w-full h-full px-4 py-1 items-center'} onClick={(event) => { event.preventDefault(); props.handleToggle() }}>
+            <span className=''>{props.title}</span>
+            <button
+                type="button" onClick={(event) => { event.preventDefault(); props.handleToggle() }}
+                className="rounded-full ml-auto p-1 flex  bg-primary-100  text-primary-400 hover:text-primary-500 hover:bg-primary-200 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
+            >
+                <span className="sr-only">Dark or light theme button</span>
+                {props.theme == 'light' && <SunIcon className="h-5 w-5" aria-hidden="true" />}
+                <span className='mx-2'>
+                    {props.theme == 'light' ? props.light : props.dark}
+                </span>
+                {props.theme == 'dark' && <MoonIcon className="h-5 w-5" aria-hidden="true" />}
+
+            </button>
+        </div>
     )
 }
 
