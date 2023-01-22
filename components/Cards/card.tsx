@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import GImage from '../Global/GImage'
 import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from 'next-i18next'
+
 import { useState, Fragment } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -110,6 +112,7 @@ function Card(props: any) {
 
 function CardsWrapper(props: any) {
 
+    const { t } = useTranslation(['sign', 'common'])
 
     return (
         <div className='flex flex-col w-full'>
@@ -119,7 +122,7 @@ function CardsWrapper(props: any) {
                         <h1 className='font-semibold gradient-text bg-button-gradient2  text-center text-3xl sm:text-4xl md:text-5xl flex items-center'>{props.title}</h1>
                     }
                     {props.titleLink &&
-                        <Link href={props.titleLink} className='ml-auto text-center flex items-center justify-center text-base px-4 py-1 bg-button-gradient3 transition hover:opacity-80 text-white font-medium h-fit my-auto rounded-full'>Show All</Link>
+                        <Link href={props.titleLink} className='ml-auto text-center flex items-center justify-center text-base px-4 py-1 bg-button-gradient3 transition hover:opacity-80 text-white font-medium h-fit my-auto rounded-full'>{t('common:show-all')}</Link>
                     }
 
                 </div>

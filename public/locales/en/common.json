@@ -1,10 +1,22 @@
 {
   "navbar": {
     "dashboard": "Dashboard",
-    "products": "Products"
+    "products": "Products",
+    "search": "Search..."
   },
   "language": "Language",
   "theme": "Theme",
   "dark": "Dark",
-  "light": "Light"
+  "light": "Light",
+  "show-all": "Show all",
+
+  "products":{
+    "products-found": "Products found",
+
+    "check-discount": "Check discounted products",
+    "no-products": "No products found",
+    "total-products": "Total products",
+    "all-products": "All products"
+
+  }
 }

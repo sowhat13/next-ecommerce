@@ -5,9 +5,11 @@ import api from '../../api';
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from 'next-i18next'
 
 function SearchBar(props: any) {
     const [searchTerm, setSearchTerm] = useState("");
+    const { t } = useTranslation([ 'common'])
 
     const [loading, setLoading] = useState(false);
     const router = useRouter()
@@ -65,7 +67,7 @@ function SearchBar(props: any) {
                 <div className="flex w-fit max-w-[500px]  lg:w-full h-9 rounded-2xl px-4  items-center bg-primary-100 relative" onKeyPress={handleKeyPress}>
                     <input id='searchbar' className='bg-transparent outline-none hidden md:flex flex-auto'
                         onChange={debouncedResults} onFocus={() => { setInputFocused(true) }} onBlur={() => { setTimeout(() => { setInputFocused(false) }, 200) }}
-                        type="text" placeholder='Search...' />
+                        type="text" placeholder={t('common:navbar:search') || 'Search...'} />
                     {/* @ts-ignore */}
                     <Link replace href={`/products?search=${typeof window !== "undefined" ? document.getElementById('searchbar').value : searchTerm}`}>
                         <MagnifyingGlassIcon className='h-8 rounded-full w-8 cursor-pointer text-primary-600 hover:bg-primary-200 p-1'></MagnifyingGlassIcon>
@@ -84,7 +86,7 @@ function SearchBar(props: any) {
                                 exit={{ opacity: 0, scale: 0.9 }}
                             >&nbsp;</motion.div>}
                             {(!loading && searchTerm.length > 0 && searchedProducts.length == 0) &&
-                                <div className='flex items-center w-full p-2 bg-primary-100 text-primary-600 rounded-xl shadow-lg'>No products found...</div>}
+                                <div className='flex items-center w-full p-2 bg-primary-100 text-primary-600 rounded-xl shadow-lg'>{t('common:products:no-products')}</div>}
                             {searchedProducts && searchedProducts.length > 0 && searchedProducts.map((product: any) => {
                                 return <Link href={`/products/${product.slug}`} key={product._id} onClick={() => { handlePreSearch() }}
                                     className='flex items-center w-full p-2 hover:bg-primary-300 cursor-pointer rounded-xl text-primary-600 '>{product.title}</Link>
