@@ -39,7 +39,7 @@ const carouselItems = [
     },
     {
         id: 4,
-        title: 'Bald son',
+        title: 'Monk',
         description: "Copierbond A4 80gr Fotokopi Kağıdı 5x500=2500 Adet (1 Koli) 0016",
         url: "https://i.seadn.io/gae/nLNrRCEVwzGfyf5Qa8d2qkk0btGSao80iXYQbknWiH-wSJEdTDBW9qHArAUIc_JlCB7oWhivcwWoiXbZSjqDor6bfS0xvepF_Vei?auto=format&w=1200"
     },

@@ -12,6 +12,8 @@ import GImage from '../Global/GImage'
 import { useTranslation } from 'next-i18next'
 import Searchbar from './Searchbar'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {  faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 
 function classNames(...classes: any) {
@@ -114,7 +116,12 @@ function Navbar(props: any) {
                                 </div>
                                 <div className="flex flex-1 min-w-fit items-center justify-center sm:items-stretch sm:justify-start">
                                     <button onClick={() => { router.push('/') }} className="flex flex-shrink-0 items-center cursor-pointer">
+                                        <div className='bg-button-gradient2 flex items-center justify-center h-10 px-4 rounded-full d3-shadow'>
+                                        <FontAwesomeIcon icon={faCartShopping} className="h-5 text-primary-50" />
+                                            <span className='text-primary-50 font-medium ml-2'>eCommerce</span>
+                                        </div>
 
+{/* 
                                         <GImage
                                             src="http://app.sunvalley.vip/img/moen-n-logo-w.be05be5f.png"
                                             alt="Your Company"
@@ -123,7 +130,7 @@ function Navbar(props: any) {
                                             quality={100}
                                             priority={true}
                                             className=" h-16 w-auto block"
-                                        />
+                                        /> */}
                                     </button>
                                 </div>
                                 <Searchbar></Searchbar>
@@ -201,7 +208,7 @@ function Navbar(props: any) {
                                             {user && Object.keys(user).length > 0 ? (
 
                                                 <Menu.Items className="absolute cursor-pointer right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                    <Menu.Item>
+                                                    {/* <Menu.Item>
                                                         {({ active }) => (
                                                             <a
                                                                 href="#"
@@ -220,7 +227,7 @@ function Navbar(props: any) {
                                                                 Settings
                                                             </a>
                                                         )}
-                                                    </Menu.Item>
+                                                    </Menu.Item> */}
                                                     <Menu.Item >
                                                         {({ active }) => (
 
