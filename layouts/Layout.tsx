@@ -42,7 +42,7 @@ function Layout({ children }: any) {
             <main className={'main-layout'}>
                 {children}
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }
