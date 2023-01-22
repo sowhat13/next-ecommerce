@@ -1,10 +1,22 @@
 {
   "navbar": {
     "dashboard": "Anasayfa",
-    "products": "Ürünler"
+    "products": "Ürünler",
+    "search": "Ara..."
+
   },
   "language": "Dil",
   "theme": "Tema",
   "dark": "Koyu",
-  "light": "Açık"
+  "light": "Açık",
+  "show-all": "Tümünü Göster",
+
+  "products":{
+    "products-found": "Ürün bulundu",
+    "check-discount": "İndirimli ürünlere göz at",
+    "no-products": "Ürün bulunamadı",
+    "total-products": "Toplam ürün",
+    "all-products": "Tüm ürünler"
+
+  }
 }
