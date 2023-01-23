@@ -308,7 +308,7 @@ function Navbar(props: any) {
                             </div>
                         </div>
 
-                        <Disclosure.Panel className="absolute left-0 top-[100%] z-[19] bg-background-color shadow-lg flex rounded-b-2xl w-full sm:hidden">
+                        <Disclosure.Panel className="absolute left-0 top-[100%] z-[19] bg-background-color shadow-lg flex rounded-b-2xl w-full md:hidden">
                             <AnimatePresence>
                                 {open && (
                                     <motion.div className="space-y-1 px-2 pt-2 w-full flex flex-col pb-3"

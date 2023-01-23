@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import lodash from 'lodash'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import api from '../../api';
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,8 +9,8 @@ import { useTranslation } from 'next-i18next'
 
 function SearchBar(props: any) {
     const [searchTerm, setSearchTerm] = useState("");
-    const { t } = useTranslation([ 'common'])
-
+    const { t } = useTranslation(['common'])
+    const searchBarRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter()
     const [inputFocused, setInputFocused] = useState(false);
@@ -48,16 +48,15 @@ function SearchBar(props: any) {
 
 
     const handlePreSearch = () => {
-        setSearchTerm(''); setInputFocused(false);
-        //@ts-ignore
-        document.getElementById('searchbar').value = ''
+       setInputFocused(false);
+      
     }
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             //@ts-ignore
 
-            router.replace(`/products?search=${document.getElementById('searchbar').value}`)
+            router.replace(`/products?search=${searchBarRef?.current?.value}`)
         }
     };
 
@@ -65,11 +64,11 @@ function SearchBar(props: any) {
         <div className='flex w-full justify-center items-center '>
             <AnimatePresence>
                 <div className=" w-fit max-w-[500px] flex  lg:w-full h-9 rounded-2xl px-4  items-center bg-primary-100 relative" onKeyPress={handleKeyPress}>
-                    <input id='searchbar' className='bg-transparent outline-none flex flex-auto'
+                    <input ref={searchBarRef} id='searchbar' className='bg-transparent outline-none flex flex-auto'
                         onChange={debouncedResults} onFocus={() => { setInputFocused(true) }} onBlur={() => { setTimeout(() => { setInputFocused(false) }, 200) }}
                         type="text" placeholder={t('common:navbar:search') || 'Search...'} />
                     {/* @ts-ignore */}
-                    <Link replace href={`/products?search=${typeof window !== "undefined" ? document.getElementById('searchbar').value : searchTerm}`}>
+                    <Link replace href={`/products?search=${typeof window !== "undefined" && searchBarRef?.current?.value ? searchBarRef?.current?.value : searchTerm}`}>
                         <MagnifyingGlassIcon className='h-8 rounded-full w-8 cursor-pointer text-primary-600 hover:bg-primary-200 p-1'></MagnifyingGlassIcon>
                     </Link>
                     {(searchTerm && searchTerm.length > 0 && inputFocused) &&
