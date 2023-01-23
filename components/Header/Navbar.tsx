@@ -1,7 +1,7 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition, Popover } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon,  UserIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon, UserIcon } from '@heroicons/react/24/outline'
 import { UserIcon as UserIconSolid } from '@heroicons/react/24/solid'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import themeSlice from '../../store/themeSlice';
@@ -11,9 +11,10 @@ import { Sign } from './Sign'
 import GImage from '../Global/GImage'
 import { useTranslation } from 'next-i18next'
 import Searchbar from './Searchbar'
+import { motion, AnimatePresence } from "framer-motion"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 
 function classNames(...classes: any) {
@@ -98,14 +99,14 @@ function Navbar(props: any) {
         <div className='flex w-full'>
             {signModal && <Sign signModal={signModal} closeSign={(val: any) => { setSignModal(val) }}></Sign>}
 
-            <Disclosure as="nav" className="bg-gray-100 bg-opacity-5 flex w-full">
+            <Disclosure as="nav" className="bg-gray-100 relative bg-opacity-5 flex w-full">
                 {({ open }) => (
                     <>
                         <div className="flex w-full px-2 sm:px-6 lg:px-8">
                             <div className="relative flex h-16 w-full items-center justify-between">
-                                <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                                <div className="relative inset-y-0 left-0 flex items-center md:hidden">
                                     {/* Mobile menu button*/}
-                                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-1 focus:ring-inset focus:ring-white">
+                                    <Disclosure.Button className="mr-1 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-1 focus:ring-inset focus:ring-white">
                                         <span className="sr-only">Open main menu</span>
                                         {open ? (
                                             <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -114,14 +115,14 @@ function Navbar(props: any) {
                                         )}
                                     </Disclosure.Button>
                                 </div>
-                                <div className="flex flex-1 min-w-fit items-center justify-center sm:items-stretch sm:justify-start">
+                                <div className="flex flex-1 min-w-fit items-stretch justify-start">
                                     <button onClick={() => { router.push('/') }} className="flex flex-shrink-0 items-center cursor-pointer">
                                         <div className='bg-button-gradient2 flex items-center justify-center h-10 px-4 rounded-full d3-shadow'>
-                                        <FontAwesomeIcon icon={faCartShopping} className="h-5 text-primary-50" />
-                                            <span className='text-primary-50 font-medium ml-2'>eCommerce</span>
+                                            <FontAwesomeIcon icon={faCartShopping} className="h-5 text-primary-50" />
+                                            <span className='text-primary-50 font-medium ml-2 hidden sm:flex'>eCommerce</span>
                                         </div>
 
-{/* 
+                                        {/* 
                                         <GImage
                                             src="http://app.sunvalley.vip/img/moen-n-logo-w.be05be5f.png"
                                             alt="Your Company"
@@ -133,7 +134,9 @@ function Navbar(props: any) {
                                         /> */}
                                     </button>
                                 </div>
-                                <Searchbar></Searchbar>
+                                <div className='w-full hidden md:flex'>
+                                    <Searchbar></Searchbar>
+                                </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex w-full ml-auto space-x-4">
                                         {/* <SignUp></SignUp> */}
@@ -305,23 +308,40 @@ function Navbar(props: any) {
                             </div>
                         </div>
 
-                        <Disclosure.Panel className="sm:hidden">
-                            <div className="space-y-1 px-2 pt-2 pb-3">
-                                {navigation.map((item) => (
-                                    <Disclosure.Button
-                                        key={item.name}
-                                        as="a"
-                                        href={item.href}
-                                        className={classNames(
-                                            item.current ? ' text-white' : 'text-primary-400 hover:bg-primary-500 hover:text-white',
-                                            'block px-3 py-2 rounded-md text-base font-medium'
-                                        )}
-                                        aria-current={item.current ? 'page' : undefined}
+                        <Disclosure.Panel className="absolute left-0 top-[100%] z-[19] bg-background-color shadow-lg flex rounded-b-2xl w-full sm:hidden">
+                            <AnimatePresence>
+                                {open && (
+                                    <motion.div className="space-y-1 px-2 pt-2 w-full flex flex-col pb-3"
+                                        transition={{ duration: 0.3 }}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
                                     >
-                                        {item.name}
-                                    </Disclosure.Button>
-                                ))}
-                            </div>
+                                        {navigation.map((item) => (
+                                            <Link
+                                                key={item.name}
+                                                href={item.href}
+                                                className={classNames(
+                                                    item.current ? ' text-primary-400' : ' flex w-full dark:text-white text-slate-400 hover:bg-primary-500 hover:text-white',
+                                                    'block px-3 py-2 rounded-md text-base font-medium'
+                                                )}
+                                            >
+                                                <Disclosure.Button
+                                                    key={item.name}
+                                                    as="div"
+
+                                                    aria-current={item.current ? 'page' : undefined}
+                                                >
+                                                    {t(`${item.name}`)}
+                                                </Disclosure.Button>
+                                            </Link>
+                                        ))}
+
+                                        <Searchbar></Searchbar>
+                                    </motion.div>
+                                )}
+
+                            </AnimatePresence>
                         </Disclosure.Panel>
                     </>
                 )}
