@@ -64,8 +64,8 @@ function SearchBar(props: any) {
     return (
         <div className='flex w-full justify-center items-center '>
             <AnimatePresence>
-                <div className="flex w-fit max-w-[500px]  lg:w-full h-9 rounded-2xl px-4  items-center bg-primary-100 relative" onKeyPress={handleKeyPress}>
-                    <input id='searchbar' className='bg-transparent outline-none hidden md:flex flex-auto'
+                <div className=" w-fit max-w-[500px] flex  lg:w-full h-9 rounded-2xl px-4  items-center bg-primary-100 relative" onKeyPress={handleKeyPress}>
+                    <input id='searchbar' className='bg-transparent outline-none flex flex-auto'
                         onChange={debouncedResults} onFocus={() => { setInputFocused(true) }} onBlur={() => { setTimeout(() => { setInputFocused(false) }, 200) }}
                         type="text" placeholder={t('common:navbar:search') || 'Search...'} />
                     {/* @ts-ignore */}
