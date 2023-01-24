@@ -23,6 +23,8 @@ $navbar-height: 104px;
     color: var(--text-color);
     --red-color: rgb(255, 35, 35);
     --primary-gradient: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 234, 234), rgb(197, 166, 238));
+    --primary-gradient2: linear-gradient(160deg, rgb(245, 245, 245), rgb(252, 244, 255), rgb(241, 230, 255));
+
     --primary-gradient-light: linear-gradient(160deg, rgb(234, 253, 255), rgb(255, 242, 242), rgb(225, 203, 255));
     --primary-gradient-soft: linear-gradient(160deg, rgb(233, 217, 255), rgb(255, 234, 234), rgb(233, 217, 255));
 
@@ -42,6 +44,8 @@ $navbar-height: 104px;
     --d3-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1);
     --d3-shadow2: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1), 0 0 20px 4px rgba(0, 0, 0, 0.2);
     --d3-shadow3: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.06), 1px 1px 0 1px rgba(179, 195, 248, 0.5), 3px 3px 5px 4px rgba(179, 195, 248, 0.5);
+    --d3-shadow4: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.06), 1px 1px 0 1px rgba(234, 163, 255, 0.5), 3px 3px 5px 4px rgba(179, 195, 248, 0.5);
+
 
     ::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -72,6 +76,8 @@ $navbar-height: 104px;
 
     --red-color: rgb(255, 83, 83);
     --primary-gradient: linear-gradient(160deg, rgb(76, 54, 104), rgb(48, 28, 75), rgb(96, 78, 119));
+    --primary-gradient2: linear-gradient(160deg, rgb(76, 54, 104),rgb(80, 53, 117) , #312b4b);
+
     --primary-gradient-light: linear-gradient(160deg, rgb(132, 100, 173), rgb(114, 81, 160), rgb(75, 57, 100));
     --primary-gradient-soft: linear-gradient(160deg, rgb(76, 54, 104), rgb(96, 78, 119), rgb(48, 28, 75));
 
@@ -90,6 +96,7 @@ $navbar-height: 104px;
     --d3-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1);
     --d3-shadow2: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.05), 1px 1px 0 2px rgba(0, 0, 0, 0.1), 0 0 20px 4px rgba(0, 0, 0, 0.2);
     --d3-shadow3: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.06), 1px 1px 0 1px rgba(63, 32, 83, 0.5), 3px 3px 5px 4px rgba(66, 39, 110, 0.5);
+    --d3-shadow4: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.06), 1px 1px 0 1px rgba(163, 96, 207, 0.5), 3px 3px 5px 4px rgba(66, 39, 110, 0.5);
 
     ::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -122,6 +129,7 @@ $text-color: var(--text-color);
 $red-color: var(--red-color);
 
 $primary-gradient: var(--primary-gradient);
+$primary-gradient2: var(--primary-gradient2);
 $primary-gradient-light: var(--primary-gradient-light);
 $primary-gradient-soft: var(--primary-gradient-soft);
 
@@ -140,6 +148,7 @@ $button-gradient-prev: var(--button-gradient-prev);
 $d3-shadow: var(--d3-shadow);
 $d3-shadow2: var(--d3-shadow2);
 $d3-shadow3: var(--d3-shadow3);
+$d3-shadow4: var(--d3-shadow4);
 
 
 
@@ -267,6 +276,11 @@ $card-radius: 18px;
     background-image: $primary-gradient;
 }
 
+.bg-primary-gradient2 {
+    background: $primary-color;
+    background-image: $primary-gradient2;
+}
+
 .bg-primary-gradient-soft {
     background: $primary-color;
     background-image: $primary-gradient-soft;
@@ -328,4 +342,8 @@ $card-radius: 18px;
 
 .d3-shadow3 {
     box-shadow: $d3-shadow3;
+}
+
+.d3-shadow4 {
+    box-shadow: $d3-shadow4;
 }
