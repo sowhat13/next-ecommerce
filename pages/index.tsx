@@ -17,7 +17,7 @@ function Home(props: any) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className={styles.main}>
-          <div className={styles['inner-wrapper'] + ' my-container mt-6'}>
+          <div className={styles['inner-wrapper'] + ' my-container top-gap'}>
             <Carousel />
             {props?.products &&
               <CardsWrapper cards={

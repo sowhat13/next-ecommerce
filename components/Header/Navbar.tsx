@@ -2,6 +2,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition, Popover } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon, UserIcon } from '@heroicons/react/24/outline'
+
 import { UserIcon as UserIconSolid } from '@heroicons/react/24/solid'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import themeSlice from '../../store/themeSlice';
@@ -12,9 +13,10 @@ import GImage from '../Global/GImage'
 import { useTranslation } from 'next-i18next'
 import Searchbar from './Searchbar'
 import { motion, AnimatePresence } from "framer-motion"
+import Icons from '../UI/Icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faGem } from '@fortawesome/free-solid-svg-icons'
 
 
 function classNames(...classes: any) {
@@ -24,12 +26,10 @@ function classNames(...classes: any) {
 const setThemeInLocalStorage = (theme: string) => {
     if (theme === 'light') {
         document.documentElement.classList.add('light')
-
         document.documentElement.classList.remove('dark')
     } else {
         document.documentElement.classList.add('dark')
         document.documentElement.classList.remove('light')
-
     }
     localStorage.setItem('theme', theme);
 };
@@ -46,6 +46,8 @@ function Navbar(props: any) {
 
     let [signModal, setSignModal] = useState('')
     const [user, setUser] = useState({} as any);
+    const [cartItems, setCartItems] = useState({} as any);
+
     const [navigation, setNavigation] = useState(navigations);
     //@ts-ignore
     const theme = useSelector((state) => state.theme.theme);
@@ -118,7 +120,7 @@ function Navbar(props: any) {
                                 <div className="flex flex-1 min-w-fit items-stretch justify-start">
                                     <button onClick={() => { router.push('/') }} className="flex flex-shrink-0 items-center cursor-pointer">
                                         <div className='bg-button-gradient2 flex items-center justify-center h-10 px-4 rounded-full d3-shadow'>
-                                            <FontAwesomeIcon icon={faCartShopping} className="h-5 text-primary-50" />
+                                            <FontAwesomeIcon icon={faGem} className="h-5 text-primary-50" />
                                             <span className='text-primary-50 font-medium ml-2 hidden sm:flex'>eCommerce</span>
                                         </div>
 
@@ -162,11 +164,29 @@ function Navbar(props: any) {
 
                                     <button
                                         type="button"
-                                        className="rounded-full bg-primary-50 dark:bg-opacity-10 ml-3  p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
+                                        className="rounded-full h-9 w-9 flex items-center justify-center bg-primary-100 dark:bg-opacity-10 ml-3  p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-200 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
                                     >
                                         <span className="sr-only">View notifications</span>
                                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                                     </button>
+                                    <AnimatePresence>
+                                        <button
+                                            type="button"
+                                            className="relative rounded-full h-9 w-9 flex items-center justify-center bg-primary-100 dark:bg-opacity-10 mx-3  p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-200 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
+                                        >
+                                            <span className="sr-only">View notifications</span>
+                                            {cartItems?.products && cartItems?.products?.length > 0 &&
+                                                <motion.span className='absolute -top-3 -left-2 bg-green-200 dark:bg-green-100 text-primary-500 flex w-6 h-6 items-center justify-center rounded-full'
+                                                    transition={{ duration: 0.3 }}
+                                                    initial={{ opacity: 0, scale: 0.9 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.9 }}
+                                                >{cartItems.length}</motion.span>
+                                            }
+                                            <Icons className="w-5 h-5" icon='cart' />
+                                            
+                                        </button>
+                                    </AnimatePresence>
 
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">

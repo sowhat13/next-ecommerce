@@ -18,7 +18,7 @@ function Products(props: any) {
         <meta name="description" content={'Special products by eCommerce'} />
 
       </Head>
-      <div className='my-container my-10'>
+      <div className='my-container top-gap'>
         <div className='flex w-full py-2 px-4'>
           <span className='font-medium rounded-full ml-auto bg-slate-300 py-2 px-4 text-white'>
             {t(`common:products:total-products`)}: {props.totalProducts}

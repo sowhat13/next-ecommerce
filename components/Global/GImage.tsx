@@ -10,12 +10,14 @@ interface ImageFallbackProps {
     fallbackSrc?: string;
     alt: string;
     className?: string;
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     quality?: number;
     priority?: boolean;
     rest?: any;
     sizes?: string;
+    onClick?: any;
+    style?: any;
 }
 
 const ImageFallback: NextPage<ImageFallbackProps> = ({ src, fallbackSrc, ...rest }) => {
