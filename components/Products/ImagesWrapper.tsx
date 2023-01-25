@@ -13,16 +13,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import "swiper/css/keyboard";
 
 
 // import required modules
-import { EffectFade, FreeMode, Navigation, Thumbs, Autoplay } from "swiper";
+import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper";
 
 function ImagesWrapper(props: any) {
     const carouselItems = props.images || []
     const [activeIndex, setActiveIndex] = useState(0);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [isOpen, setIsOpen] = useState(false)
+    const [isHovered, setIsHovered] = useState(false)
     const { width, height }: any = useWindowDimensions();
     const [variants, setVariants] = useState(
         {
@@ -45,6 +47,22 @@ function ImagesWrapper(props: any) {
             }
         })
     }, [width, height])
+
+    useEffect(() => {
+        //@ts-ignore
+        document.addEventListener('keydown', handleKeyPress);
+        return () => {
+            //@ts-ignore
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
+
+    const handleKeyPress = (event: React.KeyboardEvent) => {
+        if (event?.key === 'Escape') {
+            setIsOpen(false)
+        }
+    };
+
     return (
         <>
             <AnimatePresence>
@@ -57,14 +75,17 @@ function ImagesWrapper(props: any) {
                     animate={isOpen ? "open" : "closed"}
                     //@ts-ignore
                     variants={variants}
+                    onHoverStart={() => { setIsHovered(true) }}
+                    onHoverEnd={() => { setIsHovered(false) }}
                 >
-                    {isOpen &&
-                        <div className='position absolute top-4 left-4 z-10 text-white'>
-                            {activeIndex + 1}/{carouselItems.length}
-                        </div>
-                    }
+
+                    <div className='position unselectable absolute top-4 left-4 z-10 text-white h-8 w-8 text-xs d3-shadow rounded-full flex items-center justify-center font-medium bg-button-gradient4'>
+                        <small>{activeIndex + 1}&nbsp;/&nbsp;</small>
+                        {carouselItems.length}
+                    </div>
                     {isOpen &&
                         <div className='position absolute top-4 right-8 z-10 text-white'
+
                             onClick={() => {
                                 setIsOpen(false)
                             }}
@@ -74,10 +95,29 @@ function ImagesWrapper(props: any) {
                             </span>
                         </div>
                     }
+                    {!isOpen && <AnimatePresence>
+                        {isHovered &&
+                            <motion.div className='position absolute flex bg-primary-400 p-2 px-3 top-0 rounded-full items-center justify-center z-10 text-white'
+                                transition={{ duration: 0.5 }}
+                                initial={{ opacity: 0, y: -50 }}
+                                animate={{ opacity: 1, y: 10 }}
+                                exit={{ opacity: 0, y: -50 }}
+                                onClick={() => {
+                                    setIsOpen(true)
+                                }}
+                            >
+                                <span className=" text-xs font-medium">
+                                    Click to expand image&nbsp;
+                                </span>
+                                <Icons icon="search" className="!w-4 !h-4" />
+
+                            </motion.div>
+                        }
+                    </AnimatePresence>}
 
                     <Swiper
                         spaceBetween={10}
-                        modules={[Thumbs, Navigation]}
+                        modules={[Thumbs, Navigation, Keyboard]}
                         className='w-[96%] h-full flex items-center justify-center'
                         navigation={{
                             nextEl: '.swiperButtonNextProduct',
@@ -86,16 +126,20 @@ function ImagesWrapper(props: any) {
                         //@ts-ignore
 
                         thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-
+                        keyboard={
+                            {
+                                enabled: true,
+                                onlyInViewport: false,
+                            }
+                        }
                         rewind={true}
                         onSlideChange={(swiper) => { setActiveIndex(swiper.activeIndex) }}
-
                     >
-
                         {
                             /* @ts-ignore */
                             [...carouselItems].map((x, i) => {
-                                return <SwiperSlide key={x.id}
+                                return <SwiperSlide key={i}
+
                                     onClick={(e) => {
                                         e.preventDefault()
                                         if (!isOpen) {
@@ -111,21 +155,22 @@ function ImagesWrapper(props: any) {
                                             src={x.url}
                                             alt={'Product image'}
                                             //@ts-ignore
-                                            sizes="(max-width: 768px) 100vw,
+                                            sizes="(max-width: 768px) 400px,
                                         (max-width: 1200px) 400px"
                                             width={369}
                                             height={540}
                                             quality={100}
                                             priority={i === 0 ? true : false}
-                                            className={'rounded-md object-contain max-w-[99%] max-h-[99%] ' + (isOpen ? 'w-fit h-fit max-w-[95vw] max-h-[80vh] object-contain rounded-md' : '')}
+                                            className={'rounded-md object-contain max-w-[95%] max-h-[95%] ' + (isOpen ? 'w-fit h-fit max-w-[95vw] max-h-[80vh] object-contain rounded-md' : '')}
                                             onClick={(e: any) => {
                                                 if (isOpen) {
                                                     e.stopPropagation()
                                                 }
                                             }}
-                                            style={{  objectFit: 'contain', borderRadius: '0.5rem' }}
+                                            style={{ objectFit: 'contain', borderRadius: '0.5rem' }}
                                         />
                                         : <GImage
+
                                             src={x.url}
                                             alt={'Product image'}
                                             //@ts-ignore
@@ -149,9 +194,7 @@ function ImagesWrapper(props: any) {
                     </Swiper>
                     <div
                         className='flex w-full items-center justify-center absolute gap-1  bottom-4 left-[50%] transform -translate-x-[50%] z-10 overflow-hidden'
-
                     >
-
                         <Swiper
                             //@ts-ignore
                             onSwiper={setThumbsSwiper}
@@ -168,16 +211,16 @@ function ImagesWrapper(props: any) {
                                 /* @ts-ignore */
                                 [...carouselItems].map((x, i) => {
                                     return <SwiperSlide
-                                        className={'flex w-1/5 items-center justify-center ' + (isOpen && width > 767 ? 'w-1/10' : '')}
-                                        key={x.id}
+                                        className={'flex w-1/5 items-center justify-center  ' + (isOpen && width > 767 ? 'w-1/10' : '')}
+                                        key={i}
                                         onClick={(e: any) => {
                                             e.stopPropagation()
                                         }}
                                     >
 
                                         <div
-                                            className={'w-[70%] h-12 flex items-center justify-center rounded-lg border-2 overflow-hidden bg-gray-100 '
-                                                + (i === activeIndex ? ' border-primary-500 d3-shadow2 ' : '') + ' ' + (isOpen && width > 767 ? 'h-24' : '')}
+                                            className={'w-[70%] h-12 flex items-center transition justify-center rounded-lg border-2 border-primary-200 overflow-hidden bg-gray-100 '
+                                                + (i === activeIndex ? ' !border-[3px] !border-primary-500  ' : '') + ' ' + (isOpen && width > 767 ? 'h-24' : '')}
                                         >
                                             <GImage
                                                 src={x.url}

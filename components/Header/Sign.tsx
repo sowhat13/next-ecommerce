@@ -9,6 +9,7 @@ import userSlice from '../../store/userSlice';
 import { useContext } from 'react'
 import { ContextWrapper } from '../../context'
 import { useTranslation } from 'next-i18next'
+import Button from '../UI/Button'
 
 
 function Sign(props: any) {
@@ -114,17 +115,19 @@ function SignIn(props: any) {
     const { t } = useTranslation('sign')
     const { addAlert } = useContext(ContextWrapper) as any;
     const [email, set_email] = useState({ value: '', error: '' });
+    const [loading, set_loading] = useState(false);
     const [password, set_password] = useState({ value: '', error: '' });;
     const dispatch = useDispatch();
     async function handleSignIn() {
         if (email.value === '') {
             set_email({ ...email, error: t('signIn.error-email-missing') })
-            
+
         }
         if (password.value === '') {
             set_password({ ...password, error: t('signIn.error-password-missing') })
         }
         if (email.value !== '' && password.value !== '') {
+            set_loading(true)
             const res = await api.request('/auth/signIn', undefined, {
                 method: 'POST',
                 body: JSON.stringify({ email: email.value, password: password.value })
@@ -133,9 +136,12 @@ function SignIn(props: any) {
             if (res.code === 200) {
                 dispatch(userSlice.actions.setUser(res.user));
                 addAlert(t('signIn.sign-in-success'), 'success');
+                set_loading(false)
+
                 props.setIsOpenSignIn('');
             } else {
                 set_password({ ...password, error: t('signIn.error-email-password') })
+                set_loading(false)
 
             }
         }
@@ -173,15 +179,9 @@ function SignIn(props: any) {
                         </span>
                     </div>
                     <div className="mt-4">
-                        <button
-                            type="button"
-                            className="flex w-full justify-center mx-auto max-w-[300px] rounded-md border-4 border-transparent d3-shadow3 
-                            border-primary-400 bg-gradient-to-r from-primary-400 via-primary-300 to-primary-400 px-4 py-2 text-sm font-medium text-primary-50 hover:opacity-75
-                             transition hover:text-white active:scale-95"
-                            onClick={() => { handleSignIn() }}
-                        >
-                            {t('signIn.submit')}
-                        </button>
+                        <Button loading={loading} text={`${t('signIn.submit')}`} onClick={() => { handleSignIn() }} className="text-lg w-full bg-button-gradient2 d3-shadow2"></Button>
+
+
                     </div>
                 </motion.div>
             )
@@ -196,6 +196,7 @@ function SignUp(props: any) {
     const [email, set_email] = useState({ value: '', error: '' });
     const [password, set_password] = useState({ value: '', error: '' });
     const [password2, set_password2] = useState({ value: '', error: '' });
+    const [loading, set_loading] = useState(false);
 
     const { t } = useTranslation('sign')
 
@@ -222,6 +223,7 @@ function SignUp(props: any) {
         }
 
         if (email.value !== '' && password.value !== '') {
+            set_loading(true)
             const res = await api.request('/auth/signUp', undefined, {
                 method: 'POST',
                 body: JSON.stringify({ email: email.value, password: password.value })
@@ -229,10 +231,16 @@ function SignUp(props: any) {
             if (res.code === 200) {
                 dispatch(userSlice.actions.setUser(res.user));
                 addAlert(t('signUp.sign-up-success'), 'success');
+                set_loading(false)
+
                 props.setIsOpenSignIn('');
-            }else if(res.code === 409){
+            } else if (res.code === 409) {
+                set_loading(false)
+
                 set_email({ ...email, error: t('signUp.error-email-already-exists') })
             } else {
+                set_loading(false)
+
                 set_password2({ ...password, error: t('signUp.something-wrong') })
 
             }
@@ -278,13 +286,10 @@ function SignUp(props: any) {
                         </span>
                     </div>
                     <div className="mt-4">
-                        <button
-                            type="button"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                            onClick={() => { handleSignUp() }}
-                        >
-                            {t('signUp.submit')}
-                        </button>
+
+
+                        <Button loading={loading} text={`${t('signUp.submit')}`} onClick={() => { handleSignUp() }} className="text-lg w-full bg-button-gradient2 d3-shadow2"></Button>
+
                     </div>
                 </motion.div>
             )

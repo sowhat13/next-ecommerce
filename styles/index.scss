@@ -18,3 +18,54 @@
 
     }
 }
+
+
+.shine {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    animation: shineit 3s infinite;
+    -webkit-animation-name: shineit;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+
+    &::before {
+        background: linear-gradient(to right,
+                fade_out(#fff, 1) 0%,
+                fade_out(#fff, 0.7) 100%);
+        content: "";
+        display: block;
+        height: 100%;
+        position: absolute;
+        transform: skewX(-25deg);
+        width: 100%;
+        z-index: 2;
+
+
+    }
+
+}
+
+
+@keyframes shineit {
+    0% {
+        left: -150%;
+    }
+
+    100% {
+        left: 125%;
+    }
+}
+
+
+@-webkit-keyframes shineit {
+    0% {
+        left: -150%;
+    }
+
+    100% {
+        left: 125%;
+    }
+}
