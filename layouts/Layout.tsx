@@ -10,6 +10,7 @@ import { Alert } from '../components/UI/Alert'
 import { ContextWrapper } from '../context'
 function Layout({ children }: any) {
     const context = useContext(ContextWrapper) as any;
+    const isDevelopmentClass = process.env.NODE_ENV === 'development' ? '' : 'overflow-hidden';
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -36,7 +37,7 @@ function Layout({ children }: any) {
     }
 
     return (
-        <div className={styles.layoutContainer} >
+        <div className={styles.layoutContainer + ` ${isDevelopmentClass}`} >
             <Alert alerts={context.alerts} setAlerts={context.setAlerts} ></Alert>
             <Header signOut={signOut} />
             <main className={'main-layout'}>

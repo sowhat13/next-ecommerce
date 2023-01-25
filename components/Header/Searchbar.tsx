@@ -1,4 +1,5 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import Icons from '../UI/Icons';
 import lodash from 'lodash'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import api from '../../api';
@@ -69,7 +70,7 @@ function SearchBar(props: any) {
                         type="text" placeholder={t('common:navbar:search') || 'Search...'} />
                     {/* @ts-ignore */}
                     <Link replace href={`/products?search=${typeof window !== "undefined" && searchBarRef?.current?.value ? searchBarRef?.current?.value : searchTerm}`}>
-                        <MagnifyingGlassIcon className='h-8 rounded-full w-8 cursor-pointer text-primary-600 hover:bg-primary-200 p-1'></MagnifyingGlassIcon>
+                        <Icons icon="search" className='!h-8 !w-8 rounded-full cursor-pointer text-primary-600 hover:bg-primary-200 p-1'></Icons>
                     </Link>
                     {(searchTerm && searchTerm.length > 0 && inputFocused) &&
                         <motion.div className='w-full flex flex-col absolute top-10 left-0 min-h-9 h-fit rounded-lg p-2 z-50 justify-center bg-white shadow-lg dark:primary-800'

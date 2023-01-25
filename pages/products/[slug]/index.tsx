@@ -2,12 +2,12 @@ import api from '../../../api';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faCoins, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faCoins, faStar, faTag, faCartPlus } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import ImagesWrapper from '../../../components/Products/ImagesWrapper';
 import styles from '../../../components/Cards/cards.module.scss'
-
+import Button from '../../../components/UI/Button';
 
 
 function Product(props: any) {
@@ -17,77 +17,111 @@ function Product(props: any) {
 
     <div>
       <Head>
-        <title>{props.product.title ? props.product.title + ' - eCommerce' : 'Best products for you - eCommerce'}</title>
-        <meta name="description" content={props.product.description || 'Special products by eCommerce'} />
-        <meta name="keyword" content={`${props.product.collectionName.name ? props.product.collectionName.name + ',' : ''} ${props.product.categories.map((cat: any) => { return cat.name }).join(', ')}`} />
+        <title>{props?.product?.title ? props.product.title + ' - eCommerce' : 'Best products for you - eCommerce'}</title>
+        <meta name="description" content={props?.product?.description || 'Special products by eCommerce'} />
+        <meta name="keyword" content={`${props?.product?.collectionName?.name ? props.product.collectionName.name + ',' : ''} 
+        ${props?.product?.categories?.length > 0 && props.product.categories.map((cat: any) => { return cat.name }).join(', ')}`} />
 
       </Head>
 
       <div className='my-container top-gap'>
-        <div className='flex flex-col md:flex-row gap-2 md:gap-4 lg:gap-8 items-center md:items-start'>
+        <div className='flex flex-col md:flex-row gap-4 md:gap-4 lg:gap-8 items-center md:items-start'>
           <div className='w-full md:w-fit'>
             <div className='w-full h-[300px] max-w-[96%] mx-auto md:w-[400px] md:h-[540px] flex items-center justify-center rounded-2xl overflow-hidden bg-primary-gradient-light d3-shadow4'>
               <ImagesWrapper images={props.product.images}></ImagesWrapper>
             </div>
           </div>
-          <div className={'w-[96%] md:w-1/2 p-4  flex-col md:flex-row flex gap-4  bg-primary-gradient2 rounded-2xl h-fit d3-shadow4' + (!props?.product?.title ? ' shiny-element' : '')}>
-            <div className="flex flex-col w-full">
-              <div className='flex flex-col font-medium text-2xl '>
+          <div className="flex flex-col gap-4 md:w-1/2 w-[96%]">
+            <div className={'w-full p-4  flex-col md:flex-row md:flex-wrap flex gap-4  bg-primary-gradient2 rounded-2xl h-fit d3-shadow4' + (!props?.product?.title ? ' shiny-element' : '')}>
+              <div className="flex flex-col w-auto md:w-[calc(100%_-_300px)] md:min-w-[300px]">
+                <div className='flex flex-col font-medium text-2xl '>
 
-                {props.product.title}
-              </div>
-              <div className='flex flex-col text-md text-primary-500'>
-                {props.product.collectionName.name}
-              </div>
-              <div className='flex flex-col mt-2'>
-                <div className='flex flex-col text-md color-gray-color3'>
-                  {props.product.description}
+                  {props.product.title}
                 </div>
-
-              </div>
-            </div>
-            <div className='flex md:w-auto w-full min-w-fit mx-auto gap-4 items-center flex-col md:mt-4 whitespace-nowrap'>
-              <button className={styles.cardPriceButton + ' relative !flex !flex-row w-full md:w-auto !p-0 !min-w-[160px]'}>
-                <div className='absolute -top-1 -left-2 bg-yellow-300 d3-shadow2 w-8 h-8 rounded-full flex items-center justify-center'>
-                  <FontAwesomeIcon className='w-4 h-4 text-yellow-600 ' icon={faStar} />
+                <div className='flex flex-col text-md text-primary-500'>
+                  {props.product.collectionName.name}
                 </div>
-                <div className="flex flex-col w-full">
-                  <span className='mb-1 font-semibold italic text-xs flex w-full rounded-t-2xl items-center justify-center p-1 bg-button-gradient3 d3-shadow'>Rating </span>
-                  <div className="flex flex-col justify-center items-center pt-1 pb-3">
+                <div className='flex flex-col mt-2'>
+                  <div className='flex flex-col text-md color-gray-color3'>
+                    {props.product.description}
+                  </div>
 
-                    <span className={styles.cardPriceButtonText}>
-                      {props.product.rating}
-                    </span>
+                </div>
+              </div>
+              <div className='flex md:w-auto w-full min-w-fit mx-auto gap-4 items-center flex-col md:mt-4 whitespace-nowrap'>
+                <div className={styles.cardPriceButton + ' relative !flex !flex-row w-fit  md:w-auto !p-0 !min-w-[210px]'}>
+                  <div className='absolute -top-1 -left-2 bg-green-300 dark:bg-green-400 d3-shadow2 w-8 h-8 rounded-full flex items-center justify-center'>
+                    <FontAwesomeIcon className='w-4 h-4 text-green-500 dark:text-green-700' icon={faCoins} />
+                  </div>
+                  <div className="flex flex-col w-full">
+                    <span className='mb-1 font-semibold italic flex w-full rounded-t-2xl text-md items-center justify-center p-1 bg-button-gradient3 d3-shadow '>Price </span>
+
+                    <div className="flex flex-col justify-center items-center pt-1 pb-3">
+                      {(() => {
+                        if (props.product.price?.isDiscount) {
+                          return (<span className={styles.cardPriceButtonDiscountText + ' !text-md'}>
+                            <FontAwesomeIcon icon={faAngleDown} />
+                            <span className='sr-only'>Old Price: </span>
+                            {props.product.price?.oldPrice?.toFixed(2)} $
+                          </span>)
+                        }
+                      })()}
+                      <span className={styles.cardPriceButtonText + ' !text-xl'}>
+                        <span className='sr-only'>Price: </span>
+                        {props.product.price?.price?.toFixed(2)} $
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-              </button>
-              <button className={styles.cardPriceButton + ' relative !flex !flex-row w-full md:w-auto !p-0 !min-w-[160px]'}>
-                <div className='absolute -top-1 -left-2 bg-green-300 d3-shadow2 w-8 h-8 rounded-full flex items-center justify-center'>
-                  <FontAwesomeIcon className='w-4 h-4 text-green-600' icon={faCoins} />
-                </div>
-                <div className="flex flex-col w-full">
-                  <span className='mb-1 font-semibold italic text-xs flex w-full rounded-t-2xl items-center justify-center p-1 bg-button-gradient3 d3-shadow '>Price </span>
-
-                  <div className="flex flex-col justify-center items-center pt-1 pb-3">
-                    {(() => {
-                      if (props.product.price?.isDiscount) {
-                        return (<span className={styles.cardPriceButtonDiscountText}>
-                          <FontAwesomeIcon icon={faAngleDown} />
-                          <span className='sr-only'>Old Price: </span>
-                          {props.product.price?.oldPrice?.toFixed(2)} $
-                        </span>)
-                      }
-                    })()}
-                    <span className={styles.cardPriceButtonText}>
-                      <span className='sr-only'>Price: </span>
-
-                      {props.product.price?.price?.toFixed(2)} $
-                    </span>
-                  </div>
-                </div>
-              </button>
+              </div>
             </div>
+
+            <div className={'w-full p-1 flex-wrap lg:flex-nowrap sm:p-4 flex-row  flex gap-2 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
+              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => {console.log('add cart now')}} text={'Add to Cart'} 
+              className="text-lg w-full d3-shadow3 max-w-[335px]"></Button>
+              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => {console.log('buy now')}} text={'Buy Now'} 
+              className="text-lg w-full bg-button-gradient2 d3-shadow3 max-w-[335px]"></Button>
+            </div>
+
+            <div className={'w-full p-4 flex-row flex-wrap flex gap-4 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
+              <div className='flex gap-2 items-center relative bg-primary-gradient2 w-fit  md:w-auto px-4    p-2 d3-shadow3 rounded-lg'>
+                <div className="flex gap-4 items-center justify-center">
+                  <div className='bg-primary-gradient2  d3-shadow3 w-6 h-6 rounded-full flex items-center justify-center'>
+                    <FontAwesomeIcon className='w-4 h-4 text-primary-300 dark:text-primary-200 ' icon={faStar} />
+                  </div>
+                  <span className={'font-medium text-md text-primary-500'}>
+                    Rating:
+                  </span>
+                </div>
+
+                <span className={'font-medium text-md ' + (props.product?.rating > 3.5 ? 'text-green-400' : '')}>
+                  {props.product.rating}
+                </span>
+              </div>
+
+              {props.product?.categories?.length > 0 &&
+                [...props.product.categories].map((cat: any, i: any) => {
+                  return (
+                    <div key={i} className='flex gap-2 items-center relative bg-primary-gradient2 w-fit  md:w-auto px-4 p-2 d3-shadow3 rounded-lg'>
+                      <div className="flex gap-4 items-center justify-center">
+                        <div className='bg-primary-gradient2  d3-shadow3 w-6 h-6 rounded-full flex items-center justify-center'>
+                          <FontAwesomeIcon className='w-4 h-4 text-primary-300 dark:text-primary-200 ' icon={faTag} />
+                        </div>
+                        <span className={'font-medium text-md text-primary-500'}>
+                          Category:
+                        </span>
+                      </div>
+
+                      <span className={'font-medium text-md '}>
+                        {cat.name}
+                      </span>
+                    </div>
+                  )
+                })
+              }
+            </div>
+
+
           </div>
         </div>
       </div>

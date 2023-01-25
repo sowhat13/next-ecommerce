@@ -12,7 +12,6 @@ function App({ Component, pageProps }: AppProps) {
   const [alerts, setAlerts] = useState([]);
 
   const addAlert = useCallback((text: string, type?: string, time?: number) => {
-
     const typ = type || 'success';
     const tim = time || 3000;
     const newAlertRef: any = { text, id: Date.now() + tim, type: typ };
@@ -24,7 +23,7 @@ function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       {/* @ts-ignore */}
       <ContextWrapper.Provider value={{ alerts: alerts, addAlert: addAlert, setAlerts: setAlerts }}>
-        <Layout >
+        <Layout>
           <NextNProgress color="var(--primary-color)" />
           <Component {...pageProps} />
         </Layout>
