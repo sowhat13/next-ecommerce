@@ -107,7 +107,7 @@ function ImagesWrapper(props: any) {
                                 }}
                             >
                                 <span className=" text-xs font-medium">
-                                    Click to expand image&nbsp;
+                                    {props.clickToExpand}&nbsp;
                                 </span>
                                 <Icons icon="search" className="!w-4 !h-4" />
 

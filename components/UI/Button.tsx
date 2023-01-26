@@ -81,12 +81,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
 
         },
         active: {
-            transition: {
-                duration: 0.3,
-                type: "spring",
-                stiffness: 700,
-                damping: 30
-            }
+       
         },
         loading: {
         },
@@ -96,9 +91,9 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
             rotateY: mousePosition.centerY
         },
         shadowTap: {
-            boxShadow: "0 0 20px 10px rgba(255,255,255,0.1),0 0 100px 40px rgba(255,255,255,0.3)",
+            boxShadow: "0 0 30px 10px rgba(255,255,255,0.4),0 0 100px 40px rgba(255,255,255,0.4)",
             transition: {
-                duration: 0.05,
+                duration: 0.1,
             }
         }
     }
@@ -114,7 +109,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
                         if (loading || situation == 'loading' || disabled) return;
                         onClick()
                     }}
-                    className={styles.buttonWrapper + " relative bg-button-gradient text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center "
+                    className={styles.buttonWrapper + "  rounded-lg relative bg-button-gradient text-white font-medium border-r-2 border-b-2 border-gray-500/25 py-2 px-4 flex items-center justify-center "
                         + (className ? className : '') + (disabled ? ' !bg-none !shadow-none !bg-gray-300 ' : '') +
                         (situation == 'loading' || loading ? ' pointer-events-none unselectable' : '')}  {...rest}
 
@@ -152,7 +147,6 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
                         <AnimatePresence>
                             <motion.div
                                 initial={{ opacity: 0 }}
-
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 1 }}
                                 exit={{ opacity: 0 }}
@@ -162,14 +156,12 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
                                 <motion.div
                                     style={{
                                         position: "absolute",
-                                        width: "1px",
-                                        height: "1px",
+                                        width: "0.5px",
+                                        height: "0.5px",
                                         left: 0,
                                         top: 0,
-
                                         borderRadius: 10,
                                         boxShadow: "0 0 80px 15px rgba(255,255,255,0.4),0 0 80px 30px rgba(255,255,255,0.4)",
-
                                     }}
                                     animate={{
                                         x: mousePosition.x,
@@ -177,9 +169,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
                                     }}
                                     variants={variants}
                                     exit={{ opacity: 0 }}
-
                                     whileTap={variants.shadowTap}
-
                                 />
                             </motion.div>
                         </AnimatePresence>

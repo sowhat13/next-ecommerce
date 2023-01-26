@@ -16,7 +16,15 @@
     "check-discount": "İndirimli ürünlere göz at",
     "no-products": "Ürün bulunamadı",
     "total-products": "Toplam ürün",
-    "all-products": "Tüm ürünler"
+    "all-products": "Tüm ürünler",
+    "buy-now": "Satın Al",
+    "add-to-cart": "Sepete Ekle",
+    "price": "Fiyat",
+    "discount": "İndirim",
+    "rating": "Puan",
+    "reviews": "Yorumlar",
+    "category": "Kategori",
+    "click-to-expand-image": "Yakınlaştırmak için tıklayın"
 
   }
 }

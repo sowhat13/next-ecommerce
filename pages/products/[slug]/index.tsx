@@ -13,6 +13,8 @@ import Button from '../../../components/UI/Button';
 function Product(props: any) {
   const router = useRouter()
   const slug = router.query.slug as string
+  const { t } = useTranslation(['common'])
+
   return (
 
     <div>
@@ -28,7 +30,7 @@ function Product(props: any) {
         <div className='flex flex-col md:flex-row gap-4 md:gap-4 lg:gap-8 items-center md:items-start'>
           <div className='w-full md:w-fit'>
             <div className='w-full h-[300px] max-w-[96%] mx-auto md:w-[400px] md:h-[540px] flex items-center justify-center rounded-2xl overflow-hidden bg-primary-gradient-light d3-shadow4'>
-              <ImagesWrapper images={props.product.images}></ImagesWrapper>
+              <ImagesWrapper clickToExpand={t('common:products:click-to-expand-image')} images={props.product.images}></ImagesWrapper>
             </div>
           </div>
           <div className="flex flex-col gap-4 md:w-1/2 w-[96%]">
@@ -54,7 +56,8 @@ function Product(props: any) {
                     <FontAwesomeIcon className='w-4 h-4 text-green-500 dark:text-green-700' icon={faCoins} />
                   </div>
                   <div className="flex flex-col w-full">
-                    <span className='mb-1 font-semibold italic flex w-full rounded-t-2xl text-md items-center justify-center p-1 bg-button-gradient3 d3-shadow '>Price </span>
+                    <span className='mb-1 font-semibold italic flex w-full rounded-t-2xl text-md items-center justify-center p-1 bg-button-gradient3 d3-shadow '>{t('common:products:price')}
+                    </span>
 
                     <div className="flex flex-col justify-center items-center pt-1 pb-3">
                       {(() => {
@@ -77,10 +80,10 @@ function Product(props: any) {
             </div>
 
             <div className={'w-full p-1 flex-wrap lg:flex-nowrap sm:p-4 flex-row  flex gap-2 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
-              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => {console.log('add cart now')}} text={'Add to Cart'} 
-              className="text-lg w-full d3-shadow3 max-w-[335px]"></Button>
-              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => {console.log('buy now')}} text={'Buy Now'} 
-              className="text-lg w-full bg-button-gradient2 d3-shadow3 max-w-[335px]"></Button>
+              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => { console.log('add cart now') }} text={`${t('common:products:add-to-cart')}`}
+                className="text-lg w-full d3-shadow3 max-w-[335px]"></Button>
+              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => { console.log('buy now') }} text={`${t('common:products:buy-now')}`}
+                className="text-lg w-full bg-button-gradient2 d3-shadow3 max-w-[335px]"></Button>
             </div>
 
             <div className={'w-full p-4 flex-row flex-wrap flex gap-4 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
@@ -90,7 +93,7 @@ function Product(props: any) {
                     <FontAwesomeIcon className='w-4 h-4 text-primary-300 dark:text-primary-200 ' icon={faStar} />
                   </div>
                   <span className={'font-medium text-md text-primary-500'}>
-                    Rating:
+                    {t('common:products:rating')}:
                   </span>
                 </div>
 
@@ -108,7 +111,8 @@ function Product(props: any) {
                           <FontAwesomeIcon className='w-4 h-4 text-primary-300 dark:text-primary-200 ' icon={faTag} />
                         </div>
                         <span className={'font-medium text-md text-primary-500'}>
-                          Category:
+                          {t('common:products:category')}:
+
                         </span>
                       </div>
 

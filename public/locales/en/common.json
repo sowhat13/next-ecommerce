@@ -16,7 +16,14 @@
     "check-discount": "Check discounted products",
     "no-products": "No products found",
     "total-products": "Total products",
-    "all-products": "All products"
-
+    "all-products": "All products",
+    "buy-now": "Buy Now",
+    "add-to-cart": "Add to Cart",
+    "price": "Price",
+    "discount": "Discount",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "category": "Category",
+    "click-to-expand-image": "Click to expand image"
   }
 }
