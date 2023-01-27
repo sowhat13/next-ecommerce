@@ -1,13 +1,30 @@
 .buttonWrapper {
-    transition: 0.3s ease all;
+    // transition: 0.3s ease all;
+    &:hover {}
 
-    &:hover {
+    &:active {
+        // box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.1), inset 0 0 15px 2px rgba(0, 0, 0, 0.05);
+
+    }
+}
+
+.buttonAnimation {
+    animation: buttonAnimation 0.5s ease;
+}
+
+@keyframes buttonAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+
+        filter: brightness(1);
 
     }
 
-    &:active {
-            box-shadow:inset 0 0 3px 1px rgba(0, 0, 0, 0.1), inset 0 0 15px 2px rgba(0, 0, 0, 0.05);
-            border: none;
+    100% {
+        transform: scale(1);
 
     }
 }

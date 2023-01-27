@@ -8,11 +8,35 @@ import { useTranslation } from 'next-i18next'
 import { useState, Fragment } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useSelector, useDispatch } from "react-redux";
+import { getCartItems, addCartItems } from "../../store/cartSlice";
+import Icons from '../UI/Icons';
 
 
 function Card(props: any) {
     const [isButtonHover, setisButtonHover] = useState(false)
     const router = useRouter()
+    const [loadingAddToCart, setLoadingAddToCart] = useState(false)
+    const [successAddToCart, setSuccessAddToCart] = useState(false)
+
+    const dispatch = useDispatch();
+    const addToCart = async () => {
+        if(successAddToCart || loadingAddToCart) return;
+        const data: any = {
+            productId: props.item._id,
+        };
+        setLoadingAddToCart(true)
+        //@ts-ignore
+        await dispatch(addCartItems(data)).then((res: any) => {
+            setSuccessAddToCart(true)
+            setLoadingAddToCart(false)
+            setTimeout(() => {
+                setSuccessAddToCart(false)
+            }, 2000)
+        }
+        )
+
+    }
 
     return (
         <Link href={`/products/${props.item.slug}`} className={styles.cardWrapper}>
@@ -56,53 +80,75 @@ function Card(props: any) {
                     </button>
                 </div>
 
-                <motion.button role="button" type="button" className={styles.cardBuyButton + ' active:ring-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-100 focus:ring-offset-2 focus:ring-offset-gray-200'}
+                <motion.button role="button" type="button" className={styles.cardBuyButton +
+                    ' active:ring-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-100 focus:ring-offset-1 focus:ring-offset-gray-200'}
                     onMouseEnter={() => setisButtonHover(true)}
                     onMouseLeave={() => setisButtonHover(false)}
-                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={(e) => {
                         e.preventDefault()
+                        addToCart()
                     }}
                 >
                     <span className='sr-only'>Add to cart</span>
+
                     <AnimatePresence>
-
-                        {isButtonHover && (
-                            <>
-                                <motion.div
-                                    className={styles.cardCartItems}
+                        {loadingAddToCart ?
+                            <motion.div
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                exit={{ opacity: 0 }}
+                                className={' absolute top-0 left-0 w-full h-full overflow-hidden flex items-center rounded-[18px] justify-center'}>
+                                <motion.div className='shine'
+                                    animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
-                                    initial={{ opacity: 0, y: -35 }}
-                                    animate={{ opacity: 1, y: -5 }}
-                                    exit={{ opacity: 0, y: -20, x: -5 }}
+                                    exit={{ opacity: 0 }}
+                                ></motion.div>
+                            </motion.div> : null
+                        }
 
-                                >
+                    </AnimatePresence>
+                    <AnimatePresence>
+                        {successAddToCart ?
+                            <Icons icon="success" className="text-green-300" />
+                            :
+                            <>
+                                {isButtonHover && (
+                                    <>
+                                        <motion.div
+                                            className={styles.cardCartItems}
+                                            transition={{ duration: 0.5 }}
+                                            initial={{ opacity: 0, y: -35 }}
+                                            animate={{ opacity: 1, y: -5 }}
+                                            exit={{ opacity: 0, y: -20, x: -5 }}
+                                        >
+                                        </motion.div>
+                                        <motion.div
+                                            className={styles.cardCartItems}
+                                            transition={{ duration: 1 }}
+                                            initial={{ opacity: 0, y: -25, x: 5 }}
+                                            animate={{ opacity: 1, y: -5 }}
+                                            exit={{ opacity: 0, y: -20, x: -5 }}
 
-                                </motion.div>
-                                <motion.div
-                                    className={styles.cardCartItems}
-                                    transition={{ duration: 1 }}
-                                    initial={{ opacity: 0, y: -25, x: 5 }}
-                                    animate={{ opacity: 1, y: -5 }}
-                                    exit={{ opacity: 0, y: -20, x: -5 }}
+                                        >
 
-                                >
+                                        </motion.div>
+                                        <motion.div
+                                            className={styles.cardCartItems}
+                                            transition={{ duration: 1 }}
+                                            initial={{ opacity: 0, y: -20, x: -4 }}
+                                            animate={{ opacity: 1, y: -5 }}
+                                            exit={{ opacity: 0, y: -20, x: -5 }}
+                                        >
 
-                                </motion.div>
-                                <motion.div
-                                    className={styles.cardCartItems}
-                                    transition={{ duration: 1 }}
-                                    initial={{ opacity: 0, y: -20, x: -4 }}
-                                    animate={{ opacity: 1, y: -5 }}
-                                    exit={{ opacity: 0, y: -20, x: -5 }}
-                                >
-
-                                </motion.div>
+                                        </motion.div>
+                                    </>
+                                )}
+                                <FontAwesomeIcon icon={faCartShopping} />
                             </>
-                        )}
+                        }
                     </AnimatePresence>
 
-                    <FontAwesomeIcon icon={faCartShopping} />
                 </motion.button>
 
             </div>

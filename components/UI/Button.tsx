@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import React, { useState, useRef } from 'react'
 import styles from './button.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
-
+import Icons from './Icons'
 
 interface ButtonProps {
 
@@ -21,6 +21,7 @@ interface ButtonProps {
     loading?: boolean;
     leftIcon?: any;
     rightIcon?: any;
+    success?: boolean;
 
 }
 function getRelativeCoordinates(event: any, referenceElement: any) {
@@ -53,23 +54,14 @@ function getRelativeCoordinates(event: any, referenceElement: any) {
         centerY: (position.y - offset.top - offset.height / 2) / (offset.height / 2)
     };
 }
-const css = {
 
-    fly: {
-        position: "absolute",
-        width: "20px",
-        height: "20px",
-        backgroundColor: "red",
-        borderRadius: 10
-    }
-};
-const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, loading, onClick, disabled, ...rest }) => {
+const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, success, loading, onClick, disabled, ...rest }) => {
 
     const [situation, setSituation] = useState('')
     const [isHovered, setIsHovered] = useState(false)
 
     const [mousePosition, setMousePosition]: any = useState({});
-    const boxRef = useRef(null);
+    const boxRef: any = useRef(null);
     const handleMouseMove = (e: any) => {
         setMousePosition(getRelativeCoordinates(e, boxRef.current));
     };
@@ -81,7 +73,11 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
 
         },
         active: {
-       
+            boxShadow: "inset 0 0 3px 1px rgba(0, 0, 0, 0.1), inset 0 0 15px 2px rgba(0, 0, 0, 0.05)",
+            transition: {
+                duration: 0.5
+            }
+
         },
         loading: {
         },
@@ -97,19 +93,44 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
             }
         }
     }
+
+    const activeVariants = {
+        active: {
+            position: "absolute",
+            width: "20px",
+            height: "20px",
+            backgroundColor: "red",
+
+            borderRadius: 10,
+            boxShadow: "0 0 80px 15px rgba(255,255,255,1),0 0 80px 30px rgba(255,255,255,1)",
+            x: mousePosition.x,
+            y: mousePosition.y
+        },
+    }
+
+    const clicked = () => {
+        if (loading || situation == 'loading' || situation == 'active' || disabled || success) return;
+        // boxRef?.current?.classList?.add(styles.buttonAnimation)
+
+        setSituation('active')
+        setTimeout(() => {
+            setSituation('inactive')
+
+            // boxRef?.current?.classList?.remove(styles.buttonAnimation)
+        }, 510);
+        onClick()
+    }
+
     return (
         <>
             <AnimatePresence>
                 <motion.button
-                    animate={situation == 'active' ? "active" : situation == 'loading' ? 'loading' : "inactive"}
+                    animate={situation == 'loading' ? 'loading' : "inactive"}
                     variants={variants}
                     whileHover={variants.onHovered}
                     whileTap={variants.active}
-                    onClick={() => {
-                        if (loading || situation == 'loading' || disabled) return;
-                        onClick()
-                    }}
-                    className={styles.buttonWrapper + "  rounded-lg relative bg-button-gradient text-white font-medium border-r-2 border-b-2 border-gray-500/25 py-2 px-4 flex items-center justify-center "
+                    onClick={clicked}
+                    className={styles.buttonWrapper + "  rounded-lg relative bg-button-gradient text-white font-medium border-r-2 border-b-2 !border-gray-500/25 py-2 px-4 flex items-center justify-center "
                         + (className ? className : '') + (disabled ? ' !bg-none !shadow-none !bg-gray-300 ' : '') +
                         (situation == 'loading' || loading ? ' pointer-events-none unselectable' : '')}  {...rest}
 
@@ -131,16 +152,50 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
                             ></motion.div>
                         </motion.div> : null
                     }
-                    {leftIcon &&
-                        <span className='mx-2 '>
-                            {leftIcon}
-                        </span>
-                    } {text}
-                    {rightIcon &&
-                        <span className='mx-2 '>
-                            {rightIcon}
-                        </span>
-                    }
+                    <AnimatePresence>
+
+
+                        {success ?
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                exit={{ opacity: 0 }}
+                                className="flex items-center justify-center "
+                            >
+                                <motion.span
+
+                                    className="text-green-300  drop-shadow-lg"
+                                >
+                                    {text}
+                                </motion.span>
+                                <Icons icon="check" className="mx-2 text-green-300 drop-shadow-lg" />
+                            </motion.div>
+                            :
+                            <>
+                                {leftIcon &&
+                                    <span className='mx-2 '>
+                                        {leftIcon}
+                                    </span>
+                                }
+                                <motion.span
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.5 }}
+                                    exit={{ opacity: 0 }}
+                                >
+                                    {text}
+                                </motion.span>
+                                {rightIcon &&
+                                    <span className='mx-2 '>
+                                        {rightIcon}
+                                    </span>
+                                }
+                            </>
+                        }
+
+
+                    </AnimatePresence>
 
                     {/* on hover  */}
                     {isHovered &&
@@ -161,7 +216,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
                                         left: 0,
                                         top: 0,
                                         borderRadius: 10,
-                                        boxShadow: "0 0 80px 15px rgba(255,255,255,0.4),0 0 80px 30px rgba(255,255,255,0.4)",
+                                        boxShadow: "0 0 80px 15px rgba(255,255,255,0.1),0 0 80px 30px rgba(255,255,255,0.2)",
                                     }}
                                     animate={{
                                         x: mousePosition.x,
@@ -176,8 +231,48 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, l
 
                     }
 
+                    {/* on click animate */}
+                    {situation === 'active' &&
+                        <AnimatePresence>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.1 }}
+                                exit={{ opacity: 0 }}
+                                className={' absolute top-0 left-0 w-full h-full overflow-hidden flex items-center rounded-lg justify-center'}
+                            >
+                                <AnimatePresence>
+
+                                    <motion.div
+                                        style={{
+                                            position: "absolute",
+                                            width: "10%",
+                                            aspectRatio: 1,
+                                            left: mousePosition.x + 'px',
+                                            top: mousePosition.y + 'px',
+                                            borderRadius: '50%',
+                                            boxShadow: "0 0 10px 50px rgba(0,0,0,0.2)",
+                                            scale: 0
+                                        }}
+                                        animate={{
+
+                                            // boxShadow: "0 0 300px 450px rgba(255,255,255,0.4)",
+                                            scale: 22,
+                                            opacity: 1
+                                        }}
+                                        initial={{ opacity: 0, scale: 1 }}
+                                        transition={{ duration: 0.5 }}
+                                        exit={{ opacity: 0, }}
+
+                                    />
+                                </AnimatePresence>
+                            </motion.div>
+                        </AnimatePresence>
+
+                    }
+
                 </motion.button>
-            </AnimatePresence>
+            </AnimatePresence >
         </>
     );
 }
