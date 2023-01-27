@@ -14,13 +14,23 @@ function ShopCart() {
     //@ts-ignore
     const cartItems: any = useSelector((state) => state.cart.cart);
     const [itemCount, setItemCount] = useState(0)
-    const [changedItem, setChangedItem]: any = useState(null)
+    const [changedItems, setChangedItems]: any = useState([])
+    let timeoutId: any = null
     async function getCartAsync() {
         //@ts-ignore
 
         dispatch(getCartItems())
     }
+
+    function deleteNotification(id: any) {
+        let newArray = [...changedItems].filter((item: any) => {
+            return item._id !== id
+        });
+        return setChangedItems(newArray)
+    }
+
     useEffect(() => {
+
         if (cartItems && cartItems?.products?.length > 0) {
             const count = cartItems?.products?.reduce((a: any, b: any) => a + b.quantity, 0)
             setItemCount(count)
@@ -28,13 +38,30 @@ function ShopCart() {
             setItemCount(0)
         }
         if (cartItems && cartItems.lastChangedItem) {
-            setChangedItem(cartItems?.lastChangedItem)
-            setTimeout(() => {
-                setChangedItem(null)
-            }, 14000)
+            clearTimeout(timeoutId);
+            const newItem = { ...cartItems.lastChangedItem }
+            newItem.expireDate = Date.now() + 5000
+            setChangedItems([...changedItems, newItem])
+        }
+    }, [cartItems])
+
+    useEffect(() => {
+        let timeoutId: any = null
+        if (changedItems.length) {
+
+            timeoutId = setInterval(() => {
+
+                let newArray = [...changedItems].filter((item: any) => {
+                    return item.expireDate > Date.now()
+                });
+                return setChangedItems(newArray)
+            }, 1000);
         }
 
-    }, [cartItems])
+        return () => {
+            clearInterval(timeoutId);
+        }
+    }, [changedItems]);
 
     useEffect(() => {
         getCartAsync()
@@ -52,37 +79,75 @@ function ShopCart() {
 
                     {(itemCount && itemCount > 0) ?
                         <AnimatePresence>
-                            <motion.span className='absolute d3-shadow3 -top-2 -left-1 text-xs font-medium bg-green-300 dark:bg-green-200 text-orange-500 flex w-5 h-5 items-center justify-center rounded-full'
+                            <motion.span className='absolute d3-shadow3 -top-2 -left-1 z-20 text-xs font-medium bg-green-300 dark:bg-green-200 text-orange-500 flex w-5 h-5 items-center justify-center rounded-full'
                                 animate={{ scale: [0.5, 1, 1.2, 1], opacity: [0, 0.5, 1, 1], y: [-10, -5, 0, 0] }}
                                 transition={{ times: [0, 0.3, 0.9, 1] }}
                                 exit={{ opacity: 0, scale: 0.5 }}
                             >{itemCount}</motion.span>
                         </AnimatePresence> : null
                     }
-                    <Icons className="w-5 h-5" icon='cart' />
+                    {cartItems && changedItems.length > 0 ?
+                        <motion.div
+                            className={"w-2 h-2 rounded-full absolute flex bg-primary-400 z-5"}
+                            transition={{ duration: 0.5 }}
+                            initial={{ opacity: 0.5, y: -25 }}
+                            animate={{ opacity: 1, y: -5 }}
+                            exit={{ opacity: 0 }}
+                        >
+                        </motion.div> : null
+                    }
+                    <Icons className="w-5 h-5 absolute z-10" icon='cart' />
 
                 </button>
             </AnimatePresence>
             <AnimatePresence>
-                {cartItems && changedItem ?
-                    <motion.div className='w-[280px] absolute right-[0%] z-[100] bg-primary-500 rounded-xl h-12 text-white flex items-center gap-2 px-2 cursor-pointer'
-                        initial={{ y: 40 }}
-                        animate={{ y: 60 }}
-                        transition={{ duration: 0.5 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        onClick={() => setChangedItem(null)}
-                    >
-                        <div className='flex justify-center items-center w-[30px] h-[30px] min-w-[30px] min-h-[30px] ring-1 ring-offset-2 ring-primary-700 ring-offset-primary-600 rounded-full overflow-hidden'>
-                        <GImage className='rounded-full' src={changedItem?.cover?.url || changedItem?.images[0]?.url } width={30} height={30} alt={"Last changed item"}></GImage>
+                {cartItems && changedItems.length > 0 ?
+                    <div className='flex flex-col-reverse top-[105%] absolute right-[-5px] xs:right-[3%] z-[100] gap-1'>
 
-                        </div>
-                        <span className='max-w-[100%] text-ellipsis2 text-sm'>
-                        {changedItem.title}
-                        </span> 
-                        <span className='max-w-[80px] min-w-[80px] flex flex-wrap justify-end items-center ml-auto text-xs'>
-                        {changedItem.price?.price.toFixed(2)} $
-                        </span> 
-                    </motion.div> : null
+                        {
+                            changedItems.map((changedItem: any, index: number) => {
+                                return (
+                                    <AnimatePresence key={index}>
+
+                                        <motion.div
+                                            className='w-[280px] bg-primary-400 relative dark:bg-primary-500 rounded-xl text-white flex flex-col items-center px-2 pb-2 cursor-pointer hover:opacity-95'
+                                            initial={{ x: -100 }}
+                                            animate={{ x: 0 }}
+                                            transition={{ duration: 0.5 }}
+                                            exit={{ opacity: 0, scale: 0.5 }}
+                                            onClick={() => { deleteNotification(changedItem._id) }}
+                                        >
+                                            <span className="absolute top-2 right-2">
+                                                <Icons icon="xmark" size="10" />
+
+                                            </span>
+
+                                            <div className={`text-sm font-medium flex justify-center w-full px-2 items-center ${changedItem.lastChange == 'add' ? ' text-green-400' : changedItem.lastChange == 'remove' ? ' text-red-500' : ''}`}
+                                            >{t('common:products:added-to-cart')}</div>
+
+                                            <motion.div className='flex items-center gap-2 w-full h-full'
+                                            >
+                                                <div className='flex justify-center items-center w-[30px] h-[30px] min-w-[30px] min-h-[30px] ring-1 ring-offset-2 ring-primary-700/50 ring-offset-primary-600/50 rounded-full overflow-hidden'>
+                                                    <GImage className='rounded-full' src={changedItem?.cover?.url || changedItem?.images[0]?.url} width={30} height={30} alt={"Last changed item"}></GImage>
+
+                                                </div>
+                                                <span className='max-w-[100%] text-ellipsis2 text-sm'>
+                                                    {changedItem.title}
+                                                </span>
+                                                <span className='max-w-[80px] min-w-[80px] flex flex-wrap justify-end items-center ml-auto text-xs'>
+                                                    {changedItem.price?.price.toFixed(2)} $
+                                                </span>
+                                            </motion.div>
+                                        </motion.div>
+                                    </AnimatePresence>
+
+                                )
+                            }
+                            )
+
+                        }
+                    </div>
+                    : null
 
                 }
             </AnimatePresence>
