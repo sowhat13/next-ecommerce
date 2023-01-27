@@ -21,19 +21,19 @@ function Card(props: any) {
 
     const dispatch = useDispatch();
     const addToCart = async () => {
-        if(successAddToCart || loadingAddToCart) return;
-   
+        if (successAddToCart || loadingAddToCart) return;
+
         setLoadingAddToCart(true)
         //@ts-ignore
         await dispatch(addCartItems(props.item)).then((res: any) => {
             console.log(res)
 
-            if(res.code === 200){
+            if (res.code === 200) {
                 setSuccessAddToCart('success')
-        
-              }else {
+
+            } else {
                 setSuccessAddToCart('error')
-                }
+            }
             setLoadingAddToCart(false)
             setTimeout(() => {
                 setSuccessAddToCart('')
@@ -116,41 +116,43 @@ function Card(props: any) {
                     <AnimatePresence>
                         {successAddToCart === 'success' ?
                             <Icons icon="success" className="text-green-300" />
-                            :
-                            <>
-                                {isButtonHover && (
-                                    <>
-                                        <motion.div
-                                            className={styles.cardCartItems}
-                                            transition={{ duration: 0.5 }}
-                                            initial={{ opacity: 0, y: -35 }}
-                                            animate={{ opacity: 1, y: -5 }}
-                                            exit={{ opacity: 0, y: -20, x: -5 }}
-                                        >
-                                        </motion.div>
-                                        <motion.div
-                                            className={styles.cardCartItems}
-                                            transition={{ duration: 1 }}
-                                            initial={{ opacity: 0, y: -25, x: 5 }}
-                                            animate={{ opacity: 1, y: -5 }}
-                                            exit={{ opacity: 0, y: -20, x: -5 }}
+                            : successAddToCart === 'error' ?
+                                <Icons icon="error" className="text-pink-400" />
+                                :
+                                <>
+                                    {isButtonHover && (
+                                        <>
+                                            <motion.div
+                                                className={styles.cardCartItems}
+                                                transition={{ duration: 0.5 }}
+                                                initial={{ opacity: 0, y: -35 }}
+                                                animate={{ opacity: 1, y: -5 }}
+                                                exit={{ opacity: 0, y: -20, x: -5 }}
+                                            >
+                                            </motion.div>
+                                            <motion.div
+                                                className={styles.cardCartItems}
+                                                transition={{ duration: 1 }}
+                                                initial={{ opacity: 0, y: -25, x: 5 }}
+                                                animate={{ opacity: 1, y: -5 }}
+                                                exit={{ opacity: 0, y: -20, x: -5 }}
 
-                                        >
+                                            >
 
-                                        </motion.div>
-                                        <motion.div
-                                            className={styles.cardCartItems}
-                                            transition={{ duration: 1 }}
-                                            initial={{ opacity: 0, y: -20, x: -4 }}
-                                            animate={{ opacity: 1, y: -5 }}
-                                            exit={{ opacity: 0, y: -20, x: -5 }}
-                                        >
+                                            </motion.div>
+                                            <motion.div
+                                                className={styles.cardCartItems}
+                                                transition={{ duration: 1 }}
+                                                initial={{ opacity: 0, y: -20, x: -4 }}
+                                                animate={{ opacity: 1, y: -5 }}
+                                                exit={{ opacity: 0, y: -20, x: -5 }}
+                                            >
 
-                                        </motion.div>
-                                    </>
-                                )}
-                                <FontAwesomeIcon icon={faCartShopping} />
-                            </>
+                                            </motion.div>
+                                        </>
+                                    )}
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                </>
                         }
                     </AnimatePresence>
 

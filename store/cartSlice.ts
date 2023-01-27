@@ -71,7 +71,7 @@ export const addCartItems = (data: any) => async (dispatch: any) => {
        
         if (response && response.code == 200) {
             response.data.lastChangedItem = data
-            response.data.lastChange = 'add'
+            response.data.lastChangedItem.lastChange = 'add'
             // console.log(response);
             dispatch(cartSlice.actions.setCartItem(response?.data));
         }
