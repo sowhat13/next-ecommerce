@@ -54,7 +54,7 @@ const cartSlice = {
 
 
 
-export const getCartItems = (data: any) => async (dispatch: any) => {
+export const getCartItems = () => async (dispatch: any) => {
     try {
         const response = await api.request('/cart');
         dispatch(cartSlice.actions.getCartItem(response.data));
@@ -64,15 +64,20 @@ export const getCartItems = (data: any) => async (dispatch: any) => {
 };
 
 export const addCartItems = (data: any) => async (dispatch: any) => {
+    console.log(data, 'data@@@@@@@@@@@@@@@@@add')
     try {
         // console.log(data);
-        const response = await api.request('/cart/addToCart', undefined, { body: JSON.stringify(data), method: 'PUT' });
-
-        // console.log(response);
-        dispatch(cartSlice.actions.setCartItem(response.data))
-        if(response){
-            return response
+        const response = await api.request('/cart/addToCart', undefined, { body: JSON.stringify({ productId: data._id }), method: 'PUT' });
+       
+        if (response && response.code == 200) {
+            response.data.lastChangedItem = data
+            response.data.lastChange = 'add'
+            // console.log(response);
+            dispatch(cartSlice.actions.setCartItem(response?.data));
         }
+
+        return response
+
     } catch (err: any) {
         throw new Error(err);
     }

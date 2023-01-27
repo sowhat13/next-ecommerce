@@ -17,21 +17,26 @@ function Card(props: any) {
     const [isButtonHover, setisButtonHover] = useState(false)
     const router = useRouter()
     const [loadingAddToCart, setLoadingAddToCart] = useState(false)
-    const [successAddToCart, setSuccessAddToCart] = useState(false)
+    const [successAddToCart, setSuccessAddToCart] = useState('')
 
     const dispatch = useDispatch();
     const addToCart = async () => {
         if(successAddToCart || loadingAddToCart) return;
-        const data: any = {
-            productId: props.item._id,
-        };
+   
         setLoadingAddToCart(true)
         //@ts-ignore
-        await dispatch(addCartItems(data)).then((res: any) => {
-            setSuccessAddToCart(true)
+        await dispatch(addCartItems(props.item)).then((res: any) => {
+            console.log(res)
+
+            if(res.code === 200){
+                setSuccessAddToCart('success')
+        
+              }else {
+                setSuccessAddToCart('error')
+                }
             setLoadingAddToCart(false)
             setTimeout(() => {
-                setSuccessAddToCart(false)
+                setSuccessAddToCart('')
             }, 2000)
         }
         )
@@ -109,7 +114,7 @@ function Card(props: any) {
 
                     </AnimatePresence>
                     <AnimatePresence>
-                        {successAddToCart ?
+                        {successAddToCart === 'success' ?
                             <Icons icon="success" className="text-green-300" />
                             :
                             <>

@@ -16,8 +16,8 @@ function Notification() {
         <AnimatePresence>
             {delayDone &&
                 <motion.div
-                    initial={{ opacity: 0, scaleY: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
-                    animate={{ opacity: 1, scaleY: 1, height: 'auto', paddingTop: '8px', paddingBottom: '8px' }}
+                    initial={{ opacity: 0, scaleY: 0,  paddingTop: 0, paddingBottom: 0 }}
+                    animate={{ opacity: 1, scaleY: 1, paddingTop: '8px', paddingBottom: '8px' }}
                     transition={{ duration: 0.3 }}
                     exit={{ opacity: 0, height: 0 }}
                     className='flex w-full bg-violet-100 bg-primary-gradient-soft min-h-10 items-center justify-center'>

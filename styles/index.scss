@@ -48,6 +48,18 @@
 
 }
 
+.text-ellipsis2 {
+    @include ellipsisLine(2);
+   
+}
+.text-ellipsis3 {
+    @include ellipsisLine(3);
+   
+}
+.text-ellipsis {
+    @include ellipsisLine(1);
+   
+}
 
 @keyframes shineit {
     0% {

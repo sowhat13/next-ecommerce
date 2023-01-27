@@ -5,7 +5,6 @@ import React, { useState, useRef } from 'react'
 import styles from './button.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Icons from './Icons'
-
 interface ButtonProps {
 
     className?: string;
@@ -21,7 +20,7 @@ interface ButtonProps {
     loading?: boolean;
     leftIcon?: any;
     rightIcon?: any;
-    success?: boolean;
+    success?: any;
 
 }
 function getRelativeCoordinates(event: any, referenceElement: any) {
@@ -117,7 +116,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
             setSituation('inactive')
 
             // boxRef?.current?.classList?.remove(styles.buttonAnimation)
-        }, 510);
+        }, 710);
         onClick()
     }
 
@@ -155,7 +154,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                     <AnimatePresence>
 
 
-                        {success ?
+                        {success === 'success' ?
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -165,33 +164,48 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                             >
                                 <motion.span
 
-                                    className="text-green-300  drop-shadow-lg"
+                                    className="text-green-300 dark:text-green-400 drop-shadow-lg"
                                 >
                                     {text}
                                 </motion.span>
-                                <Icons icon="check" className="mx-2 text-green-300 drop-shadow-lg" />
+                                <Icons icon="check" className="mx-2 text-green-300 dark:text-green-400 drop-shadow-lg" />
                             </motion.div>
-                            :
-                            <>
-                                {leftIcon &&
-                                    <span className='mx-2 '>
-                                        {leftIcon}
-                                    </span>
-                                }
-                                <motion.span
+                            : success === 'error' ?
+                                <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
                                     exit={{ opacity: 0 }}
+                                    className="flex items-center justify-center "
                                 >
-                                    {text}
-                                </motion.span>
-                                {rightIcon &&
-                                    <span className='mx-2 '>
-                                        {rightIcon}
-                                    </span>
-                                }
-                            </>
+                                    <motion.span
+                                        className="text-red-300 text-sm dark:text-red-400 drop-shadow-lg"
+                                    >
+                                        {text}
+                                    </motion.span>
+                                    <Icons icon="error" className="mx-1 !w-6 !h-6 text-red-300 dark:text-red-400 drop-shadow-lg" />
+                                </motion.div>
+                                :
+                                <>
+                                    {leftIcon &&
+                                        <span className='mx-2 '>
+                                            {leftIcon}
+                                        </span>
+                                    }
+                                    <motion.span
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.5 }}
+                                        exit={{ opacity: 0 }}
+                                    >
+                                        {text}
+                                    </motion.span>
+                                    {rightIcon &&
+                                        <span className='mx-2 '>
+                                            {rightIcon}
+                                        </span>
+                                    }
+                                </>
                         }
 
 
@@ -257,11 +271,11 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                                         animate={{
 
                                             // boxShadow: "0 0 300px 450px rgba(255,255,255,0.4)",
-                                            scale: 22,
+                                            scale: 24,
                                             opacity: 1
                                         }}
                                         initial={{ opacity: 0, scale: 1 }}
-                                        transition={{ duration: 0.5 }}
+                                        transition={{ duration: 0.65 }}
                                         exit={{ opacity: 0, }}
 
                                     />

@@ -14,7 +14,7 @@ import { useTranslation } from 'next-i18next'
 import Searchbar from './Searchbar'
 import { motion, AnimatePresence } from "framer-motion"
 import Icons from '../UI/Icons'
-
+import ShopCart from './ShopCart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGem } from '@fortawesome/free-solid-svg-icons'
 
@@ -46,7 +46,6 @@ function Navbar(props: any) {
 
     let [signModal, setSignModal] = useState('')
     const [user, setUser] = useState({} as any);
-    const [cartItems, setCartItems] = useState({} as any);
 
     const [navigation, setNavigation] = useState(navigations);
     //@ts-ignore
@@ -169,24 +168,7 @@ function Navbar(props: any) {
                                         <span className="sr-only">View notifications</span>
                                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                                     </button>
-                                    <AnimatePresence>
-                                        <button
-                                            type="button"
-                                            className="relative rounded-full h-9 w-9 flex items-center justify-center bg-primary-100 dark:bg-opacity-10 mx-3  p-1 text-primary-400 hover:text-primary-500 hover:bg-primary-200 focus:outline-none focus:ring-1 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-primary-400"
-                                        >
-                                            <span className="sr-only">View notifications</span>
-                                            {cartItems?.products && cartItems?.products?.length > 0 &&
-                                                <motion.span className='absolute -top-3 -left-2 bg-green-200 dark:bg-green-100 text-primary-500 flex w-6 h-6 items-center justify-center rounded-full'
-                                                    transition={{ duration: 0.3 }}
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    exit={{ opacity: 0, scale: 0.9 }}
-                                                >{cartItems.length}</motion.span>
-                                            }
-                                            <Icons className="w-5 h-5" icon='cart' />
-                                            
-                                        </button>
-                                    </AnimatePresence>
+                                <ShopCart></ShopCart>
 
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
