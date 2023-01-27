@@ -2,18 +2,43 @@ import api from '../../../api';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faCoins, faStar, faTag, faCartPlus } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faCoins, faStar, faTag, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import ImagesWrapper from '../../../components/Products/ImagesWrapper';
 import styles from '../../../components/Cards/cards.module.scss'
 import Button from '../../../components/UI/Button';
+import { useState } from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { getCartItems, addCartItems } from "../../../store/cartSlice";
 
 
 function Product(props: any) {
   const router = useRouter()
   const slug = router.query.slug as string
   const { t } = useTranslation(['common'])
+  const [loadingAddToCart, setLoadingAddToCart] = useState(false)
+  const [addCartText, setAddCartText] = useState('')
+  const [successAddToCart, setSuccessAddToCart] = useState(false)
+  const dispatch = useDispatch();
+  const addToCart = async () => {
+    const data: any = {
+      productId: props.product._id,
+    };
+    setLoadingAddToCart(true)
+    //@ts-ignore
+    await dispatch(addCartItems(data)).then((res: any) => {
+      setAddCartText(`${t('common:products:added-to-cart')}`)
+      setSuccessAddToCart(true)
+      setLoadingAddToCart(false)
+      setTimeout(() => {
+        setAddCartText('')
+        setSuccessAddToCart(false)
+      }, 3000)
+    }
+    )
+
+  }
 
   return (
 
@@ -80,14 +105,15 @@ function Product(props: any) {
             </div>
 
             <div className={'w-full p-1 flex-wrap lg:flex-nowrap sm:p-4 flex-row  flex gap-2 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
-              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => { console.log('add cart now') }} text={`${t('common:products:add-to-cart')}`}
+              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartShopping} />} onClick={() => { addToCart() }}
+                text={`${addCartText || t('common:products:add-to-cart')}`} loading={loadingAddToCart} success={successAddToCart}
                 className="text-lg w-full d3-shadow3 max-w-[335px]"></Button>
-              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartPlus} />} onClick={() => { console.log('buy now') }} text={`${t('common:products:buy-now')}`}
+              <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartShopping} />} onClick={() => { console.log('buy now') }} text={`${t('common:products:buy-now')}`}
                 className="text-lg w-full bg-button-gradient2 d3-shadow3 max-w-[335px]"></Button>
             </div>
 
             <div className={'w-full p-4 flex-row flex-wrap flex gap-4 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
-              <div className='flex gap-2 items-center relative bg-primary-gradient2 w-fit  md:w-auto px-4    p-2 d3-shadow3 rounded-lg'>
+              <div className='flex gap-2 items-center relative bg-primary-gradient2 w-fit  md:w-auto px-4 p-2 d3-shadow3 rounded-lg'>
                 <div className="flex gap-4 items-center justify-center">
                   <div className='bg-primary-gradient2  d3-shadow3 w-6 h-6 rounded-full flex items-center justify-center'>
                     <FontAwesomeIcon className='w-4 h-4 text-primary-300 dark:text-primary-200 ' icon={faStar} />

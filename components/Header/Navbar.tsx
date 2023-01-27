@@ -121,7 +121,7 @@ function Navbar(props: any) {
                                     <button onClick={() => { router.push('/') }} className="flex flex-shrink-0 items-center cursor-pointer">
                                         <div className='bg-button-gradient2 flex items-center justify-center h-10 px-4 rounded-full d3-shadow'>
                                             <FontAwesomeIcon icon={faGem} className="h-5 text-primary-50" />
-                                            <span className='text-primary-50 font-medium ml-2 hidden sm:flex'>eCommerce</span>
+                                            <span className='text-primary-50 font-medium ml-2 hidden lg:flex'>eCommerce</span>
                                         </div>
 
                                         {/* 

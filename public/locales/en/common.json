@@ -24,6 +24,8 @@
     "rating": "Rating",
     "reviews": "Reviews",
     "category": "Category",
-    "click-to-expand-image": "Click to expand image"
+    "click-to-expand-image": "Click to expand image",
+    "added-to-cart": "Added successfully"
+
   }
 }
