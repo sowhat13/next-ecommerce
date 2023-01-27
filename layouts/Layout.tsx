@@ -5,6 +5,8 @@ import styles from './layouts.module.scss'
 import api from '../api';
 import { useDispatch } from 'react-redux'
 import userSlice from '../store/userSlice';
+import { getCartItems } from '../store/cartSlice';
+
 import { useEffect, useContext } from 'react'
 import { Alert } from '../components/UI/Alert'
 import { ContextWrapper } from '../context'
@@ -13,12 +15,14 @@ function Layout({ children }: any) {
     const isDevelopmentClass = process.env.NODE_ENV === 'development' ? '' : 'overflow-hidden';
 
     const dispatch = useDispatch();
+
     useEffect(() => {
         getUser().then((user: any) => {
             console.log(user, '2sssssss')
             if (user.code === 200) {
                 dispatch(userSlice.actions.setUser({ ...user.data }));
             }
+
         })
 
     }, []);

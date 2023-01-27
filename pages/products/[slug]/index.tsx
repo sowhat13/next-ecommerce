@@ -19,21 +19,26 @@ function Product(props: any) {
   const { t } = useTranslation(['common'])
   const [loadingAddToCart, setLoadingAddToCart] = useState(false)
   const [addCartText, setAddCartText] = useState('')
-  const [successAddToCart, setSuccessAddToCart] = useState(false)
+  const [successAddToCart, setSuccessAddToCart] = useState('')
   const dispatch = useDispatch();
   const addToCart = async () => {
-    const data: any = {
-      productId: props.product._id,
-    };
+ 
     setLoadingAddToCart(true)
     //@ts-ignore
-    await dispatch(addCartItems(data)).then((res: any) => {
-      setAddCartText(`${t('common:products:added-to-cart')}`)
-      setSuccessAddToCart(true)
+    await dispatch(addCartItems(props.product)).then((res: any) => {
+      if (res.code === 200) {
+        console.log(res)
+        setAddCartText(`${t('common:products:added-to-cart')}`)
+        setSuccessAddToCart('success')
+      }else {
+        setAddCartText(`${t('common:products:added-to-cart-error')}`)
+        setSuccessAddToCart('error')
+      }
       setLoadingAddToCart(false)
       setTimeout(() => {
-        setAddCartText('')
-        setSuccessAddToCart(false)
+
+          setSuccessAddToCart('')
+          setAddCartText('')
       }, 3000)
     }
     )

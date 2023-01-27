@@ -25,7 +25,8 @@
     "reviews": "Yorumlar",
     "category": "Kategori",
     "click-to-expand-image": "Yakınlaştırmak için tıklayın",
-    "added-to-cart": "Başarıyla Eklendi"
+    "added-to-cart": "Başarıyla Eklendi",
+    "added-to-cart-error": "Sepete eklenemedi, tekrar deneyin"
 
   }
 }
