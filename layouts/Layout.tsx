@@ -12,7 +12,7 @@ import { Alert } from '../components/UI/Alert'
 import { ContextWrapper } from '../context'
 function Layout({ children }: any) {
     const context = useContext(ContextWrapper) as any;
-    const isDevelopmentClass = process.env.NODE_ENV === 'development' ? '' : 'overflow-hidden';
+    const isDevelopmentClass = process.env.NODE_ENV === 'development' ? '' : 'overflow-x-hidden';
 
     const dispatch = useDispatch();
 

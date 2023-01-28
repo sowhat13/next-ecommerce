@@ -6,7 +6,7 @@ function Header(props: any) {
         props.signOut();
     }
     return (
-        <div className='flex flex-col w-full  sticky top-0 left-0 z-50 bg-background-color'>
+        <div className='flex flex-col w-full z-50 bg-background-color'>
             <Notification />
             <Navbar signOut={signOut} />
         </div>
