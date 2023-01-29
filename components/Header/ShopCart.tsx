@@ -79,7 +79,8 @@ function ShopCart() {
 
                     {(itemCount && itemCount > 0) ?
                         <AnimatePresence>
-                            <motion.span className='absolute d3-shadow3 -top-2 -left-1 z-20 text-xs font-medium bg-green-300 dark:bg-green-200 text-orange-500 flex w-5 h-5 items-center justify-center rounded-full'
+                            <motion.span 
+                            className='absolute d3-shadow3 -top-2 -left-1 z-20 text-xs font-medium bg-green-300 dark:bg-green-200 text-orange-500 flex w-6 h-6 items-center justify-center rounded-full'
                                 animate={{ scale: [0.5, 1, 1.2, 1], opacity: [0, 0.5, 1, 1], y: [-10, -5, 0, 0] }}
                                 transition={{ times: [0, 0.3, 0.9, 1] }}
                                 exit={{ opacity: 0, scale: 0.5 }}
@@ -110,14 +111,14 @@ function ShopCart() {
                                     <AnimatePresence key={index}>
 
                                         <motion.div
-                                            className='w-[280px] bg-primary-400 relative dark:bg-primary-500 rounded-xl text-white flex flex-col items-center px-2 pb-2 cursor-pointer hover:opacity-95'
+                                            className='w-[280px] bg-primary-400 relative dark:bg-primary-500 rounded-xl rounded-t-2xl d3-shadow2 text-white flex flex-col items-center p-2 cursor-pointer hover:opacity-95'
                                             initial={{ x: -100 }}
                                             animate={{ x: 0 }}
                                             transition={{ duration: 0.5 }}
                                             exit={{ opacity: 0, scale: 0.5 }}
                                             onClick={() => { deleteNotification(changedItem._id) }}
                                         >
-                                            <span className="absolute top-2 right-2">
+                                            <span className="absolute top-3 right-3">
                                                 <Icons icon="xmark" size="10" />
 
                                             </span>
@@ -125,7 +126,7 @@ function ShopCart() {
                                             <div className={`text-sm font-medium flex justify-center w-full px-2 items-center ${changedItem.lastChange == 'add' ? ' text-green-400' : changedItem.lastChange == 'remove' ? ' text-red-500' : ''}`}
                                             >{t('common:products:added-to-cart')}</div>
 
-                                            <motion.div className='flex items-center gap-2 w-full h-full'
+                                            <motion.div className='flex items-center gap-2 w-full h-12'
                                             >
                                                 <div className='flex justify-center items-center w-[30px] h-[30px] min-w-[30px] min-h-[30px] ring-1 ring-offset-2 ring-primary-700/50 ring-offset-primary-600/50 rounded-full overflow-hidden'>
                                                     <GImage className='rounded-full' src={changedItem?.cover?.url || changedItem?.images[0]?.url} width={30} height={30} alt={"Last changed item"}></GImage>
