@@ -32,12 +32,10 @@ export default async function handler(
 
     const response = await fetch(url, options)
     result = await response.json()
-    console.log('bugggggg@@@@@@@ result', result)
 
     if(result){
       res.status(200).json(result)
     }else {
-    console.log('bugggggg@@@@@@@ else')
 
     //@ts-ignore
       res.status(200).json({message:"Couldn't get products...", code: 500})

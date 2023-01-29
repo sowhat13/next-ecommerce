@@ -4,9 +4,10 @@ import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux';
 import store from '../store'
 import { ContextWrapper } from '../context';
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { appWithTranslation } from 'next-i18next'
 import NextNProgress from 'nextjs-progressbar';
+import { setCookie,getCookie } from "cookies-next";
 
 function App({ Component, pageProps }: AppProps) {
   const [alerts, setAlerts] = useState([]);
@@ -18,6 +19,16 @@ function App({ Component, pageProps }: AppProps) {
     {/* @ts-ignore */ }
     setAlerts([...alerts, newAlertRef]);
   }, [alerts]);
+  const checksui = () => {
+    const sui = getCookie('sui')
+    if (!sui) {
+      const newsui = crypto.randomUUID()
+      setCookie('sui', newsui)
+    }
+  }
+  useEffect(() => {
+    checksui()
+  }, [])
 
   return (
     <Provider store={store}>

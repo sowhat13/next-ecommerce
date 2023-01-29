@@ -1,5 +1,6 @@
 
 import api from '../api';
+import { setCookie,getCookie } from "cookies-next";
 
 
 interface cartState {
@@ -56,7 +57,8 @@ const cartSlice = {
 
 export const getCartItems = () => async (dispatch: any) => {
     try {
-        const response = await api.request('/cart');
+        const sui = getCookie('sui') || undefined
+        const response = await api.request('/cart', { sui: sui });
         dispatch(cartSlice.actions.getCartItem(response.data));
     } catch (err: any) {
         throw new Error(err);
@@ -67,7 +69,10 @@ export const addCartItems = (data: any) => async (dispatch: any) => {
     console.log(data, 'data@@@@@@@@@@@@@@@@@add')
     try {
         // console.log(data);
-        const response = await api.request('/cart/addToCart', undefined, { body: JSON.stringify({ productId: data._id }), method: 'PUT' });
+        const sui = getCookie('sui')
+        const body:any = { productId: data._id }
+        if(sui) body.sui = sui
+        const response = await api.request('/cart/addToCart', undefined, { body: JSON.stringify(body), method: 'PUT' });
        
         if (response && response.code == 200) {
             response.data.lastChangedItem = data
