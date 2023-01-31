@@ -8,4 +8,5 @@ interface ContextWrapperType {
     setAlerts?: (value: any[]) => void;
 }
 
+
 export const ContextWrapper = createContext<ContextWrapperType>({} as ContextWrapperType);

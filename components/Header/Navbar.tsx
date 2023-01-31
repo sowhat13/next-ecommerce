@@ -17,6 +17,7 @@ import Icons from '../UI/Icons'
 import ShopCart from './ShopCart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGem } from '@fortawesome/free-solid-svg-icons'
+import { setCookies, getCookie } from 'cookies-next';
 
 
 function classNames(...classes: any) {
@@ -266,6 +267,15 @@ function Navbar(props: any) {
                                                             {({ active }) => (
 
                                                                 <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
+                                                                    <SetCurrency title={t('common:language')} />
+                                                                </span>
+                                                            )}
+
+                                                        </Menu.Item>
+                                                        <Menu.Item >
+                                                            {({ active }) => (
+
+                                                                <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
                                                                     <SetTheme title={t('common:theme')} dark={t('common:dark')} light={t('common:light')} theme={theme} handleToggle={handleToggle} />
                                                                 </span>
                                                             )}
@@ -313,6 +323,17 @@ function Navbar(props: any) {
                                                             )}
 
                                                         </Menu.Item>
+                                                        <Menu.Item >
+                                                            {({ active }) => (
+
+                                                                <span className={classNames(active ? 'bg-gray-100' : '', 'block text-sm text-gray-700')}>
+                                                                    <SetCurrency title={t('common:language')} />
+                                                                </span>
+                                                            )}
+
+                                                        </Menu.Item>
+
+
                                                         <Menu.Item >
                                                             {({ active }) => (
 
@@ -396,7 +417,32 @@ function SetLanguage(props: any) {
         </Popover>
     )
 }
+function SetCurrency(props: any) {
+    const setCrc = (crc: string) => {
+        setCookies('currency', crc)
+        setCurrency(crc)
+        //@ts-ignore
+        location.reload()
+    }
+    const cookieCurrecy: any = getCookie('currency') || 'USD'
 
+    const [currency, setCurrency]: any = useState(cookieCurrecy)
+
+
+    return (
+        <Popover className="relative">
+            <Popover.Button className={'flex w-full h-full px-4 py-2 '}>Change Currency</Popover.Button>
+
+            <Popover.Panel as="div" className="absolute z-20 top-4 flex flex-col w-full right-24 rounded-md bg-white py-2 text-sm text-gray-700 shadow-lg">
+                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
+                    + (props.active === 'USD' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { setCrc('USD') }}>USD</button>
+                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
+                    + (props.active === 'TRY' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { setCrc('TRY') }}>TRY</button>
+
+            </Popover.Panel>
+        </Popover>
+    )
+}
 function SetTheme(props: any) {
     return (
         <div className={'flex w-full h-full px-4 py-1 items-center'} onClick={(event) => { event.preventDefault(); props.handleToggle() }}>

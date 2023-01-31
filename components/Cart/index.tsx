@@ -4,13 +4,20 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 import GImage from '../../components/Global/GImage'
 import { useSelector, useDispatch } from "react-redux";
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { addCartItems } from "../../store/cartSlice";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '@/components/UI/Button'
+import Currency from '@/utils/currency'
+
 function Cart(props: any) {
     const { t } = useTranslation(['common'])
     const [loadingAddToCart, setLoadingAddToCart] = useState(false)
     const dispatch = useDispatch();
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [totalDiscount, setTotalDiscount] = useState(0)
     const addToCart = async (product: any) => {
 
         setLoadingAddToCart(true)
@@ -29,6 +36,28 @@ function Cart(props: any) {
     //@ts-ignore
     const cartItems: any = useSelector((state) => state.cart.cart);
     const cartProducts = cartItems.products
+    const checkPrices = (products: any) => {
+        let totalPrice = 0
+        let totalDiscount = 0
+        products.forEach((product: any) => {
+            const price = product.product?.price
+            if (price?.isDiscount) {
+                totalDiscount += (price?.oldPrice - price?.price) * product.quantity
+            }
+            if (price?.price) {
+                totalPrice += price?.price * product.quantity
+            }
+        })
+        setTotalPrice(totalPrice)
+        setTotalDiscount(totalDiscount)
+    }
+
+    useEffect(() => {
+        if (cartProducts) {
+            checkPrices(cartProducts)
+        }
+    }, [cartProducts])
+
     return (
         <>
             <AnimatePresence>
@@ -58,13 +87,13 @@ function Cart(props: any) {
                                 </div>
                             </div>
                             {cartProducts && cartProducts.length > 0 ?
-                                <div className='flex flex-col hover-scrollbar gap-1 max-w-[92%] h-full overflow-y-auto overflow-x-hidden mx-auto bg-primary-100 border border-primary-200 dark:border-primary-600 dark:bg-primary-900 dark:bg-opacity-30 rounded-lg'>
+                                <div className='flex flex-col hover-scrollbar gap-1 max-w-[92%] h-full overflow-y-auto overflow-x-hidden mx-auto bg-primary-100 border border-primary-200 dark:border-primary-500 dark:bg-primary-900 dark:bg-opacity-30 rounded-lg'>
                                     {
                                         cartProducts.map((cartItem: any, index: number) => {
                                             return (
                                                 <AnimatePresence key={index}>
                                                     <motion.div
-                                                        className='w-full flex flex-col items-center p-2 cursor-pointer border-b border-primary-200 dark:border-gray-900'
+                                                        className='w-full flex flex-col items-center p-2 cursor-pointer border-b dark:text-white border-primary-200 dark:border-primary-700'
                                                         initial={{ x: -100 }}
                                                         animate={{ x: 0 }}
                                                         transition={{ duration: 0.5 }}
@@ -78,17 +107,29 @@ function Cart(props: any) {
                                                             <span className='max-w-[100%] text-ellipsis2 text-sm'>
                                                                 {cartItem?.product?.title}
                                                             </span>
-                                                            <span className='max-w-[80px] min-w-[80px] flex flex-wrap justify-end items-center ml-auto text-xs'>
-                                                                {cartItem?.product?.price?.price?.toFixed(2)} $
-                                                            </span>
+
+                                                            <div className="flex flex-col ml-auto mr-1 items-end justify-center max-w-[80px] min-w-[80px]">
+                                                                {(() => {
+                                                                    if (cartItem?.product?.price?.isDiscount) {
+                                                                        return (<span className={'text-xs text-red-500 line-through'}>
+                                                                            <span className='sr-only'>Old Price: </span>
+                                                                            {Currency(cartItem?.product?.price?.oldPrice)}
+                                                                        </span>)
+                                                                    }
+                                                                })()}
+                                                                <span className='items-center ml-auto text-sm font-medium'>
+                                                                {Currency(cartItem?.product?.price?.price)}
+
+                                                                </span>
+                                                            </div>
                                                         </motion.div>
                                                         <div>
-                                                            <div className='flex items-center justify-between gap-2 w-full h-8 bg-primary-200 rounded-xl px-2'>
+                                                            <div className='flex items-center justify-between gap-2 w-full h-8 bg-primary-200 rounded-xl px-2 mt-2'>
                                                                 <div className='flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 bg-opacity-20 text-primary-400 hover:bg-opacity-10 transition'>
                                                                     <Icons icon="minus" className=" !w-5 !h-5 cursor-pointer" size="12" ></Icons>
                                                                 </div>
 
-                                                                <span className='min-w-[20px] flex justify-center'>
+                                                                <span className='min-w-[28px] flex justify-center text-primary-700'>
                                                                     {cartItem?.quantity}
                                                                 </span>
                                                                 <div
@@ -110,8 +151,18 @@ function Cart(props: any) {
                                 : null
 
                             }
-                            <div className='flex flex-col gap-2 w-full h-24 p-4'>
-                                <Button text={'Checkout'} onClick={() => {return}}></Button>
+                            <div className='flex flex-col gap-2 w-full min-h-[120px] p-4'>
+                                <div className='flex justify-between items-center flex-wrap'>
+                                    <span className='text-sm font-medium text-primary-500 flex dark:text-primary-300'>
+                                        <span className='!w-[100px]'> Total Discount:</span> <span className='ml-1 text-green-600 dark:text-green-400'>{Currency(totalDiscount)}</span>
+                                    </span>
+                                    <span className='text-sm font-medium text-primary-500 flex  dark:text-primary-300'>
+                                        <span className='!w-[100px]'> Total Price:</span> <span className='ml-1 text-primary-900 dark:text-primary-200'>{Currency(totalPrice)}</span>
+                                    </span>
+
+
+                                </div>
+                                <Button text={'Checkout'} onClick={() => { return }}></Button>
                             </div>
                         </div>
 

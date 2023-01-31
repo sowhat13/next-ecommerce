@@ -11,6 +11,7 @@ import Button from '../../../components/UI/Button';
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { getCartItems, addCartItems } from "../../../store/cartSlice";
+import Currency from '@/utils/currency'
 
 
 function Product(props: any) {
@@ -22,7 +23,7 @@ function Product(props: any) {
   const [successAddToCart, setSuccessAddToCart] = useState('')
   const dispatch = useDispatch();
   const addToCart = async () => {
- 
+
     setLoadingAddToCart(true)
     //@ts-ignore
     await dispatch(addCartItems(props.product)).then((res: any) => {
@@ -30,15 +31,15 @@ function Product(props: any) {
         console.log(res)
         setAddCartText(`${t('common:products:added-to-cart')}`)
         setSuccessAddToCart('success')
-      }else {
+      } else {
         setAddCartText(`${t('common:products:added-to-cart-error')}`)
         setSuccessAddToCart('error')
       }
       setLoadingAddToCart(false)
       setTimeout(() => {
 
-          setSuccessAddToCart('')
-          setAddCartText('')
+        setSuccessAddToCart('')
+        setAddCartText('')
       }, 3000)
     }
     )
@@ -95,13 +96,15 @@ function Product(props: any) {
                           return (<span className={styles.cardPriceButtonDiscountText + ' !text-md'}>
                             <FontAwesomeIcon icon={faAngleDown} />
                             <span className='sr-only'>Old Price: </span>
-                            {props.product.price?.oldPrice?.toFixed(2)} $
+
+                            {Currency(props.product.price?.oldPrice)}
+
                           </span>)
                         }
                       })()}
                       <span className={styles.cardPriceButtonText + ' !text-xl'}>
                         <span className='sr-only'>Price: </span>
-                        {props.product.price?.price?.toFixed(2)} $
+                        {Currency(props.product.price?.price)}
                       </span>
                     </div>
                   </div>
