@@ -30,7 +30,7 @@ const api = {
             query = query.replace('?', '')
         }
 
-        console.log(query)
+        console.log(query, options)
         console.log(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`)
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''

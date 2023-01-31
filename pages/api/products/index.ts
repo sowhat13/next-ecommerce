@@ -19,13 +19,17 @@ export default async function handler(
     const url = process.env.NEXT_PUBLIC_API_URL + `api/products${req.query && req.query.slug ? ('/' + req.query.slug) : query ? '?' + query : ''}`
     console.log(url)
     const token = req?.cookies?.token
+console.log(req.cookies, 'req cookieseqweqw€@@@€@')
     const options: any = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        ...(token &&   { Authorization: `${token}`  }),
+        ...(req.cookies &&   { cookies: JSON.stringify(req.cookies)  }),
+
+
       },
       credentials: 'include',
-      ...(token && { headers: { Authorization: `${token}` } }),
 
     };
 

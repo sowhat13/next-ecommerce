@@ -60,6 +60,7 @@ export async function getServerSideProps({ query, req, res, locale }: any) {
   const qry: any = {}
   if (query.search) { qry.term = query.search }
   if (query.sort == 'discount') { qry.sort = '-price.discountPercentage' }
+  if (req && req.headers) options.headers = { ...req.headers }
 
   qry.limit = 20
   let discountedProducts: any = null;
