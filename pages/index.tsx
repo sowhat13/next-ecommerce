@@ -42,7 +42,7 @@ function Home(props: any) {
 
 export async function getServerSideProps({ query, req, res, locale }: any) {
   const options: any = {};
-  // if (req && req.headers) options.headers = { ...req.headers }
+  if (req && req.headers) options.headers = { ...req.headers }
   const productsRes = await api.request('/products', { limit: 10, sort: '-price.discountPercentage' }, options);
   const products = productsRes.code === 200 ? productsRes.data : null;
   return {

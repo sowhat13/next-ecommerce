@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import cartSlice, { getCartItems } from "../../store/cartSlice";
 import GImage from '../../components/Global/GImage'
 import Cart from '../Cart'
+import Currency from '@/utils/currency'
 
 
 function ShopCart() {
@@ -147,7 +148,7 @@ function ShopCart() {
                                                     {changedItem.title}
                                                 </span>
                                                 <span className='max-w-[80px] min-w-[80px] flex flex-wrap justify-end items-center ml-auto text-xs'>
-                                                    {changedItem.price?.price.toFixed(2)} $
+                                                    {Currency(changedItem.price?.price)}
                                                 </span>
                                             </motion.div>
                                         </motion.div>
