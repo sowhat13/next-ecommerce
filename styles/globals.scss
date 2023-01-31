@@ -20,7 +20,32 @@ a {
 * {
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(160deg, rgb(157, 147, 250), rgb(110, 97, 231));
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
 
+::-webkit-scrollbar-thumb:active {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+  background: rgb(175, 166, 255);
+  border: 0px none #ffffff;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
 
 @media screen and (max-width: 768px) {
 

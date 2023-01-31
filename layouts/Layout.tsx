@@ -3,17 +3,17 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import styles from './layouts.module.scss'
 import api from '../api';
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import userSlice from '../store/userSlice';
 import { getCartItems } from '../store/cartSlice';
-
 import { useEffect, useContext } from 'react'
 import { Alert } from '../components/UI/Alert'
 import { ContextWrapper } from '../context'
+
+
 function Layout({ children }: any) {
     const context = useContext(ContextWrapper) as any;
     const isDevelopmentClass = process.env.NODE_ENV === 'development' ? '' : 'overflow-x-hidden';
-
     const dispatch = useDispatch();
 
     useEffect(() => {

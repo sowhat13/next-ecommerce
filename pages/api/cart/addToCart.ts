@@ -20,14 +20,15 @@ export default async function handler(
         console.log(url, 'url', req.body)
         const token = req?.cookies?.token
 
-        console.log(req.body, 'req body')
+        console.log(req.cookies, 'req cookies')
         const options: any = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
+                ...(token &&   { Authorization: `${token}`  }),
+                ...(req.cookies &&   { cookies: JSON.stringify(req.cookies)  }),
             },
             credentials: 'include',
-            ...(token && { headers: { Authorization: `${token}`, 'Content-Type': 'application/json; charset=utf-8', } }),
             body: JSON.stringify(req.body)
         };
         console.log(options, 'options')
