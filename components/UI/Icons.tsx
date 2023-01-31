@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function Icons(props: any) {
     const draw = {
@@ -37,12 +37,12 @@ function Icons(props: any) {
                 </svg>
                     : props.icon == "check" ?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" fill='currentColor' className={'w-6 h-6 ' + props.className}>
-                            <motion.path fillRule="evenodd" 
-                             stroke="currentColor"
-                             initial={{ pathLength: 0 }}
-                             animate={{ pathLength: 1 }}
-                             transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
-                            d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clipRule="evenodd" />
+                            <motion.path fillRule="evenodd"
+                                stroke="currentColor"
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: 1 }}
+                                transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
+                                d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clipRule="evenodd" />
                         </svg>
 
 
@@ -81,7 +81,7 @@ function Icons(props: any) {
                                             viewBox={`0 0 ${size} ${size}`}
                                             initial="hidden"
                                             animate="visible"
-                                            className="fill-current"
+                                            className={'fill-current ' + props.className}
                                         >
 
                                             <motion.line
@@ -116,21 +116,54 @@ function Icons(props: any) {
                                                     transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
                                                     d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                                             </svg>
-                                            : props.icon == 'search' ?
+                                            : props.icon == 'arrowRight' ?
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={'w-6 h-6 ' + props.className}>
                                                     <motion.path strokeLinecap="round" strokeLinejoin="round"
                                                         stroke="currentColor"
-                                                        initial={{ pathLength: 0 }}
+                                                        initial={{ pathLength: 0, }}
                                                         animate={{ pathLength: 1 }}
                                                         transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
-                                                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                                 </svg>
 
 
-                                                : props.icon == 'cart' ?
-                                                    <FontAwesomeIcon className={'w-6 h-6 ' + props.className} icon={faCartShopping} />
+                                                : props.icon == 'search' ?
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={'w-6 h-6 ' + props.className}>
+                                                        <motion.path strokeLinecap="round" strokeLinejoin="round"
+                                                            stroke="currentColor"
+                                                            initial={{ pathLength: 0 }}
+                                                            animate={{ pathLength: 1 }}
+                                                            transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
+                                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                                    </svg>
 
-                                                    : null
+
+                                                    : props.icon == 'cart' ?
+                                                        <FontAwesomeIcon className={'w-6 h-6 ' + props.className} icon={faCartShopping} />
+                                                        : props.icon == 'minus' ?
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={'w-6 h-6 ' + props.className}>
+                                                                <motion.path strokeLinecap="round" strokeLinejoin="round" 
+                                                                   stroke="currentColor"
+                                                                   initial={{ pathLength: 0 }}
+                                                                   animate={{ pathLength: 1 }}
+                                                                   transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
+                                                                d="M19.5 12h-15" />
+                                                            </svg>
+
+                                                            : props.icon == 'plus' ?
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+
+                                                                    strokeWidth={1.5} stroke="currentColor" className={'w-6 h-6 ' + props.className}>
+                                                                    <motion.path strokeLinecap="round"
+                                                                        stroke="currentColor"
+                                                                        initial={{ pathLength: 0 }}
+                                                                        animate={{ pathLength: 1 }}
+                                                                        transition={{ repeat, repeatDelay, duration, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
+                                                                        strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                                                </svg>
+
+
+                                                                : null
             }
         </>
     )

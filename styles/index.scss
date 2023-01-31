@@ -4,6 +4,8 @@
 
 
 
+
+
 .my-container {
     @include container;
 }
@@ -19,6 +21,24 @@
     }
 }
 
+.hover-scrollbar{
+  
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari, Opera*/
+    }
+    transition: 0.5s ease all;
+
+    &:hover{
+        -ms-overflow-style: auto;  /* IE and Edge */
+        scrollbar-width: auto;  /* Firefox */
+        overflow-y: overlay;
+        &::-webkit-scrollbar {
+            display: block;  /* Chrome, Safari, Opera*/
+        }
+    }
+}
 
 .shine {
     position: absolute;

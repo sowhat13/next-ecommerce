@@ -5,6 +5,7 @@ import { setCookie,getCookie } from "cookies-next";
 
 interface cartState {
     cart: {};
+    isCartOpen: boolean;
 }
 // interface SetCartAction {
 //     type: 'SET_CART_ITEM';
@@ -17,6 +18,7 @@ interface cartState {
 
 const initialState: cartState = {
     cart: {},
+    isCartOpen: false,
 };
 
 const cartSlice = {
@@ -33,6 +35,11 @@ const cartSlice = {
                     ...state,
                     cart: { ...action.payload },
                 };
+            case 'TOGGLE_CART':
+                return {
+                    ...state,
+                    isCartOpen: state.isCartOpen ? false : true,
+                };
             default:
                 return state;
         }
@@ -46,9 +53,13 @@ const cartSlice = {
             type: 'GET_CART_ITEM',
             payload,
         }),
+        toggleCart: (): any => ({
+            type: 'TOGGLE_CART',
+        }),
     },
     selectors: {
         getCart: (state: cartState) => state.cart,
+        getIsCartOpen : (state: cartState) => state.isCartOpen,
     },
 
 };
@@ -57,8 +68,13 @@ const cartSlice = {
 
 export const getCartItems = () => async (dispatch: any) => {
     try {
-        const sui = getCookie('sui') || undefined
-        const response = await api.request('/cart', { sui: sui });
+        let sui = getCookie('sui') || undefined
+        if (!sui) {
+          const newsui = crypto.randomUUID()
+          setCookie('sui', newsui)
+           sui = newsui
+        }
+        const response = await api.request('/cart');
         dispatch(cartSlice.actions.getCartItem(response.data));
     } catch (err: any) {
         throw new Error(err);
@@ -69,13 +85,16 @@ export const addCartItems = (data: any) => async (dispatch: any) => {
     console.log(data, 'data@@@@@@@@@@@@@@@@@add')
     try {
         // console.log(data);
-        const sui = getCookie('sui')
+        let sui = getCookie('sui') || undefined
+        if (!sui) {
+          const newsui = crypto.randomUUID()
+          setCookie('sui', newsui)
+        }
         const body:any = { productId: data._id }
-        if(sui) body.sui = sui
         const response = await api.request('/cart/addToCart', undefined, { body: JSON.stringify(body), method: 'PUT' });
        
         if (response && response.code == 200) {
-            response.data.lastChangedItem = data
+            response.data.lastChangedItem = {...data}
             response.data.lastChangedItem.lastChange = 'add'
             // console.log(response);
             dispatch(cartSlice.actions.setCartItem(response?.data));
