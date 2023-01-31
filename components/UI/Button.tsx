@@ -265,13 +265,13 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                                             left: mousePosition.x + 'px',
                                             top: mousePosition.y + 'px',
                                             borderRadius: '50%',
-                                            boxShadow: "0 0 10px 50px rgba(0,0,0,0.2)",
+                                            boxShadow: "0 0 10px 70px rgba(0,0,0,0.2)",
                                             scale: 0
                                         }}
                                         animate={{
 
                                             // boxShadow: "0 0 300px 450px rgba(255,255,255,0.4)",
-                                            scale: 24,
+                                            scale: 26,
                                             opacity: 1
                                         }}
                                         initial={{ opacity: 0, scale: 1 }}

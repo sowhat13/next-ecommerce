@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { useSelector, useDispatch } from "react-redux";
 import { getCartItems, addCartItems } from "../../store/cartSlice";
 import Icons from '../UI/Icons';
+import Currency from '@/utils/currency'
 
 
 function Card(props: any) {
@@ -73,14 +74,14 @@ function Card(props: any) {
                                 return (<span className={styles.cardPriceButtonDiscountText}>
                                     <FontAwesomeIcon icon={faAngleDown} />
                                     <span className='sr-only'>Old Price: </span>
-                                    {props.item.price?.oldPrice?.toFixed(2)} $
+                                    {Currency(props.item.price?.oldPrice)} 
                                 </span>)
                             }
                         })()}
                         <span className={styles.cardPriceButtonText}>
                             <span className='sr-only'>Price: </span>
 
-                            {props.item.price?.price?.toFixed(2)} $
+                            {Currency(props.item.price?.price)}
                         </span>
                     </button>
                 </div>
