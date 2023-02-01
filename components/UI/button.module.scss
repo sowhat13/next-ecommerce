@@ -1,5 +1,6 @@
 .buttonWrapper {
-    // transition: 0.3s ease all;
+    position: relative;
+    overflow: hidden;
     &:hover {}
 
     &:active {

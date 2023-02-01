@@ -35,6 +35,7 @@
         scrollbar-width: auto;  /* Firefox */
         overflow-y: overlay;
         &::-webkit-scrollbar {
+            z-index: 9999;
             display: block;  /* Chrome, Safari, Opera*/
         }
     }
@@ -46,9 +47,9 @@
     width: 100%;
     top: 0;
     height: 100%;
-    animation: shineit 3s infinite;
+    animation: shineit 2s infinite;
     -webkit-animation-name: shineit;
-    -webkit-animation-duration: 3s;
+    -webkit-animation-duration: 2s;
     -webkit-animation-iteration-count: infinite;
 
     &::before {

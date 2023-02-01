@@ -82,8 +82,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
         },
 
         inactive: {
-            rotateX: mousePosition.centerX,
-            rotateY: mousePosition.centerY
+      
         },
         shadowTap: {
             boxShadow: "0 0 30px 10px rgba(255,255,255,0.4),0 0 100px 40px rgba(255,255,255,0.4)",
