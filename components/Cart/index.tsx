@@ -99,7 +99,7 @@ function Cart(props: any) {
                                                         exit={{ opacity: 0, scale: 0.5 }}
                                                     >
                                                         {
-                                                            cartItem?.product._id == loadingAddToCart ?
+                                                            cartItem?.product?._id == loadingAddToCart ?
                                                                 <div className='flex w-full shine absolute left-0 top-0 h-full'></div> : null
                                                         }
                                                         <motion.div className='flex items-center gap-2 w-full h-12'>
@@ -128,7 +128,7 @@ function Cart(props: any) {
                                                         </motion.div>
                                                         <div className='relative grid grid-cols-10 gap-[2px] w-full'>
                                                             <div className='col-span-3 relative flex'>
-                                                                {loadingAddToCart && cartItem?.product._id == loadingAddToCart ?
+                                                                {loadingAddToCart && cartItem?.product?._id == loadingAddToCart ?
                                                                     <AnimatePresence>
                                                                         <motion.div className='absolute left-0 bottom-0 flex w-fit h-fit'
                                                                             initial={{ opacity: 0 }}
@@ -146,7 +146,7 @@ function Cart(props: any) {
                                                                     <Icons icon="minus" className=" !w-5 !h-5 cursor-pointer" size="12" ></Icons>
                                                                 </div>
 
-                                                                <span className={`min-w-[28px] flex justify-center text-primary-700 ${cartItem?.product._id == loadingAddToCart ? '!text-green-600' : ''}`}>
+                                                                <span className={`min-w-[28px] flex justify-center text-primary-700 ${cartItem?.product?._id == loadingAddToCart ? '!text-green-600' : ''}`}>
                                                                     {cartItem?.quantity}
 
                                                                 </span>
