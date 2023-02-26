@@ -56,7 +56,7 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
           pagesArr.push(page - 1, page, page + 1)
         } else if (arrayWidth === 4) {
           pagesArr.push(page - 1, page, page + 1, page + 2)
-        } else if (arrayWidth >= 5) {
+        } else {
 
         for (let i = page - 2; i <= page + 2; i++) {
           if(i > 0 && i <= totalPages)
