@@ -1,6 +1,7 @@
 
 import api from '../api';
 import { setCookie,getCookie } from "cookies-next";
+import {checksui} from '@/utils/randomUID'
 
 
 interface cartState {
@@ -68,16 +69,11 @@ const cartSlice = {
 
 export const getCartItems = () => async (dispatch: any) => {
     try {
-        let sui = getCookie('sui') || undefined
-        if (!sui) {
-          const newsui = crypto.randomUUID()
-          setCookie('sui', newsui)
-           sui = newsui
-        }
+        checksui()
         const response = await api.request('/cart');
         dispatch(cartSlice.actions.getCartItem(response.data));
     } catch (err: any) {
-        throw new Error(err);
+        console.log(err, 'getcart error')
     }
 };
 
@@ -103,7 +99,8 @@ export const addCartItems = (data: any) => async (dispatch: any) => {
         return response
 
     } catch (err: any) {
-        throw new Error(err);
+        console.log(err, 'addcart error')
+
     }
 };
 

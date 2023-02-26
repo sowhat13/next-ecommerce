@@ -1,5 +1,29 @@
 import deepMerge from '../utils/deepMerge'
 
+const forbiddenHeaderNames = [
+    'accept-charset',
+    'accept-encoding',
+    'access-control-request-headers',
+    'access-control-request-method',
+    'connection',
+    'content-length',
+    'cookie',
+    'cookie2',
+    'date',
+    'dnt',
+    'expect',
+    'host',
+    'keep-alive',
+    'origin',
+    'referer',
+    'te',
+    'trailer',
+    'transfer-encoding',
+    'upgrade',
+    'via',
+    
+  ]
+
 const defaultHeaders = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -30,11 +54,15 @@ const api = {
             query = query.replace('?', '')
         }
 
+        // Remove forbidden headers
+        for (const headerName of forbiddenHeaderNames) {
+            delete options.headers[headerName];
+        }
+
         console.log(query, options)
         console.log(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`)
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''
-                }`, options);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`, options);
             const data = await response.json();
             return data;
         } catch (error) {

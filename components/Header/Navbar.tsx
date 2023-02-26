@@ -112,6 +112,9 @@ function Navbar(props: any) {
     }
 
     return (
+        <div>
+            {fixedClass && <div className='w-full flex h-[64px]'></div>}
+
         <AnimatePresence>
             <motion.div
                 animate={fixedClass ? 'navbarFixed' : ''}
@@ -393,6 +396,8 @@ function Navbar(props: any) {
 
             </motion.div>
         </AnimatePresence>
+        </div>
+
     )
 }
 
@@ -408,10 +413,10 @@ function SetLanguage(props: any) {
             <Popover.Button className={'flex w-full h-full px-4 py-2 '}>{props.title}</Popover.Button>
 
             <Popover.Panel as="div" className="absolute z-20 top-4 flex flex-col w-full right-24 rounded-md bg-white py-2 text-sm text-gray-700 shadow-lg">
-                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
-                    + (props.active === 'en' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { changeLanguage('en') }}>English</button>
-                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
-                    + (props.active === 'tr' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { changeLanguage('tr') }}>Turkish</button>
+                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 '
+                    + (props.active === 'en' ? 'bg-primary-300 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { changeLanguage('en') }}>English</button>
+                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 '
+                    + (props.active === 'tr' ? 'bg-primary-300 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { changeLanguage('tr') }}>Turkish</button>
 
             </Popover.Panel>
         </Popover>
@@ -420,24 +425,56 @@ function SetLanguage(props: any) {
 function SetCurrency(props: any) {
     const setCrc = (crc: string) => {
         setCookies('currency', crc)
-        setCurrency(crc)
+        setActiveCurrency(crc)
         //@ts-ignore
         location.reload()
     }
     const cookieCurrecy: any = getCookie('currency') || 'USD'
 
-    const [currency, setCurrency]: any = useState(cookieCurrecy)
-
+    const [activeCurrency, setActiveCurrency]: any = useState(cookieCurrecy)
+    const currencies = [{
+        name: 'USD',
+        symbol: '$',
+        label: 'US Dollar'
+    }, {
+        name: 'TRY',
+        symbol: '₺',
+        label: 'Turkish Lira'
+    }, {
+        name: 'EUR',
+        symbol: '€',
+        label: 'Euro'
+    },
+    {
+        name: 'GBP',
+        symbol: '£',
+        label: 'British Pound'
+    },
+    {
+        name: 'JPY',
+        symbol: '¥',
+        label: 'Japanese Yen'
+    },
+    {
+        name: 'CNY',
+        symbol: '¥',
+        label: 'Chinese Yuan'
+    },
+    ]
 
     return (
         <Popover className="relative">
             <Popover.Button className={'flex w-full h-full px-4 py-2 '}>Change Currency</Popover.Button>
 
             <Popover.Panel as="div" className="absolute z-20 top-4 flex flex-col w-full right-24 rounded-md bg-white py-2 text-sm text-gray-700 shadow-lg">
-                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
-                    + (props.active === 'USD' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { setCrc('USD') }}>USD</button>
-                <button className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 '
-                    + (props.active === 'TRY' ? 'bg-primary-200 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { setCrc('TRY') }}>TRY</button>
+                {currencies.map((currency: any) => {
+                    return (
+                        <button key={currency.name} className={'bg-white flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 '
+                            + (activeCurrency === currency.name ? 'bg-primary-300 !text-primary-500 hover:!bg-primary-200 unselectable' : '')} onClick={() => { setCrc(currency.name) }}>{currency.symbol} {currency.name}</button>
+                    )
+                })
+                }
+
 
             </Popover.Panel>
         </Popover>

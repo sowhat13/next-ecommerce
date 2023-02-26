@@ -113,6 +113,7 @@ function Product(props: any) {
             </div>
 
             <div className={'w-full p-1 flex-wrap lg:flex-nowrap sm:p-4 flex-row  flex gap-2 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
+              
               <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartShopping} />} onClick={() => { addToCart() }}
                 text={`${addCartText || t('common:products:add-to-cart')}`} loading={loadingAddToCart} success={successAddToCart}
                 className="text-lg w-full d3-shadow3 max-w-[335px]"></Button>

@@ -109,14 +109,15 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
     const clicked = () => {
         if (loading || situation == 'loading' || situation == 'active' || disabled || success) return;
         // boxRef?.current?.classList?.add(styles.buttonAnimation)
+        onClick()
 
         setSituation('active')
+
         setTimeout(() => {
             setSituation('inactive')
 
             // boxRef?.current?.classList?.remove(styles.buttonAnimation)
-        }, 710);
-        onClick()
+        }, 810);
     }
 
     return (
@@ -129,8 +130,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                     whileTap={variants.active}
                     onClick={clicked}
                     className={styles.buttonWrapper + "  rounded-lg relative bg-button-gradient text-white font-medium border-r-2 border-b-2 !border-gray-500/25 py-2 px-4 flex items-center justify-center "
-                        + (className ? className : '') + (disabled ? ' !bg-none !shadow-none !bg-gray-300 ' : '') +
-                        (situation == 'loading' || loading ? ' pointer-events-none unselectable' : '')}  {...rest}
+                        + (disabled ? ' !bg-none !shadow-none !bg-gray-300 ' : '') + (situation == 'loading' || loading ? ' pointer-events-none unselectable' : '')  + (className ? className : '')}  {...rest}
 
                     ref={boxRef}
                     onMouseMove={e => handleMouseMove(e)}
@@ -259,7 +259,7 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                                     <motion.div
                                         style={{
                                             position: "absolute",
-                                            width: "10%",
+                                            width: "5%",
                                             aspectRatio: 1,
                                             left: mousePosition.x + 'px',
                                             top: mousePosition.y + 'px',
@@ -270,11 +270,11 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                                         animate={{
 
                                             // boxShadow: "0 0 300px 450px rgba(255,255,255,0.4)",
-                                            scale: 26,
+                                            scale: 53,
                                             opacity: 1
                                         }}
                                         initial={{ opacity: 0, scale: 1 }}
-                                        transition={{ duration: 0.65 }}
+                                        transition={{ duration: 0.8 }}
                                         exit={{ opacity: 0, }}
 
                                     />

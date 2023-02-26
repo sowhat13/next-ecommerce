@@ -92,7 +92,7 @@ function ShopCart() {
                     {(itemCount && itemCount > 0) ?
                         <AnimatePresence>
                             <motion.span 
-                            className='absolute d3-shadow3 -top-2 -left-1 z-20 text-xs font-medium bg-green-300 dark:bg-green-200 text-orange-500 flex w-6 h-6 items-center justify-center rounded-full'
+                            className='absolute shadow-lg -top-2 -left-2 z-20 text-xs font-medium bg-green-300 dark:bg-green-200 text-orange-500 flex w-6 h-6 items-center justify-center rounded-full'
                                 animate={{ scale: [0.5, 1, 1.2, 1], opacity: [0, 0.5, 1, 1], y: [-10, -5, 0, 0] }}
                                 transition={{ times: [0, 0.3, 0.9, 1] }}
                                 exit={{ opacity: 0, scale: 0.5 }}
@@ -101,7 +101,7 @@ function ShopCart() {
                     }
                     {cartItems && changedItems.length > 0 ?
                         <motion.div
-                            className={"w-2 h-2 rounded-full absolute flex bg-primary-400 z-5"}
+                            className={"w-2 h-2 rounded-full absolute flex bg-primary-300 z-5"}
                             transition={{ duration: 0.5 }}
                             initial={{ opacity: 0.5, y: -25 }}
                             animate={{ opacity: 1, y: -5 }}

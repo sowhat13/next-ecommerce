@@ -31,8 +31,6 @@ function SearchBar(props: any) {
                     }, 300)
                 }
             })
-
-            console.log(searchedProducts, 'products')
         }
     }
 
@@ -49,17 +47,21 @@ function SearchBar(props: any) {
 
 
     const handlePreSearch = () => {
-       setInputFocused(false);
-      
+        setInputFocused(false);
     }
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             //@ts-ignore
-
             router.replace(`/products?search=${searchBarRef?.current?.value}`)
         }
     };
+
+    const goSearch = () => {
+        //@ts-ignore
+        router.replace(`/products?search=${searchBarRef?.current?.value}`)
+    }
+
 
     return (
         <div className='flex w-full justify-center items-center '>
@@ -69,9 +71,9 @@ function SearchBar(props: any) {
                         onChange={debouncedResults} onFocus={() => { setInputFocused(true) }} onBlur={() => { setTimeout(() => { setInputFocused(false) }, 200) }}
                         type="text" placeholder={t('common:navbar:search') || 'Search...'} />
                     {/* @ts-ignore */}
-                    <Link replace href={`/products?search=${typeof window !== "undefined" && searchBarRef?.current?.value ? searchBarRef?.current?.value : searchTerm}`}>
+                    <button onClick={() => { goSearch() }}>
                         <Icons icon="search" className='!h-8 !w-8 rounded-full cursor-pointer text-primary-600 hover:bg-primary-200 p-1'></Icons>
-                    </Link>
+                    </button>
                     {(searchTerm && searchTerm.length > 0 && inputFocused) &&
                         <motion.div className='w-full flex flex-col absolute top-10 left-0 min-h-9 h-fit rounded-lg p-2 z-50 justify-center bg-white shadow-lg dark:primary-800'
                             transition={{ duration: 0.3 }}

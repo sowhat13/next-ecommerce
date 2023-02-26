@@ -272,28 +272,23 @@ $card-radius: 18px;
 //gradient color class for each of these variables on up
 
 .bg-primary-gradient {
-    background: $primary-color;
     background-image: $primary-gradient;
 }
 
 .bg-primary-gradient2 {
-    background: $primary-color;
     background-image: $primary-gradient2;
 }
 
 .bg-primary-gradient-soft {
-    background: $primary-color;
     background-image: $primary-gradient-soft;
 }
 
 .bg-primary-gradient-light {
-    background: $primary-color;
 
     background-image: $primary-gradient-light;
 }
 
 .bg-secondary-gradient {
-    background: $secondary-color;
     background-image: $secondary-gradient;
 }
 
@@ -346,4 +341,9 @@ $card-radius: 18px;
 
 .d3-shadow4 {
     box-shadow: $d3-shadow4;
+}
+
+
+.bg-image-none{
+    background-image: unset;
 }

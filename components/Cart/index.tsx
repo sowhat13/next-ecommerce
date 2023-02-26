@@ -11,11 +11,13 @@ import { addCartItems } from "../../store/cartSlice";
 import { useState, useEffect } from 'react'
 import Button from '@/components/UI/Button'
 import Currency from '@/utils/currency'
+import { useRouter } from 'next/router'
 
 function Cart(props: any) {
     const { t } = useTranslation(['common'])
     const [loadingAddToCart, setLoadingAddToCart]: any = useState(null)
     const dispatch = useDispatch();
+    const router = useRouter()
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalDiscount, setTotalDiscount] = useState(0)
     const addToCart = async (product: any) => {
@@ -100,14 +102,27 @@ function Cart(props: any) {
                                                     >
                                                         {
                                                             cartItem?.product?._id == loadingAddToCart ?
-                                                                <div className='flex w-full shine absolute left-0 top-0 h-full'></div> : null
+                                                                <motion.div
+                                                                    initial={{ opacity: 0 }}
+                                                                    animate={{ opacity: 1 }}
+                                                                    transition={{ duration: 0.5, yoyo: Infinity, ease: "easeInOut", delay: 0.3 }}
+                                                                    exit={{ opacity: 0, scale: 0.5 }}
+                                                                    className='flex w-full shine absolute left-0 top-0 h-full'></motion.div> : null
                                                         }
                                                         <motion.div className='flex items-center gap-2 w-full h-12'>
-                                                            <div className='flex justify-center items-center w-[30px] h-[30px] min-w-[30px] min-h-[30px] ring-1 ring-offset-2 ring-primary-700/50 ring-offset-primary-600/50 rounded-full overflow-hidden'>
+                                                            <div
+                                                                onClick={() => { router.replace(`/products/${cartItem?.product?.slug}`) }}
+
+                                                                className='flex justify-center items-center w-[30px] h-[30px] min-w-[30px] min-h-[30px] 
+                                                                ring-1 ring-offset-2 ring-primary-700/50 ring-offset-primary-600/50 hover:ring-offset-primary-600 dark:hover:ring-offset-primary-200
+                                                                rounded-full overflow-hidden'>
                                                                 <GImage className='rounded-full' src={cartItem?.product?.cover?.url || cartItem?.product?.images[0]?.url}
                                                                     width={30} height={30} alt={cartItem?.product?.title}></GImage>
                                                             </div>
-                                                            <span className='max-w-[100%] text-ellipsis2 text-sm'>
+                                                            <span
+                                                                onClick={() => { router.replace(`/products/${cartItem?.product?.slug}`) }}
+
+                                                                className='max-w-[100%] text-ellipsis2 text-sm hover:underline'>
                                                                 {cartItem?.product?.title}
                                                             </span>
 
@@ -177,7 +192,7 @@ function Cart(props: any) {
 
                             }
                             <div className='flex flex-col gap-2 w-full min-h-[120px] h-fit p-4 mt-auto'>
-                                <div className='flex justify-between items-center flex-wrap'>
+                                <div className='flex flex-col gap-1'>
                                     <span className='text-sm font-medium text-primary-500 flex dark:text-primary-300'>
                                         <span className='!w-[100px]'> Total Discount:</span> <span className='ml-1 text-green-600 dark:text-green-400'>{Currency(totalDiscount)}</span>
                                     </span>
@@ -188,7 +203,7 @@ function Cart(props: any) {
 
                                 </div>
                                 <div className="flex w-full h-full">
-                                    <Button className='min-w-full' text={'Checkout'} onClick={() => { return }}></Button>
+                                    <Button className='min-w-full h-fit break-words' text={'Checkout'} onClick={() => { return }}></Button>
                                 </div>
                             </div>
                         </div>

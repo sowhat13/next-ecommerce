@@ -2,14 +2,18 @@ import api from '../../api';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
-
+import Pagination from '@/components/UI/Pagination'
 import { Card, CardsWrapper } from '../../components/Cards/card'
 import Link from 'next/link'
-
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 function Products(props: any) {
   const { t } = useTranslation(['sign', 'common'])
-
+  const router = useRouter()
+  const pageChanged = (pg:any) => {
+    router.replace( { query: {...router.query, page: pg}})
+  }
 
   return (
     <div >
@@ -49,6 +53,8 @@ function Products(props: any) {
             }
           </div>
         }
+        {props?.products && props.products.length > 0 ?
+      <Pagination total={props.totalProducts} page={props.page} pageSize={props.pageSize} onPageChange={pageChanged} ></Pagination> : null}
       </div>
     </div>
   )
@@ -58,11 +64,14 @@ function Products(props: any) {
 export async function getServerSideProps({ query, req, res, locale }: any) {
   const options: any = {};
   const qry: any = {}
+  const page = query.page ? parseInt(query.page) : 1
   if (query.search) { qry.term = query.search }
+  if (query.page) { qry.page = page}
+
   if (query.sort == 'discount') { qry.sort = '-price.discountPercentage' }
   if (req && req.headers) options.headers = { ...req.headers }
-
-  qry.limit = 20
+  const pageSize = 20
+  qry.limit = pageSize
   let discountedProducts: any = null;
   const productsRes = await api.request('/products', qry, options);
   const products = productsRes.code === 200 ? productsRes.data : null;
@@ -79,7 +88,9 @@ export async function getServerSideProps({ query, req, res, locale }: any) {
       'sign', 'common'
     ])),
     products,
-    totalProducts
+    totalProducts,
+    pageSize,
+    page
   }
 
   if (discountedProducts && discountedProducts.length > 0) {
