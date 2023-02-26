@@ -21,6 +21,7 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
   const [oldActive, setOldActive] = useState(page)
   const buttonSize = size ? size : 34
   const wrapperRef:any = useRef(null)
+  const [arrayWidth, setArrayWidth] = useState(0)
 
   const arrayMaxWidth = () => {
     const wrapperWidth:any =  wrapperRef.current ? (wrapperRef?.current?.clientWidth - 16 - ( 4 * (buttonSize + 16)) ): 0
@@ -28,7 +29,7 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
      return arrayW < 1 ? 1 : arrayW
    }
  
-  const arrayWidth = arrayMaxWidth()
+
 
   const [pages] = useMemo(() => {
     const pagesArr: any = []
@@ -98,7 +99,10 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
     setActive(page)
     }, [page])
 
-
+    useEffect(() => {
+const widtht = arrayMaxWidth()
+      setArrayWidth(widtht)
+      }, [])
 
     return (
     <div ref={wrapperRef} className={`flex w-full overflow-clip max-w-[100%] items-center justify-center gap-4 p-2 relative ` + `${className ? className : ''}`}>
