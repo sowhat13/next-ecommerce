@@ -81,11 +81,8 @@ export const addCartItems = (data: any) => async (dispatch: any) => {
     console.log(data, 'data@@@@@@@@@@@@@@@@@add')
     try {
         // console.log(data);
-        let sui = getCookie('sui') || undefined
-        if (!sui) {
-          const newsui = crypto.randomUUID()
-          setCookie('sui', newsui)
-        }
+        checksui()
+       
         const body:any = { productId: data._id }
         const response = await api.request('/cart/addToCart', undefined, { body: JSON.stringify(body), method: 'PUT' });
        

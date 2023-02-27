@@ -179,7 +179,7 @@ function SignIn(props: any) {
                         </span>
                     </div>
                     <div className="mt-4">
-                        <Button loading={loading} text={`${t('signIn.submit')}`} onClick={() => { handleSignIn() }} className="text-lg w-full bg-button-gradient2 d3-shadow2"></Button>
+                        <Button loading={loading} text={`${t('signIn.submit')}`} onClick={() => { handleSignIn() }} className="!text-lg h-12 w-full bg-button-gradient2 d3-shadow2"></Button>
 
 
                     </div>
@@ -288,7 +288,7 @@ function SignUp(props: any) {
                     <div className="mt-4">
 
 
-                        <Button loading={loading} text={`${t('signUp.submit')}`} onClick={() => { handleSignUp() }} className="text-lg w-full bg-button-gradient2 d3-shadow2"></Button>
+                        <Button loading={loading} text={`${t('signUp.submit')}`} onClick={() => { handleSignUp() }} className="text-lg h-12 w-full bg-button-gradient2 d3-shadow2"></Button>
 
                     </div>
                 </motion.div>

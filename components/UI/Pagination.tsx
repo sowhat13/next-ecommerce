@@ -91,6 +91,8 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
   if(activInd > -1){
 
     setActiveIndex(activInd)
+    const widtht = arrayMaxWidth()
+      setArrayWidth(widtht)
   }
   }, [active, pages])
 

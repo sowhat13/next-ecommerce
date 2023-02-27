@@ -7,7 +7,6 @@ const forbiddenHeaderNames = [
     'access-control-request-method',
     'connection',
     'content-length',
-    'cookie',
     'cookie2',
     'date',
     'dnt',
@@ -59,7 +58,6 @@ const api = {
             delete options.headers[headerName];
         }
 
-        console.log(query, options)
         console.log(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`)
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`, options);

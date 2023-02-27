@@ -129,8 +129,8 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                     whileHover={variants.onHovered}
                     whileTap={variants.active}
                     onClick={clicked}
-                    className={styles.buttonWrapper + "  rounded-lg relative bg-button-gradient text-white font-medium border-r-2 border-b-2 !border-gray-500/25 py-2 px-4 flex items-center justify-center "
-                        + (disabled ? ' !bg-none !shadow-none !bg-gray-300 ' : '') + (situation == 'loading' || loading ? ' pointer-events-none unselectable' : '')  + (className ? className : '')}  {...rest}
+                    className={`${styles.buttonWrapper} rounded-lg relative bg-button-gradient text-white font-medium border-r-2 border-b-2 !border-gray-500/25 py-2 px-4 flex items-center justify-center 
+                        ${(disabled ? ' !bg-none !shadow-none !bg-gray-300 ' : '')} ${(situation == 'loading' || loading ? ' pointer-events-none unselectable' : '')} ${(className ? className : '')}`}  {...rest}
 
                     ref={boxRef}
                     onMouseMove={e => handleMouseMove(e)}
@@ -191,14 +191,14 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                                             {leftIcon}
                                         </span>
                                     }
-                                    <motion.span
+                                    <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.5 }}
                                         exit={{ opacity: 0 }}
                                     >
                                         {text}
-                                    </motion.span>
+                                    </motion.div>
                                     {rightIcon &&
                                         <span className='mx-2 '>
                                             {rightIcon}
