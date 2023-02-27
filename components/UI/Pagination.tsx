@@ -69,7 +69,7 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
       if(pagesArr[pagesArr.length - 1] !== totalPages) pagesArr.push(totalPages)
     }
     return [pagesArr]
-  }, [arrayWidth, page])
+  }, [arrayWidth, page,totalPages])
 
   const [activeIndex, setActiveIndex] = useState(pages.findIndex((item: any) => item == active))
 
