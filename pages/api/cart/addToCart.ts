@@ -17,7 +17,6 @@ export default async function handler(
         const query = new URLSearchParams(req.query).toString()
         if (!process.env.NEXT_PUBLIC_API_URL) return
         const url = process.env.NEXT_PUBLIC_API_URL + `api/carts/add-to-cart${req.query && req.query.slug ? ('/' + req.query.slug) : query ? '?' + query : ''}`
-        console.log(url, 'url', req.body)
         const token = req?.cookies?.token
 
         console.log(req.cookies, 'req cookies')
@@ -31,10 +30,8 @@ export default async function handler(
             credentials: 'include',
             body: JSON.stringify(req.body)
         };
-        console.log(options, 'options')
         const response = await fetch(url, options)
         result = await response.json()
-        console.log(result, 'result')
         if (result) {
             res.status(200).json(result)
         } else {

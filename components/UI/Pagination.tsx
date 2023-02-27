@@ -78,7 +78,6 @@ const Pagination: NextPage<PaginationProps> = ({ className, color,  page, pageSi
     typeof pg !== 'number' ? pg = parseInt(pg) : pg = pg
     if (page === 1 && pg === 0) return
     if( page === totalPages && pg === totalPages + 1) return
-    console.log(page, pg)
     setOldActive(activeIndex)
     setActive(pg)
     onPageChange(pg)

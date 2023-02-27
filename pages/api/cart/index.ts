@@ -17,9 +17,7 @@ export default async function handler(
     const query = new URLSearchParams(req.query).toString()
     if (!process.env.NEXT_PUBLIC_API_URL) return
     const url = process.env.NEXT_PUBLIC_API_URL +  `api/carts`
-    console.log(url)
     const token = req?.cookies?.token
-    console.log(req.cookies, 'req cookies')
 
     const options: any = {
       method: 'GET',
@@ -36,7 +34,6 @@ export default async function handler(
 
     const response = await fetch(url, options)
     result = await response.json()
-console.log(result)
     if(result){
       res.status(200).json(result)
     }else {

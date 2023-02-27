@@ -78,7 +78,6 @@ export const getCartItems = () => async (dispatch: any) => {
 };
 
 export const addCartItems = (data: any) => async (dispatch: any) => {
-    console.log(data, 'data@@@@@@@@@@@@@@@@@add')
     try {
         // console.log(data);
         checksui()

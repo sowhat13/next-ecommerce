@@ -28,7 +28,6 @@ function Product(props: any) {
     //@ts-ignore
     await dispatch(addCartItems(props.product)).then((res: any) => {
       if (res.code === 200) {
-        console.log(res)
         setAddCartText(`${t('common:products:added-to-cart')}`)
         setSuccessAddToCart('success')
       } else {

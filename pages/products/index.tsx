@@ -68,7 +68,9 @@ export async function getServerSideProps({ query, req, res, locale }: any) {
   if (query.search) { qry.term = query.search }
   if (query.page) { qry.page = page}
 
-  if (query.sort == 'discount') { qry.sort = '-price.discountPercentage' }
+  if (query.sort == 'discount') { qry.sort = '-price.discountPercentage' 
+qry.isDiscount = true
+}
   if (req && req.headers) options.headers = { ...req.headers }
   const pageSize = 20
   qry.limit = pageSize
@@ -76,7 +78,7 @@ export async function getServerSideProps({ query, req, res, locale }: any) {
   const productsRes = await api.request('/products', qry, options);
   const products = productsRes.code === 200 ? productsRes.data : null;
   if (!products || products.length === 0) {
-    const discountProducts = await api.request('/products', { sort: '-price.discountPercentage', limit: 5 }, options);
+    const discountProducts = await api.request('/products', { sort: '-price.discountPercentage', isDiscount: true, limit: 5 }, options);
     discountedProducts = discountProducts.code === 200 ? discountProducts.data : null;
   }
 

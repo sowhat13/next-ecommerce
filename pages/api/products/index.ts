@@ -17,9 +17,7 @@ export default async function handler(
     const query = new URLSearchParams(req.query).toString()
     if (!process.env.NEXT_PUBLIC_API_URL) return
     const url = process.env.NEXT_PUBLIC_API_URL + `api/products${req.query && req.query.slug ? ('/' + req.query.slug) : query ? '?' + query : ''}`
-    console.log(url)
     const token = req?.cookies?.token
-console.log(req.cookies, 'req cookieseqweqw€@@@€@')
     const options: any = {
       method: 'GET',
       headers: {
