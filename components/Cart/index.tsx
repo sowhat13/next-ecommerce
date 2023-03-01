@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react'
 import Button from '@/components/UI/Button'
 import Currency from '@/utils/currency'
 import { useRouter } from 'next/router'
+import Products from 'pages/products'
 
 function Cart(props: any) {
     const { t } = useTranslation(['common'])
@@ -131,12 +132,12 @@ function Cart(props: any) {
                                                                     if (cartItem?.product?.price?.isDiscount) {
                                                                         return (<span className={'text-xs text-red-500 line-through'}>
                                                                             <span className='sr-only'>Old Price: </span>
-                                                                            {Currency(cartItem?.product?.price?.oldPrice)}
+                                                                            {Currency(cartItem?.product?.price?.oldPrice, cartItem?.product?.price?.currency)}
                                                                         </span>)
                                                                     }
                                                                 })()}
                                                                 <span className='items-center ml-auto text-sm font-medium'>
-                                                                    {Currency(cartItem?.product?.price?.price)}
+                                                                    {Currency(cartItem?.product?.price?.price, cartItem?.product?.price?.currency)}
 
                                                                 </span>
                                                             </div>
@@ -173,7 +174,7 @@ function Cart(props: any) {
                                                             </div>
                                                             <div className='col-span-3 '>
                                                                 {cartItem?.quantity > 1 ? <div className='flex w-full h-full items-center justify-end px-1 text-[12px] break-all font-thin'>
-                                                                    +{Currency((cartItem.quantity * cartItem?.product?.price?.price))}
+                                                                    +{Currency((cartItem.quantity * cartItem?.product?.price?.price, cartItem?.product?.price?.currency))}
                                                                 </div> : null
                                                                 }
                                                             </div>
@@ -194,10 +195,12 @@ function Cart(props: any) {
                             <div className='flex flex-col gap-2 w-full min-h-[120px] h-fit p-4 mt-auto'>
                                 <div className='flex flex-col gap-1'>
                                     <span className='text-sm font-medium text-primary-500 flex dark:text-primary-300'>
-                                        <span className='!w-[100px]'> Total Discount:</span> <span className='ml-1 text-green-600 dark:text-green-400'>{Currency(totalDiscount)}</span>
+                                        <span className='!w-[100px]'> Total Discount:</span> <span className='ml-1 text-green-600 dark:text-green-400'>
+                                            {Currency(totalDiscount, (cartProducts && cartProducts.length > 0 ? cartProducts[0].currency : 'USD') )}</span>
                                     </span>
                                     <span className='text-sm font-medium text-primary-500 flex  dark:text-primary-300'>
-                                        <span className='!w-[100px]'> Total Price:</span> <span className='ml-1 text-primary-900 dark:text-primary-200'>{Currency(totalPrice)}</span>
+                                        <span className='!w-[100px]'> Total Price:</span> <span className='ml-1 text-primary-900 dark:text-primary-200'>
+                                            {Currency(totalPrice,  (cartProducts && cartProducts.length > 0 ? cartProducts[0].currency : 'USD'))}</span>
                                     </span>
 
 

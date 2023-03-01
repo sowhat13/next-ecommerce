@@ -61,6 +61,7 @@ const api = {
         console.log(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`)
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTE_URL}${url ? url : ''}${query ? ('?' + query) : ''}`, options);
+            
             const data = await response.json();
             return data;
         } catch (error) {

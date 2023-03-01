@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { getCartItems, addCartItems } from "../../../store/cartSlice";
 import Currency from '@/utils/currency'
+import { Card, CardsWrapper } from '@/components/Cards/card'
 
 
 function Product(props: any) {
@@ -57,10 +58,15 @@ function Product(props: any) {
       </Head>
 
       <div className='my-container top-gap'>
+        {props?.product?.title &&
         <div className='flex flex-col md:flex-row gap-4 md:gap-4 lg:gap-8 items-center md:items-start'>
           <div className='w-full md:w-fit'>
             <div className='w-full h-[300px] max-w-[96%] mx-auto md:w-[400px] md:h-[540px] flex items-center justify-center rounded-2xl overflow-hidden bg-primary-gradient-light d3-shadow4'>
-              <ImagesWrapper clickToExpand={t('common:products:click-to-expand-image')} images={props.product.images}></ImagesWrapper>
+              {
+                props.product?.images?.length > 0 ?
+                <ImagesWrapper clickToExpand={t('common:products:click-to-expand-image')} images={props.product.images}></ImagesWrapper> : null
+              }
+              
             </div>
           </div>
           <div className="flex flex-col gap-4 md:w-1/2 w-[96%]">
@@ -96,14 +102,14 @@ function Product(props: any) {
                             <FontAwesomeIcon icon={faAngleDown} />
                             <span className='sr-only'>Old Price: </span>
 
-                            {Currency(props.product.price?.oldPrice)}
+                            {Currency(props.product.price?.oldPrice , props.product.price?.currency)}
 
                           </span>)
                         }
                       })()}
                       <span className={styles.cardPriceButtonText + ' !text-xl'}>
                         <span className='sr-only'>Price: </span>
-                        {Currency(props.product.price?.price)}
+                        {Currency(props.product.price?.price, props.product.price?.currency)}
                       </span>
                     </div>
                   </div>
@@ -112,7 +118,7 @@ function Product(props: any) {
             </div>
 
             <div className={'w-full p-1 flex-wrap lg:flex-nowrap sm:p-4 flex-row  flex gap-2 justify-evenly rounded-2xl h-fit' + (!props?.product?.title ? ' shiny-element' : '')}>
-              
+
               <Button rightIcon={<FontAwesomeIcon className='w-5 h-5' icon={faCartShopping} />} onClick={() => { addToCart() }}
                 text={`${addCartText || t('common:products:add-to-cart')}`} loading={loadingAddToCart} success={successAddToCart}
                 className="text-lg w-full d3-shadow3 max-w-[335px]"></Button>
@@ -162,6 +168,14 @@ function Product(props: any) {
 
           </div>
         </div>
+        }
+        <div className="flex w-full">
+        {props?.recommends &&
+              <CardsWrapper swiperCards={
+                props.recommends
+              } title={'Similar Products'} />
+            }
+        </div>
       </div>
     </div>
   )
@@ -170,15 +184,24 @@ function Product(props: any) {
 
 export async function getServerSideProps({ query, req, res, locale }: any) {
   const options: any = {};
+  let recommends: any = [];
+  let product: any = null;
   if (req && req.headers) options.headers = { ...req.headers }
   const productRes = await api.request('/products', { slug: query.slug }, options);
-  const product = productRes.code === 200 ? productRes.data : null;
+   product = productRes.code === 200 ? productRes.data : null;
+  if (productRes.code === 200) {
+    console.log(product, 'product')
+    const recomandations = await api.request('/products/similar', 
+    { id: product._id, title: product.title, collectionName:JSON.stringify(product.collectionName), categories: JSON.stringify(product.categories)}, options);
+     recommends = recomandations.code === 200 ? recomandations.data : null;
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale, [
         'sign', 'common'
       ])),
-      product
+      product,
+      recommends
     }
   };
 }

@@ -25,11 +25,11 @@ function ImagesWrapper(props: any) {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [isOpen, setIsOpen] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
-    const { width, height }: any = useWindowDimensions();
+    const { windowWidth, windowHeight }: any = useWindowDimensions();
     const [variants, setVariants] = useState(
         {
             open: {
-                position: "fixed", zIndex: 1000, width: width + 'px', height: height + 'px', borderRadius: 0, top: 0, left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.8)',
+                position: "fixed", zIndex: 1000, width: windowWidth + 'px', height: windowHeight + 'px', borderRadius: 0, top: 0, left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.8)',
                 transition: {
                     backgroundColor: { duration: 0.3, delay: 0.5, ease: [0.6, 0.01, -0.05, 0.9] },
                 }
@@ -40,13 +40,13 @@ function ImagesWrapper(props: any) {
     useEffect(() => {
         setVariants({
             open: {
-                position: "fixed", zIndex: 1000, width: width + 'px', height: height + 'px', borderRadius: 0, top: 0, left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.8)',
+                position: "fixed", zIndex: 1000, width: windowWidth + 'px', height: windowHeight + 'px', borderRadius: 0, top: 0, left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.8)',
                 transition: {
                     backgroundColor: { duration: 0.3, delay: 0.5, ease: [0.6, 0.01, -0.05, 0.9] },
                 }
             }
         })
-    }, [width, height])
+    }, [windowWidth, windowHeight])
 
     useEffect(() => {
         //@ts-ignore
@@ -56,6 +56,10 @@ function ImagesWrapper(props: any) {
             document.removeEventListener('keydown', handleKeyPress);
         };
     }, []);
+
+    // useEffect(() => {
+    //     setActiveIndex(0)
+    // }, [carouselItems]);
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event?.key === 'Escape') {
@@ -175,8 +179,8 @@ function ImagesWrapper(props: any) {
                                             alt={'Product image'}
                                             //@ts-ignore
 
-                                            width={width}
-                                            height={height}
+                                            width={windowWidth}
+                                            height={windowHeight}
                                             quality={100}
                                             className={'rounded-md object-contain ' + (isOpen ? 'w-fit h-fit max-w-[95vw] max-h-[80vh] object-contain rounded-md' : '')}
                                             onClick={(e: any) => {
@@ -199,7 +203,7 @@ function ImagesWrapper(props: any) {
                             //@ts-ignore
                             onSwiper={setThumbsSwiper}
                             spaceBetween={10}
-                            slidesPerView={(isOpen && width > 767) ? 10 : 5}
+                            slidesPerView={(isOpen && windowWidth > 767) ? 10 : 5}
                             freeMode={false}
                             watchSlidesProgress={true}
                             watchOverflow={true}
@@ -211,7 +215,7 @@ function ImagesWrapper(props: any) {
                                 /* @ts-ignore */
                                 [...carouselItems].map((x, i) => {
                                     return <SwiperSlide
-                                        className={'flex w-1/5 items-center justify-center  ' + (isOpen && width > 767 ? 'w-1/10' : '')}
+                                        className={'flex w-1/5 items-center justify-center  ' + (isOpen && windowWidth > 767 ? 'w-1/10' : '')}
                                         key={i}
                                         onClick={(e: any) => {
                                             e.stopPropagation()
@@ -220,7 +224,7 @@ function ImagesWrapper(props: any) {
 
                                         <div
                                             className={'w-[70%] h-12 flex items-center transition justify-center rounded-lg border-2 border-primary-200 overflow-hidden bg-gray-100 '
-                                                + (i === activeIndex ? ' !border-[3px] !border-primary-500  ' : '') + ' ' + (isOpen && width > 767 ? 'h-24' : '')}
+                                                + (i === activeIndex ? ' !border-[3px] !border-primary-500  ' : '') + ' ' + (isOpen && windowWidth > 767 ? 'h-24' : '')}
                                         >
                                             <GImage
                                                 src={x.url}

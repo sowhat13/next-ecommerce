@@ -1,6 +1,6 @@
 import styles from './cards.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faCartShopping, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import GImage from '../Global/GImage'
 import { motion, AnimatePresence } from "framer-motion"
 import { useTranslation } from 'next-i18next'
@@ -12,7 +12,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCartItems, addCartItems } from "../../store/cartSlice";
 import Icons from '../UI/Icons';
 import Currency from '@/utils/currency'
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/keyboard";
+
+
+// import required modules
+import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper";
+import { transform } from 'lodash'
 
 function Card(props: any) {
     const [isButtonHover, setisButtonHover] = useState(false)
@@ -45,7 +57,7 @@ function Card(props: any) {
     }
 
     return (
-        <Link href={`/products/${props.item.slug}`} className={styles.cardWrapper}>
+        <Link href={`/products/${props.item.slug}`} className={`${styles.cardWrapper} ${props.className ? props.className : ''}`}>
             <div className={styles.cardHeader}>
                 <div className={styles.cardTitle}> <strong>{props.item.title.split(' ')[0]}</strong> {props.item.title.replace(/^(\S+)/, "")}</div>
                 <div className={styles.cardCategory}>{props.item.collectionName?.name}</div>
@@ -74,14 +86,14 @@ function Card(props: any) {
                                 return (<span className={styles.cardPriceButtonDiscountText}>
                                     <FontAwesomeIcon icon={faAngleDown} />
                                     <span className='sr-only'>Old Price: </span>
-                                    {Currency(props.item.price?.oldPrice)} 
+                                    {Currency(props.item.price?.oldPrice, props.item.price?.currency)}
                                 </span>)
                             }
                         })()}
                         <span className={styles.cardPriceButtonText}>
                             <span className='sr-only'>Price: </span>
 
-                            {Currency(props.item.price?.price)}
+                            {Currency(props.item.price?.price, props.item.price?.currency)}
                         </span>
                     </button>
                 </div>
@@ -171,7 +183,7 @@ function CardsWrapper(props: any) {
     return (
         <div className='flex flex-col w-full'>
             {(props.title || props.titleLink) &&
-                <div className='flex w-full px-6 mt-8 h-20 '>
+                <div className='flex w-full px-6 mt-8 mb-2 h-20 '>
                     {props.title &&
                         <h1 className='font-semibold gradient-text bg-button-gradient2  text-center text-3xl sm:text-4xl md:text-5xl flex items-center'>{props.title}</h1>
                     }
@@ -181,16 +193,95 @@ function CardsWrapper(props: any) {
 
                 </div>
             }
+            {
+                props.swiperCards ? <SlideCard array={props.swiperCards} />
+                    :
+                    <div className={styles.cardsWrapper} >
+                        {props.cards}
+                    </div>
+            }
 
-            <div className={styles.cardsWrapper} style={{ minWidth: `${33}% !important` }} >
-                {props.cards}
-            </div>
         </div>
     )
 }
 
+function SlideCard(props: any) {
+
+    return (
+        <div className={`flex w-full relative ${styles['swiper-container']}`}>
+            <Swiper
+                modules={[Thumbs, Navigation]}
+                className={` w-full md:w-[94%] mx-auto h-full flex items-center justify-center ${styles['swiper-wrapper']}}`}
+                navigation={{
+                    nextEl: `${props.id ? ('.slideCardRight-' + props.id) : '.slideCardRight'}`,
+                    prevEl: `${props.id ? ('.slideCardLeft-' + props.id) : '.slideCardLeft'}`,
+                }}
+                slidesPerView={4}
+                breakpoints={{
+                    // when window width is >= 320px
+                    280: {
+                        slidesPerView: 1.1,
+                        spaceBetween: 0
+                    },
+                    620: {
+                        slidesPerView: 2,
+                        spaceBetween: 5
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 5
+                    },
+                    // when window width is >= 480px
+                    1080: {
+                        slidesPerView: 4,
+                        spaceBetween: 10
+                    },
+
+                    1280: {
+                        slidesPerView: 5,
+                        spaceBetween: 10
+                    },
+                    // when window width is >= 640px
+
+                }}
+                rewind={true}
+                
+            >
+                {
+                    [...props.array].map((x, i) => {
+                        return <SwiperSlide key={i}
 
 
+                            className={`w-full h-full flex items-center justify-center ${styles['swiper-slide']}`}
+
+                        >
+                            <Card className={''} item={x} />
+                        </SwiperSlide>
+                    }
+                    )
+                }
+            </Swiper>
+            <div className={`${props.id ? ('slideCardLeft-' + props.id) : 'slideCardLeft'} bg-primary-400  z-10`}
+                onClick={(e: any) => {
+                    e.stopPropagation()
+                }}
+            >
+                <FontAwesomeIcon icon={faAngleLeft} />
+            </div>
+
+            <div className={`${props.id ? ('slideCardRight-' + props.id) : 'slideCardRight'} bg-primary-400  z-10`}
+                onClick={(e: any) => {
+                    e.stopPropagation()
+                }}
+            >
+                <FontAwesomeIcon icon={faAngleRight} />
+            </div>
+
+          
+
+        </div>
+    )
+}
 
 export {
     Card,

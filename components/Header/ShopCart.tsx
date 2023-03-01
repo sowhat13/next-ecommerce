@@ -148,7 +148,7 @@ function ShopCart() {
                                                     {changedItem.title}
                                                 </span>
                                                 <span className='max-w-[80px] min-w-[80px] flex flex-wrap justify-end items-center ml-auto text-xs'>
-                                                    {Currency(changedItem.price?.price)}
+                                                    {Currency(changedItem.price?.price, changedItem.price?.currency)}
                                                 </span>
                                             </motion.div>
                                         </motion.div>

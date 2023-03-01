@@ -4,8 +4,10 @@ import { Carousel } from '../components/Home/carousel'
 import api from '../api';
 import styles from '../styles/Home.module.scss'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import useWindowDimensions from '@/hooks/useWindowDimensions'
 
 function Home(props: any) {
+  const { windowWidth, windowHeight }: any = useWindowDimensions();
 
   return (
     <div>
@@ -19,16 +21,24 @@ function Home(props: any) {
         <main className={styles.main}>
           <div className={styles['inner-wrapper'] + ' my-container top-gap'}>
             <Carousel />
-            {props?.products &&
-              <CardsWrapper cards={
-                props.products.map((product: any) => {
-                  {/* @ts-ignore */ }
+            <div className='flex w-full h-full'>
 
-                  return <Card item={product} key={product.slug} />
-                }
-                )
-              } title={'Highlights'} titleLink={'/products?sort=discount'} />
-            }
+              {props?.products &&
+                windowWidth > 768 ?
+                <CardsWrapper cards={
+                  props.products.map((product: any) => {
+                    {/* @ts-ignore */ }
+
+                    return <Card item={product} key={product.slug} />
+                  }
+                  )
+                } title={'Highlights'} titleLink={'/products?sort=discount'} />
+                : <CardsWrapper swiperCards={
+                  props.products
+                } title={'Highlights'} titleLink={'/products?sort=discount'} />
+              }
+            </div>
+
           </div>
 
         </main>
@@ -43,7 +53,7 @@ function Home(props: any) {
 export async function getServerSideProps({ query, req, res, locale }: any) {
   const options: any = {};
   if (req && req.headers) options.headers = { ...req.headers }
-  const productsRes = await api.request('/products', { limit: 10, sort: '-price.discountPercentage', isDiscount:true }, options);
+  const productsRes = await api.request('/products', { limit: 10, sort: '-price.discountPercentage', isDiscount: true }, options);
   const products = productsRes.code === 200 ? productsRes.data : null;
   return {
     props: {
