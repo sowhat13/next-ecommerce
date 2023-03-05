@@ -194,7 +194,7 @@ function CardsWrapper(props: any) {
                 </div>
             }
             {
-                props.swiperCards ? <SlideCard array={props.swiperCards} />
+                props.swiperCards ? <SlideCard id={props.sliderId} array={props.swiperCards} />
                     :
                     <div className={styles.cardsWrapper} >
                         {props.cards}
@@ -213,8 +213,8 @@ function SlideCard(props: any) {
                 modules={[Thumbs, Navigation]}
                 className={` w-full md:w-[94%] mx-auto h-full flex items-center justify-center ${styles['swiper-wrapper']}}`}
                 navigation={{
-                    nextEl: `${props.id ? ('.slideCardRight-' + props.id) : '.slideCardRight'}`,
-                    prevEl: `${props.id ? ('.slideCardLeft-' + props.id) : '.slideCardLeft'}`,
+                    nextEl: `${props.id ? (`${'.slideCardRight-' + props.id}`) : '.slideCardRight'}`,
+                    prevEl: `${props.id ? (`${'.slideCardLeft-' + props.id}`) : '.slideCardLeft'}`,
                 }}
                 slidesPerView={4}
                 breakpoints={{
@@ -261,7 +261,7 @@ function SlideCard(props: any) {
                     )
                 }
             </Swiper>
-            <div className={`${props.id ? ('slideCardLeft-' + props.id) : 'slideCardLeft'} bg-primary-400  z-10`}
+            <div className={`${props.id ? ('slideCardLeft ' + props.id) : 'slideCardLeft'} bg-primary-400  z-10`}
                 onClick={(e: any) => {
                     e.stopPropagation()
                 }}
@@ -269,7 +269,7 @@ function SlideCard(props: any) {
                 <FontAwesomeIcon icon={faAngleLeft} />
             </div>
 
-            <div className={`${props.id ? ('slideCardRight-' + props.id) : 'slideCardRight'} bg-primary-400  z-10`}
+            <div className={`${props.id ? ('slideCardRight ' + props.id) : 'slideCardRight'} bg-primary-400  z-10`}
                 onClick={(e: any) => {
                     e.stopPropagation()
                 }}

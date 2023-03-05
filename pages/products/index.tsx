@@ -11,14 +11,14 @@ import { useRouter } from 'next/router'
 function Products(props: any) {
   const { t } = useTranslation(['sign', 'common'])
   const router = useRouter()
-  const pageChanged = (pg:any) => {
-    router.replace( { query: {...router.query, page: pg}})
+  const pageChanged = (pg: any) => {
+    router.replace({ query: { ...router.query, page: pg } })
   }
 
   return (
     <div >
       <Head>
-        <title>{props.totalProducts ? `${props.totalProducts} ${t('common:products:products-found')} - eCommerce` : 'eCommerce - Best products for you'  }</title>
+        <title>{props.totalProducts ? `${props.totalProducts} ${t('common:products:products-found')} - eCommerce` : 'eCommerce - Best products for you'}</title>
         <meta name="description" content={'Special products by eCommerce'} />
 
       </Head>
@@ -54,7 +54,7 @@ function Products(props: any) {
           </div>
         }
         {props?.products && props.products.length > 0 ?
-      <Pagination total={props.totalProducts} page={props.page} pageSize={props.pageSize} onPageChange={pageChanged} ></Pagination> : null}
+          <Pagination className='my-8' total={props.totalProducts} page={props.page} pageSize={props.pageSize} onPageChange={pageChanged} ></Pagination> : null}
       </div>
     </div>
   )
@@ -66,11 +66,14 @@ export async function getServerSideProps({ query, req, res, locale }: any) {
   const qry: any = {}
   const page = query.page ? parseInt(query.page) : 1
   if (query.search) { qry.term = query.search }
-  if (query.page) { qry.page = page}
+  if (query.page) { qry.page = page }
 
-  if (query.sort == 'discount') { qry.sort = '-price.discountPercentage' 
-qry.isDiscount = true
-}
+  if (query.sort == 'discount') {
+    qry.sort = '-price.discountPercentage'
+    qry.isDiscount = true
+  }
+  if (query.sort == 'popular') { qry.sort = '-visits' }
+
   if (req && req.headers) options.headers = { ...req.headers }
   const pageSize = 20
   qry.limit = pageSize
