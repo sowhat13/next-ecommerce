@@ -174,7 +174,7 @@ function Cart(props: any) {
                                                             </div>
                                                             <div className='col-span-3 '>
                                                                 {cartItem?.quantity > 1 ? <div className='flex w-full h-full items-center justify-end px-1 text-[12px] break-all font-thin'>
-                                                                    +{Currency((cartItem.quantity * cartItem?.product?.price?.price, cartItem?.product?.price?.currency))}
+                                                                    +{Currency((cartItem.quantity * cartItem?.product?.price?.price), (cartProducts && cartProducts.length > 0 ? cartProducts[0].currency : 'USD'))}
                                                                 </div> : null
                                                                 }
                                                             </div>
