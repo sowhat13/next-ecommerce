@@ -245,7 +245,7 @@ function SlideCard(props: any) {
 
                 }}
                 rewind={true}
-                
+
             >
                 {
                     [...props.array].map((x, i) => {
@@ -277,7 +277,7 @@ function SlideCard(props: any) {
                 <FontAwesomeIcon icon={faAngleRight} />
             </div>
 
-          
+
 
         </div>
     )

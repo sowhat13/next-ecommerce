@@ -6,7 +6,7 @@
     /* IE and Edge */
     scrollbar-width: none;
     max-width: 100%;
-
+    gap: 20px 0;
     // Small screen sizes
     @media (max-width: 431.98px) {
         grid-template-columns: 100%;
