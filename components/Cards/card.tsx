@@ -261,7 +261,7 @@ function SlideCard(props: any) {
                     )
                 }
             </Swiper>
-            <div className={`${props.id ? ('slideCardLeft ' + props.id) : 'slideCardLeft'} bg-primary-400  z-10`}
+            <div className={`${props.id ? (`${'slideCardLeft slideCardLeft-' + props.id}`) : 'slideCardLeft'} bg-primary-400  z-10`}
                 onClick={(e: any) => {
                     e.stopPropagation()
                 }}
@@ -269,7 +269,7 @@ function SlideCard(props: any) {
                 <FontAwesomeIcon icon={faAngleLeft} />
             </div>
 
-            <div className={`${props.id ? ('slideCardRight ' + props.id) : 'slideCardRight'} bg-primary-400  z-10`}
+            <div className={`${props.id ? (`${'slideCardRight slideCardRight-' + props.id}`) : 'slideCardRight'} bg-primary-400  z-10`}
                 onClick={(e: any) => {
                     e.stopPropagation()
                 }}
