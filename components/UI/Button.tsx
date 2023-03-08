@@ -259,18 +259,18 @@ const Button: NextPage<ButtonProps> = ({ text, leftIcon, rightIcon, className, s
                                     <motion.div
                                         style={{
                                             position: "absolute",
-                                            width: "5%",
+                                            width: "1%",
                                             aspectRatio: 1,
                                             left: mousePosition.x + 'px',
                                             top: mousePosition.y + 'px',
                                             borderRadius: '50%',
-                                            boxShadow: "0 0 10px 70px rgba(0,0,0,0.2)",
+                                            boxShadow: "0 0 1px 50px rgba(0,0,0,0.2)",
                                             scale: 0
                                         }}
                                         animate={{
 
                                             // boxShadow: "0 0 300px 450px rgba(255,255,255,0.4)",
-                                            scale: 53,
+                                            scale: 260,
                                             opacity: 1
                                         }}
                                         initial={{ opacity: 0, scale: 1 }}

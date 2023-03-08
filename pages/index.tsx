@@ -26,7 +26,7 @@ function Home(props: any) {
         <main className={styles.main}>
           <div className={styles['inner-wrapper'] + ' my-container top-gap'}>
             <Carousel />
-            <div className='flex w-full h-full flex-col gap-8'>
+            <div className='flex w-full h-full flex-col gap-2 md:gap-8'>
               {props?.products &&
                 (!windowWidth || (windowWidth > 768)) ?
                 <CardsWrapper cards={
